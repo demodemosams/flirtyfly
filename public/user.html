@@ -389,7 +389,7 @@ async function loadHosts(){
   try{
 
     const response = await fetch(
-      "http://localhost:3000/get-hosts"
+      "/get-hosts"
     );
 
     const hosts = await response.json();
