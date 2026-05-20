@@ -1048,15 +1048,7 @@ async function buyPlan(
       "userMobile"
     );
 
-  if(!selectedHost.id){
-
-    alert(
-      "Please call a host first"
-    );
-
-    return;
-
-  }
+ 
 
   const response = await fetch(
 
@@ -1075,11 +1067,9 @@ async function buyPlan(
 
         userMobile,
 
-        hostId:
-          selectedHost.id,
+        hostId:"No Host",
 
-        hostName:
-          selectedHost.name,
+hostName:"Direct Subscription",
 
         amount,
 
