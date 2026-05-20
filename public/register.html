@@ -29,7 +29,7 @@
     <div class="right">
 
       <!-- FORM -->
-      <form class="register-box"
+      <form class="register-box">
 
         <h2>Create Account</h2>
 
@@ -97,34 +97,8 @@
 
   </div>
 
-<script>
 
-const form = document.querySelector(
-  ".register-box"
-);
-
-form.addEventListener("submit", (e) => {
-
-  const password =
-    document.querySelector(
-      'input[name="password"]'
-    ).value;
-
-  const confirmPassword =
-    document.querySelector(
-      'input[name="confirmPassword"]'
-    ).value;
-
-  if(password !== confirmPassword){
-
-    e.preventDefault();
-
-    alert("Passwords do not match");
-
-  }
-
-});
-
+  
 <script>
 
 document.querySelector(
@@ -211,8 +185,6 @@ async function(e){
 
 });
 
-</script>
-  
 </script>
 
 </body>
