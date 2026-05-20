@@ -615,6 +615,28 @@ window.location.href =
 
 }
 
+function setActiveMenu(element){
+
+  const items =
+
+    document.querySelectorAll(
+      ".menu-item"
+    );
+
+  items.forEach((item) => {
+
+    item.classList.remove(
+      "active-menu"
+    );
+
+  });
+
+  element.classList.add(
+    "active-menu"
+  );
+
+}
+  
 function showDiscover(element){
 
   setActiveMenu(element);
@@ -1108,6 +1130,8 @@ function buyPlan(
   rzp.open();
 
 }
+
+loadHosts();
   
 </script>
 
