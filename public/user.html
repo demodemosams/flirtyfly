@@ -1030,6 +1030,15 @@ function buyPlan(
 
     description:plan,
 
+prefill:{
+
+  contact:
+    localStorage.getItem(
+      "userMobile"
+    )
+
+},
+    
     handler: async function(response){
 
       const userMobile =
@@ -1075,8 +1084,21 @@ function buyPlan(
 
     },
 
-    theme:{
-      color:"#ff4081"
+    method: {
+
+  upi:true,
+
+  card:true,
+
+  netbanking:true,
+
+  wallet:true
+
+},
+
+theme:{
+  color:"#ff4081"
+}
     }
 
   };
