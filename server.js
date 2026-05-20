@@ -778,6 +778,89 @@ app.get(
 
 );
 
+/* SAVE PAYMENT */
+
+app.post(
+
+  "/save-payment",
+
+  async (req, res) => {
+
+    try{
+
+      const {
+
+        userMobile,
+        hostId,
+        hostName,
+        amount,
+        plan
+
+      } = req.body;
+
+      const newPayment =
+        new Payment({
+
+          userMobile,
+          hostId,
+          hostName,
+          amount,
+          plan
+
+        });
+
+      await newPayment.save();
+
+      res.json({
+        success:true
+      });
+
+    }catch(error){
+
+      console.log(error);
+
+      res.json({
+        success:false
+      });
+
+    }
+
+  }
+
+);
+
+/* GET PAYMENTS */
+
+app.get(
+
+  "/get-payments",
+
+  async (req,res) => {
+
+    try{
+
+      const payments =
+
+        await Payment.find()
+
+        .sort({
+          paymentTime:-1
+        });
+
+      res.json(payments);
+
+    }catch(error){
+
+      console.log(error);
+
+      res.json([]);
+
+    }
+
+  }
+
+);
+
 /* SERVER */
 
 const connectedHosts = {};
