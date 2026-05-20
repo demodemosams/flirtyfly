@@ -177,7 +177,7 @@ function endCall(){
 
 ){
 
-  window.close();
+  window.location.href =   `/host.html?id=${localStorage.getItem("hostId")}&name=${localStorage.getItem("hostName")}&image=${localStorage.getItem("hostImage")}`;
 
 }else{
 
