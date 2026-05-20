@@ -1030,15 +1030,15 @@ function buyPlan(
 
     description:plan,
 
-prefill:{
+    prefill:{
 
-  contact:
-    localStorage.getItem(
-      "userMobile"
-    )
+      contact:
+        localStorage.getItem(
+          "userMobile"
+        )
 
-},
-    
+    },
+
     handler: async function(response){
 
       const userMobile =
@@ -1084,21 +1084,20 @@ prefill:{
 
     },
 
-    method: {
+    method:{
 
-  upi:true,
+      upi:true,
 
-  card:true,
+      card:true,
 
-  netbanking:true,
+      netbanking:true,
 
-  wallet:true
+      wallet:true
 
-},
+    },
 
-theme:{
-  color:"#ff4081"
-}
+    theme:{
+      color:"#ff4081"
     }
 
   };
