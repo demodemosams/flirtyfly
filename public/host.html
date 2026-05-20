@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Host Dashboard - FlirtyFly</title>
+
+  <link rel="stylesheet" href="host.css">
+</head>
+
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <h1>FlirtyFly</h1>
+
+   <ul>
+
+  <li
+    class="menu-item active-menu"
+    onclick="showDashboard(this)"
+  >
+    Dashboard
+  </li>
+
+  </ul>
+ 
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+
+      <div class="profile">
+
+        <img id="hostImage">
+
+        <div>
+
+          <h2 id="hostName"></h2>
+
+          <p class="online-text">
+            ● Online
+          </p>
+
+        </div>
+
+      </div>
+
+<button
+  class="online-btn"
+  id="statusBtn"
+  onclick="toggleStatus()"
+>
+  Go Offline
+</button>
+
+      <button
+        class="logout-btn"
+        onclick="logoutHost()"
+      >
+        Logout
+      </button>
+
+    </div>
+
+<div id="dashboardSection">
+
+    <!-- STATS -->
+    <div class="stats">
+
+<div class="card">
+
+  <h1 id="liveStatus">
+    Online
+  </h1>
+
+  <p>Current Status</p>
+
+</div>
+
+      <div class="card">
+
+        <h1>₹12,450</h1>
+
+        <p>Total Earnings</p>
+
+      </div>
+
+      <div class="card">
+
+        <h1 id="totalCalls">
+  0
+</h1>
+
+        <p>Total Calls</p>
+
+      </div>
+
+      <div class="card">
+
+        <h1>4.9★</h1>
+
+        <p>Rating</p>
+
+      </div>
+
+    </div>
+
+    <!-- RECENT CALLS -->
+    <div class="recent">
+
+      <h2>Recent Calls</h2>
+
+      <div id="hostCallsList"></div>
+
+      <div id="hostCallsList"></div>
+
+      <div id="hostCallsList"></div>
+
+    </div>
+</div>
+
+
+
+  </main>
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+
+let currentCaller = "";
+
+const socket = io();
+
+const params =
+  new URLSearchParams(window.location.search);
+
+const hostId =
+  params.get("id");
+
+  loadTotalCalls();
+loadRecentCalls();
+socket.emit(
+
+  "register-host",
+
+  hostId
+
+
+  
+);
+
+const hostName =
+  params.get("name");
+
+const hostImage =
+  params.get("image");
+
+  let currentStatus = "Online";
+
+document.getElementById(
+  "hostName"
+).innerText = hostName;
+
+document.getElementById(
+  "hostImage"
+).src = `/uploads/${hostImage}`;
+
+function setActiveMenu(element){
+
+  const items =
+
+    document.querySelectorAll(
+      ".menu-item"
+    );
+
+  items.forEach((item) => {
+
+    item.classList.remove(
+      "active-menu"
+    );
+
+  });
+
+  element.classList.add(
+    "active-menu"
+  );
+
+}
+
+function hideAllSections(){
+
+  document.getElementById(
+    "dashboardSection"
+  ).style.display = "none";
+
+  document.getElementById(
+    "earningsSection"
+  ).style.display = "none";
+
+  document.getElementById(
+    "callsSection"
+  ).style.display = "none";
+
+  document.getElementById(
+    "settingsSection"
+  ).style.display = "none";
+
+}
+
+function showDashboard(element){
+
+  setActiveMenu(element);
+
+  hideAllSections();
+
+  document.getElementById(
+    "dashboardSection"
+  ).style.display = "block";
+
+}
+
+
+
+
+
+
+
+ async function toggleStatus(){
+
+  const statusBtn =
+
+    document.getElementById(
+      "statusBtn"
+    );
+
+  const onlineText =
+
+    document.querySelector(
+      ".online-text"
+    );
+
+  if(currentStatus === "Online"){
+
+    currentStatus = "Offline";
+
+  }else{
+
+    currentStatus = "Online";
+
+  }
+
+  const response = await fetch(
+
+    "/toggle-host-status",
+
+    {
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":
+        "application/json"
+      },
+
+      body:JSON.stringify({
+
+        hostId,
+        status:currentStatus
+
+      })
+
+    }
+
+  );
+
+  const data =
+    await response.json();
+
+  if(data.success){
+
+document.getElementById(
+  "liveStatus"
+).innerText =
+  currentStatus;
+
+    if(currentStatus === "Online"){
+
+      onlineText.innerText =
+        "● Online";
+
+      onlineText.style.color =
+        "#00c853";
+
+      statusBtn.innerText =
+        "Go Offline";
+
+    }else{
+
+      onlineText.innerText =
+        "● Offline";
+
+      onlineText.style.color =
+        "#ff416c";
+
+      statusBtn.innerText =
+        "Go Online";
+
+    }
+
+  }
+
+}
+
+socket.on(
+
+  "incoming-call",
+
+  (data) => {
+
+currentCaller =
+  data.callerName;
+
+    document.getElementById(
+      "incomingPopup"
+    ).style.display = "flex";
+
+    document.getElementById(
+      "callerName"
+    ).innerText =
+
+    `${data.callerName} is calling...`;
+
+  }
+
+);
+
+function acceptCall(){
+
+  window.location.href =
+
+  "/call.html?role=host";
+
+}
+
+
+function rejectCall(){
+
+  document.getElementById(
+    "incomingPopup"
+  ).style.display = "none";
+
+}
+
+function logoutHost(){
+
+  window.location.href =
+
+    `/host-logout/${hostId}`;
+
+}
+
+async function loadTotalCalls(){
+
+  try{
+
+    const response = await fetch(
+
+      `/host-call-history/${hostId}`
+
+    );
+
+    const calls =
+      await response.json();
+
+    document.getElementById(
+      "totalCalls"
+    ).innerText =
+
+      calls.length;
+
+  }catch(error){
+
+    console.log(error);
+
+  }
+
+}
+
+async function loadRecentCalls(){
+
+  try{
+
+    const response = await fetch(
+
+      `/host-call-history/${hostId}`
+
+    );
+
+    const calls =
+      await response.json();
+
+    const hostCallsList =
+
+      document.getElementById(
+        "hostCallsList"
+      );
+
+    hostCallsList.innerHTML = "";
+
+    calls.slice(0,5).forEach((call) => {
+
+      hostCallsList.innerHTML += `
+
+        <div class="call-row">
+
+          <span>
+            ${call.userMobile}
+          </span>
+
+          <span>
+            ${new Date(
+              call.callTime
+            ).toLocaleDateString()}
+          </span>
+
+        </div>
+
+      `;
+
+    });
+
+  }catch(error){
+
+    console.log(error);
+
+  }
+
+}
+
+</script>
+
+<div
+  class="incoming-popup"
+  id="incomingPopup"
+  style="display:none;"
+>
+
+  <div class="popup-box">
+
+    <h2>
+  Live Video Request
+</h2>
+
+    <p id="callerName">
+      User Calling...
+    </p>
+
+    <div class="popup-buttons">
+
+      <button
+        class="accept-btn"
+        onclick="acceptCall()"
+      >
+        Accept
+      </button>
+
+      <button
+        class="reject-btn"
+        onclick="rejectCall()"
+      >
+        Reject
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+
+</html>

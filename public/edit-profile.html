@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>Edit Profile</title>
+
+<style>
+
+body{
+
+  margin:0;
+
+  padding:0;
+
+  background:#0f0f0f;
+
+  font-family:Arial,sans-serif;
+
+  color:white;
+
+}
+
+.page-container{
+
+  max-width:700px;
+
+  margin:50px auto;
+
+  background:#1b1b1b;
+
+  padding:35px;
+
+  border-radius:25px;
+
+  box-shadow:0 0 25px rgba(255,64,129,0.2);
+
+}
+
+h1{
+
+  color:#ff4081;
+
+  margin-bottom:25px;
+
+  text-align:center;
+
+}
+
+input{
+
+  width:100%;
+
+  padding:15px;
+
+  border:none;
+
+  border-radius:12px;
+
+  margin-top:15px;
+
+  background:#2a2a2a;
+
+  color:white;
+
+  font-size:16px;
+
+}
+
+button{
+
+  width:100%;
+
+  padding:15px;
+
+  margin-top:20px;
+
+  border:none;
+
+  border-radius:12px;
+
+  background:#ff4081;
+
+  color:white;
+
+  font-size:17px;
+
+  cursor:pointer;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page-container">
+
+<h1>
+Edit Profile
+</h1>
+
+<input
+  type="text"
+  id="profileName"
+  placeholder="Enter Your Name"
+>
+
+<input
+  type="text"
+  id="profileBio"
+  placeholder="Enter Bio"
+>
+
+<button
+  onclick="saveProfile()"
+>
+  Save Profile
+</button>
+
+</div>
+
+<script>
+
+async function saveProfile(){
+
+  const updatedName =
+
+    document.getElementById(
+      "profileName"
+    ).value;
+
+  const updatedBio =
+
+    document.getElementById(
+      "profileBio"
+    ).value;
+
+  const mobile =
+
+    localStorage.getItem(
+      "userMobile"
+    );
+
+  const response = await fetch(
+
+    "/update-profile",
+
+    {
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":
+        "application/json"
+      },
+
+      body:JSON.stringify({
+
+        mobile,
+        name:updatedName,
+        bio:updatedBio
+
+      })
+
+    }
+
+  );
+
+  const data =
+    await response.json();
+
+  if(data.success){
+
+    localStorage.setItem(
+      "userName",
+      updatedName
+    );
+
+    localStorage.setItem(
+      "userBio",
+      updatedBio
+    );
+
+    alert(
+      "Profile Updated Successfully"
+    );
+
+    window.location.href =
+      "/user.html";
+
+  }else{
+
+    alert(
+      "Profile Update Failed"
+    );
+
+  }
+
+}
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Register - FlirtyFly</title>
+
+  <link rel="stylesheet" href="register.css">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- LEFT -->
+    <div class="left">
+
+      <h1>Join FlirtyFly</h1>
+
+      <p>
+        Create your account and start exploring premium live connections
+      </p>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right">
+
+      <!-- FORM -->
+      <form class="register-box" action="/register" method="POST">
+
+        <h2>Create Account</h2>
+
+        <input
+          type="text"
+          name="name"
+          placeholder="Full Name"
+          required
+        >
+
+        <input
+  type="tel"
+  name="mobile"
+  placeholder="Mobile Number"
+  required
+>
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          required
+        >
+
+     <input
+      type="password"
+      name="confirmPassword"
+      placeholder="Confirm Password"
+      required
+>
+
+<div class="terms-check">
+
+  <input
+  type="checkbox"
+  id="termsCheck"
+  name="termsAccepted"
+  required
+>
+
+  <label for="termsCheck">
+
+    I agree to the
+
+    <a href="/terms.html">
+      Terms & Conditions
+    </a>
+
+  </label>
+
+</div>
+
+        <button type="submit">
+          Register
+        </button>
+
+        <p class="login-text">
+          Already have an account?
+          <a href="login.html">Login</a>
+        </p>
+
+      </form>
+
+    </div>
+
+  </div>
+
+<script>
+
+const form = document.querySelector(
+  ".register-box"
+);
+
+form.addEventListener("submit", (e) => {
+
+  const password =
+    document.querySelector(
+      'input[name="password"]'
+    ).value;
+
+  const confirmPassword =
+    document.querySelector(
+      'input[name="confirmPassword"]'
+    ).value;
+
+  if(password !== confirmPassword){
+
+    e.preventDefault();
+
+    alert("Passwords do not match");
+
+  }
+
+});
+
+</script>
+
+</body>
+
+</html>

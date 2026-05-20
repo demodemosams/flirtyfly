@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>FlirtyFly</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+
+    <div class="logo">FlirtyFly</div>
+
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+
+    <div class="buttons">
+
+      <button class="login" onclick="goLogin()">
+        Login
+      </button>
+
+      <button class="register" onclick="goRegister()">
+        Register
+      </button>
+
+    </div>
+
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <h1>
+      Find Your Perfect Connection
+    </h1>
+
+    <p>
+      Premium live video experience with verified hosts
+    </p>
+
+    <button class="start" onclick="goRegister()">
+  Start Exploring
+</button>
+
+  </section>
+
+  <!-- HOSTS -->
+  <section class="hosts">
+
+    <h2>🔥 Online Hosts</h2>
+
+    <div class="swipe-container">
+
+      <!-- CARD 1 -->
+      <div class="card"
+        onclick="openModal(
+        'Riya',
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800'
+      )">
+
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800">
+
+        <div class="card-info">
+          <h3>Riya</h3>
+          <span class="online"></span>
+        </div>
+
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="card"
+        onclick="openModal(
+        'Ananya',
+        'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?q=80&w=800'
+      )">
+
+        <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?q=80&w=800">
+
+        <div class="card-info">
+          <h3>Ananya</h3>
+          <span class="online"></span>
+        </div>
+
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="card"
+        onclick="openModal(
+        'Priya',
+        'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800'
+      )">
+
+        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800">
+
+        <div class="card-info">
+          <h3>Priya</h3>
+          <span class="online"></span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- MODAL -->
+  <div class="modal" id="modal">
+
+    <div class="modal-content">
+
+      <span class="close" onclick="closeModal()">
+        &times;
+      </span>
+
+      <img id="modal-img">
+
+      <h2 id="modal-name"></h2>
+
+      <p>Verified Host • Online Now</p>
+
+      <button class="call-btn">
+        Start Video Call
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2026 FlirtyFly
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

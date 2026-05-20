@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Video Call - FlirtyFly</title>
+
+  <link rel="stylesheet" href="call.css">
+
+</head>
+
+<body>
+
+<div class="video-container">
+
+  <video
+  id="localVideo"
+  autoplay
+  muted
+  playsinline
+></video>
+
+  <video
+  id="remoteVideo"
+  autoplay
+  playsinline
+></video>
+
+</div>
+
+<button
+  class="end-call-btn"
+  onclick="endCall()"
+>
+  End Call
+</button>
+
+<button
+  class="mute-btn"
+  onclick="toggleMute()"
+  id="muteBtn"
+>
+  Mute
+</button>
+
+<div
+  class="call-timer"
+  id="callTimer"
+>
+  01:00
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+
+const params =
+
+  new URLSearchParams(
+    window.location.search
+  );
+
+const roomId = "flirty-room";
+
+const socket = io();
+
+socket.emit(
+
+  "join-room",
+
+  roomId
+
+);
+
+const localVideo =
+
+  document.getElementById(
+    "localVideo"
+  );
+
+const remoteVideo =
+
+  document.getElementById(
+    "remoteVideo"
+  );
+
+let localStream;
+
+let peerConnection;
+
+let timerInterval;
+
+let callStartTime =
+  localStorage.getItem(
+    "callStartTime"
+  );
+
+const configuration = {
+
+  iceServers:[
+
+    {
+      urls:
+      "stun:stun.l.google.com:19302"
+    }
+
+  ]
+
+};
+
+let isMuted = false;
+
+function toggleMute(){
+
+  const audioTrack =
+
+    localStream
+    .getAudioTracks()[0];
+
+  if(isMuted){
+
+    audioTrack.enabled = true;
+
+    document.getElementById(
+      "muteBtn"
+    ).innerText = "Mute";
+
+    isMuted = false;
+
+  }else{
+
+    audioTrack.enabled = false;
+
+    document.getElementById(
+      "muteBtn"
+    ).innerText = "Unmute";
+
+    isMuted = true;
+
+  }
+
+}
+
+function endCall(){
+
+  if(localStream){
+
+    localStream
+      .getTracks()
+      .forEach((track) => {
+
+        track.stop();
+
+      });
+
+  }
+
+  if(peerConnection){
+
+    peerConnection.close();
+
+  }
+
+  clearInterval(timerInterval);
+
+ if(
+
+  window.location.search
+  .includes("role=host")
+
+){
+
+  window.close();
+
+}else{
+
+  window.location.href =
+    "/user.html";
+
+}
+
+}
+
+async function startVideo(){
+
+  try{
+
+    const stream =
+
+      await navigator.mediaDevices
+      .getUserMedia({
+
+        video:true,
+
+        audio:true
+
+      });
+
+    console.log(stream);
+
+    localStream = stream;
+
+    localVideo.srcObject =
+      stream;
+
+    localVideo.onloadedmetadata = () => {
+
+      localVideo.play();
+
+    };
+
+    createPeerConnection();
+
+    if(
+
+      window.location.search
+      .includes("role=user")
+
+    ){
+
+      createOffer();
+
+    }
+
+  }catch(error){
+
+    console.log(error);
+
+    alert(
+      "Camera access denied"
+    );
+
+  }
+
+}
+
+function createPeerConnection(){
+
+  peerConnection =
+
+    new RTCPeerConnection(
+      configuration
+    );
+
+  localStream
+    .getTracks()
+    .forEach((track) => {
+
+      peerConnection.addTrack(
+        track,
+        localStream
+      );
+
+    });
+
+  peerConnection.ontrack =
+
+    (event) => {
+
+      remoteVideo.srcObject =
+
+        event.streams[0];
+
+      remoteVideo
+        .onloadedmetadata = () => {
+
+        remoteVideo.play();
+
+      };
+
+    };
+
+  peerConnection.onicecandidate =
+
+    (event) => {
+
+      if(event.candidate){
+
+        socket.emit(
+
+          "ice-candidate",
+
+          {
+
+            roomId,
+
+            candidate:
+              event.candidate
+
+          }
+
+        );
+
+      }
+
+    };
+
+}
+
+async function createOffer(){
+
+  const offer =
+
+    await peerConnection
+      .createOffer();
+
+  await peerConnection
+    .setLocalDescription(
+      offer
+    );
+
+  socket.emit(
+
+    "offer",
+
+    {
+
+      roomId,
+
+      offer
+
+    }
+
+  );
+
+}
+
+socket.on(
+
+  "offer",
+
+  async (offer) => {
+
+    if(!peerConnection){
+
+      createPeerConnection();
+
+    }
+
+    await peerConnection
+      .setRemoteDescription(
+
+        new RTCSessionDescription(
+          offer
+        )
+
+      );
+
+    const answer =
+
+      await peerConnection
+        .createAnswer();
+
+    await peerConnection
+      .setLocalDescription(
+        answer
+      );
+
+    socket.emit(
+
+      "answer",
+
+      {
+
+        roomId,
+
+        answer
+
+      }
+
+    );
+
+  }
+
+);
+
+socket.on(
+
+  "answer",
+
+  async (answer) => {
+
+    await peerConnection
+      .setRemoteDescription(
+
+        new RTCSessionDescription(
+          answer
+        )
+
+      );
+
+  }
+
+);
+
+socket.on(
+
+  "ice-candidate",
+
+  async (candidate) => {
+
+    try{
+
+      await peerConnection
+        .addIceCandidate(
+
+          new RTCIceCandidate(
+            candidate
+          )
+
+        );
+
+    }catch(error){
+
+      console.log(error);
+
+    }
+
+  }
+
+);
+
+async function startTimer(){
+
+  
+  if(
+
+  !window.location.search
+  .includes("role=user")
+
+){
+
+  document.getElementById(
+    "callTimer"
+  ).style.display = "none";
+
+  return;
+
+}
+
+const userMobile =
+
+  localStorage.getItem(
+    "userMobile"
+  );
+
+const response =
+
+  await fetch(
+
+    `/check-free-trial/${userMobile}`
+
+  );
+
+const data =
+  await response.json();
+
+if(data.freeTrialUsed){
+
+  alert(
+    "Free Trial Already Used"
+  );
+
+  endCall();
+
+  return;
+
+}
+
+if(data.deviceBlocked){
+
+  alert(
+    "This Device Already Used Free Trial"
+  );
+
+  endCall();
+
+  return;
+
+}
+
+
+
+    
+  let freeSeconds =
+
+  localStorage.getItem(
+    "freeSeconds"
+  ) || 60;
+
+  timerInterval =
+
+    setInterval(async () => {
+
+      freeSeconds--;
+
+localStorage.setItem(
+
+  "freeSeconds",
+
+  freeSeconds
+
+);
+
+      const minutes =
+
+        String(
+          Math.floor(
+            freeSeconds / 60
+          )
+        ).padStart(2,"0");
+
+      const seconds =
+
+        String(
+          freeSeconds % 60
+        ).padStart(2,"0");
+
+      document.getElementById(
+        "callTimer"
+      ).innerText =
+
+        `${minutes}:${seconds}`;
+
+      if(freeSeconds <= 0){
+
+        clearInterval(
+          timerInterval
+        );
+
+        alert(
+  "Free Call Ended. Please Subscribe."
+);
+
+const userMobile =
+
+  localStorage.getItem(
+    "userMobile"
+  );
+
+await fetch(
+
+  "/complete-free-trial",
+
+  {
+
+    method:"POST",
+
+    headers:{
+      "Content-Type":
+      "application/json"
+    },
+
+    body:JSON.stringify({
+
+      mobile:userMobile
+
+    })
+
+  }
+
+);
+
+localStorage.removeItem(
+  "freeSeconds"
+);
+
+
+
+
+endCall();
+
+      }
+
+    },1000);
+
+}
+
+startVideo();
+
+if(
+
+  window.location.search
+  .includes("role=user")
+
+){
+
+  setTimeout(() => {
+
+    startTimer();
+
+  },2000);
+
+}else{
+
+  document.getElementById(
+    "callTimer"
+  ).style.display = "none";
+
+}
+
+</script>
+
+</body>
+
+</html>

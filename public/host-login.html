@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Host Login - FlirtyFly</title>
+
+  <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- LEFT -->
+<div class="left">
+
+  <h1>
+    🎥 Host Login
+  </h1>
+
+  <p>
+    Login to manage your live sessions
+  </p>
+
+  <div class="host-badge">
+
+    ⭐ Trusted Live Host Panel
+
+  </div>
+
+</div>
+
+    <!-- RIGHT -->
+    <div class="right">
+
+      <form
+        class="login-box"
+        action="/host-login"
+        method="POST"
+      >
+
+        <h2>Host Access</h2>
+
+        <input
+  type="tel"
+  name="mobile"
+  placeholder="Mobile Number"
+  required
+>
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          required
+        >
+
+        <button type="submit">
+          Login
+        </button>
+
+<p class="switch-page">
+
+  Want to become a host?
+
+  <a href="/host-register.html">
+    Apply Now
+  </a>
+
+</p>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</body>
+
+</html>

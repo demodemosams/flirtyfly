@@ -1,0 +1,224 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Segoe UI,sans-serif;
+
+  height:100vh;
+
+  background:linear-gradient(
+    135deg,
+    #ffdde1,
+    #ee9ca7
+  );
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  overflow:hidden;
+}
+
+/* MAIN CONTAINER */
+.container{
+  width:90%;
+  max-width:1100px;
+
+  height:680px;
+
+  background:rgba(255,255,255,0.4);
+
+  backdrop-filter:blur(14px);
+
+  border-radius:35px;
+
+  overflow:hidden;
+
+  display:flex;
+
+  box-shadow:
+  0 20px 50px rgba(0,0,0,0.15);
+}
+
+/* LEFT SIDE */
+.left{
+  flex:1;
+
+  background:linear-gradient(
+    45deg,
+    #ff416c,
+    #ff4b2b
+  );
+
+  color:white;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+
+  align-items:center;
+
+  text-align:center;
+
+  padding:40px;
+}
+
+.left h1{
+  font-size:56px;
+}
+
+.left p{
+  margin-top:20px;
+
+  font-size:20px;
+
+  max-width:400px;
+}
+
+/* RIGHT SIDE */
+.right{
+  flex:1;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+}
+
+/* REGISTER BOX */
+.register-box{
+  width:80%;
+
+  max-width:380px;
+}
+
+.register-box h2{
+  text-align:center;
+
+  margin-bottom:30px;
+
+  font-size:38px;
+
+  color:#ff416c;
+}
+
+/* INPUTS */
+.register-box input{
+  width:100%;
+
+  padding:16px;
+
+  margin-bottom:18px;
+
+  border:none;
+
+  border-radius:15px;
+
+  background:white;
+
+  font-size:16px;
+
+  outline:none;
+}
+
+/* BUTTON */
+.register-box button{
+  width:100%;
+
+  padding:16px;
+
+  border:none;
+
+  border-radius:18px;
+
+  background:linear-gradient(
+    45deg,
+    #ff416c,
+    #ff4b2b
+  );
+
+  color:white;
+
+  font-size:17px;
+
+  cursor:pointer;
+
+  transition:0.3s;
+}
+
+.register-box button:hover{
+  transform:translateY(-3px);
+
+  box-shadow:
+  0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* MOBILE */
+@media(max-width:900px){
+
+  .container{
+    flex-direction:column;
+
+    height:auto;
+  }
+
+  .left{
+    padding:60px 20px;
+  }
+
+  .left h1{
+    font-size:42px;
+  }
+
+}
+.login-text{
+  text-align:center;
+
+  margin-top:18px;
+
+  color:#555;
+}
+
+.login-text a{
+  color:#ff416c;
+
+  text-decoration:none;
+
+  font-weight:bold;
+}
+
+.login-text a:hover{
+  text-decoration:underline;
+}
+
+.terms-check{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  margin-bottom:20px;
+
+  font-size:14px;
+
+  color:#555;
+
+}
+
+.terms-check a{
+
+  color:#ff416c;
+
+  text-decoration:none;
+
+  font-weight:600;
+
+}
