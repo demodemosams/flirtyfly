@@ -220,7 +220,7 @@ app.post("/host-login", async (req, res) => {
     foundHost.status = "Online";
 
     await foundHost.save();
-
+    
     res.redirect(
 
       `/host.html?id=${foundHost._id}&name=${foundHost.name}&image=${foundHost.image}`
