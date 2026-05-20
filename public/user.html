@@ -1013,90 +1013,78 @@ savedName
 
 }
 
-function setActiveMenu(element){
-
-  const items =
-
-    document.querySelectorAll(
-      ".menu-item"
-    );
-
-  items.forEach((item) => {
-
-    item.classList.remove(
-      "active-menu"
-    );
-
-  });
-
-  element.classList.add(
-    "active-menu"
-  );
-
-}
-
-loadHosts();
-
-async function buyPlan(
+function buyPlan(
   plan,
   amount
 ){
 
-  const userMobile =
+  const options = {
 
-    localStorage.getItem(
-      "userMobile"
-    );
+    key:"rzp_test_SrfMsDdWLG7b8d",
 
- 
+    amount:amount * 100,
 
-  const response = await fetch(
+    currency:"INR",
 
-    "/save-payment",
+    name:"FlirtyFly",
 
-    {
+    description:plan,
 
-      method:"POST",
+    handler: async function(response){
 
-      headers:{
-        "Content-Type":
-        "application/json"
-      },
+      const userMobile =
 
-      body:JSON.stringify({
+        localStorage.getItem(
+          "userMobile"
+        );
 
-        userMobile,
+      await fetch(
 
-        hostId:"No Host",
+        "/save-payment",
 
-hostName:"Direct Subscription",
+        {
 
-        amount,
+          method:"POST",
 
-        plan
+          headers:{
+            "Content-Type":
+            "application/json"
+          },
 
-      })
+          body:JSON.stringify({
 
+            userMobile,
+
+            hostId:"No Host",
+
+            hostName:"Direct Subscription",
+
+            amount,
+
+            plan
+
+          })
+
+        }
+
+      );
+
+      alert(
+        "Payment Successful"
+      );
+
+    },
+
+    theme:{
+      color:"#ff4081"
     }
 
-  );
+  };
 
-  const data =
-    await response.json();
+  const rzp =
+    new Razorpay(options);
 
-  if(data.success){
-
-    alert(
-      "Subscription Purchased Successfully"
-    );
-
-  }else{
-
-    alert(
-      "Payment Failed"
-    );
-
-  }
+  rzp.open();
 
 }
   
@@ -1183,6 +1171,8 @@ hostName:"Direct Subscription",
 
 </div>
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  
 </body>
 
 </html>
