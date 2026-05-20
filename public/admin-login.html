@@ -36,22 +36,21 @@
 
     <form
       class="login-box"
-      action="/admin-login"
-      method="POST"
+      id="adminLoginForm"
     >
 
       <h2>Admin Login</h2>
 
       <input
-  type="number"
-  name="mobile"
-  placeholder="Admin Mobile"
-  required
->
+        type="text"
+        id="adminUsername"
+        placeholder="Username"
+        required
+      >
 
       <input
         type="password"
-        name="password"
+        id="adminPassword"
         placeholder="Password"
         required
       >
@@ -65,6 +64,58 @@
   </div>
 
 </div>
+
+<script>
+
+document.getElementById(
+  "adminLoginForm"
+).addEventListener("submit",
+
+function(e){
+
+  e.preventDefault();
+
+  const username =
+
+    document.getElementById(
+      "adminUsername"
+    ).value;
+
+  const password =
+
+    document.getElementById(
+      "adminPassword"
+    ).value;
+
+  if(
+
+    username === "Holagi14"
+
+    &&
+
+    password === "Holagi@14"
+
+  ){
+
+    localStorage.setItem(
+      "adminLoggedIn",
+      "true"
+    );
+
+    window.location.href =
+      "/admin.html";
+
+  }else{
+
+    alert(
+      "Invalid Admin Credentials"
+    );
+
+  }
+
+});
+
+</script>
 
 </body>
 
