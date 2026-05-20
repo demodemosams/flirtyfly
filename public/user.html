@@ -121,9 +121,14 @@
             Valid For 7 Days
           </p>
 
-          <button>
-            Buy Now
-          </button>
+          <button
+  onclick="buyPlan(
+    'Basic Weekly',
+    299
+  )"
+>
+  Buy Now
+</button>
 
         </div>
 
@@ -150,9 +155,14 @@
             Valid For 7 Days
           </p>
 
-          <button>
-            Buy Now
-          </button>
+          <button
+  onclick="buyPlan(
+    'Unlimited Weekly',
+    899
+  )"
+>
+  Buy Now
+</button>
 
         </div>
 
@@ -1027,6 +1037,79 @@ function setActiveMenu(element){
 
 loadHosts();
 
+async function buyPlan(
+  plan,
+  amount
+){
+
+  const userMobile =
+
+    localStorage.getItem(
+      "userMobile"
+    );
+
+  if(!selectedHost.id){
+
+    alert(
+      "Please call a host first"
+    );
+
+    return;
+
+  }
+
+  const response = await fetch(
+
+    "/save-payment",
+
+    {
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":
+        "application/json"
+      },
+
+      body:JSON.stringify({
+
+        userMobile,
+
+        hostId:
+          selectedHost.id,
+
+        hostName:
+          selectedHost.name,
+
+        amount,
+
+        plan
+
+      })
+
+    }
+
+  );
+
+  const data =
+    await response.json();
+
+  if(data.success){
+
+    alert(
+      "Subscription Purchased Successfully"
+    );
+
+  }else{
+
+    alert(
+      "Payment Failed"
+    );
+
+  }
+
+}
+  
 </script>
 
 <!-- PROFILE MODAL -->
