@@ -58,7 +58,7 @@
         <h3>Create Host Account</h3>
 
         <form
-          action="http://localhost:3000/create-host"
+          action="/create-host"
           method="POST"
           enctype="multipart/form-data"
         >
@@ -115,7 +115,7 @@
 async function loadHosts(){
 
   const response = await fetch(
-    "http://localhost:3000/get-hosts"
+    "/get-hosts"
   );
 
   const hosts = await response.json();
@@ -169,7 +169,7 @@ async function deleteHost(id){
 
   const response = await fetch(
 
-    `http://localhost:3000/delete-host/${id}`,
+    `/delete-host/${id}`,
 
     {
       method: "DELETE"
@@ -189,6 +189,23 @@ loadHosts();
 
 </script>
 
+<script>
+
+const adminLoggedIn =
+
+  localStorage.getItem(
+    "adminLoggedIn"
+  );
+
+if(adminLoggedIn !== "true"){
+
+  window.location.href =
+    "/admin-login.html";
+
+}
+
+</script>
+  
 </body>
 
 </html>
