@@ -15,6 +15,10 @@ const CallHistory = require(
   "./models/CallHistory"
 );
 
+const Payment = require(
+  "./models/Payment"
+);
+
 const app = express();
 
 const http = require("http");
