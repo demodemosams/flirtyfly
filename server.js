@@ -916,15 +916,7 @@ socket.on("disconnect", async () => {
 
     delete connectedHosts[currentHostId];
 
-    await Host.findByIdAndUpdate(
-
-      currentHostId,
-
-      {
-        status:"Offline"
-      }
-
-    );
+   
 
     console.log(
       "Host Disconnected"
