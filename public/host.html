@@ -166,6 +166,21 @@ const hostName =
 const hostImage =
   params.get("image");
 
+localStorage.setItem(
+  "hostId",
+  hostId
+);
+
+localStorage.setItem(
+  "hostName",
+  hostName
+);
+
+localStorage.setItem(
+  "hostImage",
+  hostImage
+);
+  
   let currentStatus = "Online";
 
 document.getElementById(
