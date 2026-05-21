@@ -207,6 +207,65 @@ async function deleteHost(id){
 
 }
 
+async function showPayments(element){
+
+  document.getElementById(
+    "paymentsSection"
+  ).style.display = "block";
+
+  document.querySelector(
+    ".section"
+  ).style.display = "none";
+
+  const response = await fetch(
+    "/get-payments"
+  );
+
+  const payments =
+    await response.json();
+
+  const paymentsList =
+
+    document.getElementById(
+      "paymentsList"
+    );
+
+  paymentsList.innerHTML = "";
+
+  payments.forEach((payment) => {
+
+    paymentsList.innerHTML += `
+
+      <div class="row">
+
+        <div class="left">
+
+          <div>
+
+            <h3>
+              ${payment.plan}
+            </h3>
+
+            <p>
+              ${payment.userMobile}
+            </p>
+
+            <p>
+              ₹${payment.amount}
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+  
 loadHosts();
 
 </script>
