@@ -26,10 +26,10 @@
 </li>
 
 <li
-  class="menu-item"
-  onclick="showPayments(this)"
+  class="menu-item active-menu"
+  onclick="showHosts()"
 >
-  Payments
+  Create Hosts
 </li>
 
 </ul>
@@ -209,13 +209,17 @@ async function deleteHost(id){
 
 async function showPayments(element){
 
+  document.querySelector(
+    ".create-host"
+  ).style.display = "none";
+
+  document.getElementById(
+    "hostList"
+  ).style.display = "none";
+
   document.getElementById(
     "paymentsSection"
   ).style.display = "block";
-
-  document.querySelector(
-    ".section"
-  ).style.display = "none";
 
   const response = await fetch(
     "/get-payments"
@@ -263,6 +267,22 @@ async function showPayments(element){
     `;
 
   });
+
+}
+
+  function showHosts(){
+
+  document.querySelector(
+    ".create-host"
+  ).style.display = "block";
+
+  document.getElementById(
+    "hostList"
+  ).style.display = "block";
+
+  document.getElementById(
+    "paymentsSection"
+  ).style.display = "none";
 
 }
   
