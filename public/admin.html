@@ -17,11 +17,20 @@
 
     <h1>FlirtyFly</h1>
 
-    <ul>
+  <ul>  
 
-  <li class="active">
-    Create Hosts
-  </li>
+ <li
+  class="menu-item active-menu"
+>
+  Create Hosts
+</li>
+
+<li
+  class="menu-item"
+  onclick="showPayments(this)"
+>
+  Payments
+</li>
 
 </ul>
 
@@ -103,6 +112,19 @@
 
       <div id="hostList"></div>
 
+<div
+  id="paymentsSection"
+  style="display:none;"
+>
+
+  <h2>
+    Subscription Payments
+  </h2>
+
+  <div id="paymentsList"></div>
+
+</div>
+      
     </div>
 
     
