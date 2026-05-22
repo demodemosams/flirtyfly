@@ -1,283 +1,334 @@
-<metaname="viewport"content="width=device-width, initial-scale=1.0"
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
 
+  <meta charset="UTF-8">
 
-<h1>FlirtyFly</h1>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-<ul>
+  <title>User Dashboard - FlirtyFly</title>
 
-  <li
+  <link rel="stylesheet" href="user.css">
 
-class="menu-item"onclick="showDiscover(this)"
+</head>
 
+<body>
 
+  <!-- SIDEBAR -->
+  <aside
+    class="sidebar"
+    id="sidebar"
+  >
 
-Discover
+    <h1>FlirtyFly</h1>
 
-  <li
+    <ul>
 
-class="menu-item"onclick="showSubscriptions(this)"
+      <li
+        class="menu-item"
+        onclick="showDiscover(this)"
+      >
+        Discover
+      </li>
 
+      <li
+        class="menu-item"
+        onclick="showSubscriptions(this)"
+      >
+        Subscriptions
+      </li>
 
+      <li
+        class="menu-item"
+        onclick="showCallHistory(this)"
+      >
+        Call History
+      </li>
 
-Subscriptions
+      <li
+        class="menu-item"
+        onclick="showProfile(this)"
+      >
+        Profile
+      </li>
 
-  <li
+      <li
+        class="menu-item"
+        onclick="showSettings(this)"
+      >
+        Settings
+      </li>
 
-class="menu-item"onclick="showCallHistory(this)"
+    </ul>
 
+  </aside>
 
+  <!-- MAIN -->
+  <main class="main">
 
-Call History
+    <!-- TOPBAR -->
+    <div class="topbar">
 
-  <li
+      <h2 id="pageTitle">
+        Discover Hosts
+      </h2>
 
-class="menu-item"onclick="showProfile(this)"
-
-
-
-Profile
-
-  <li
-
-class="menu-item"onclick="showSettings(this)"
-
-
-
-Settings
-
-
-
-</ul>
-
-<!-- TOPBAR -->
-<div class="topbar">
-
-  <h2 id="pageTitle">
-
-Discover Hosts
-
-  <div class="premium">
-    Premium Active
-  </div>
-
-</div>
-
-<!-- SUBSCRIPTIONS -->
-<div
-  class="subscriptions"
-  id="subscriptions"
-  style="display:none;"
->
-
-  <div class="sub-top">
-
-    <h2 class="sub-title">
-      Premium Plans
-    </h2>
-
-  </div>
-
-  <div class="sub-cards">
-
-    <!-- PLAN 1 -->
-    <div class="sub-card">
-
-      <h3>
-        Basic Weekly
-      </h3>
-
-      <h1>
-        ₹299
-      </h1>
-
-      <p>
-        2 Hours Daily
-      </p>
-
-      <p>
-        Valid For 7 Days
-      </p>
-
-      <button
-
-onclick="buyPlan('Basic Weekly',299)"
-
-
-
-Buy Now
+      <div class="premium">
+        Premium Active
+      </div>
 
     </div>
 
-    <!-- PLAN 2 -->
-    <div class="sub-card premium-card">
+    <!-- HOSTS -->
+    <div
+      class="cards"
+      id="hostCards"
+    >
 
-      <span class="best">
-        BEST VALUE
+      <!-- HOST CARD -->
+      <div class="card">
+
+        <div class="image">
+
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800">
+
+          <span class="online">
+            Online
+          </span>
+
+        </div>
+
+        <div class="content">
+
+          <h3>Riya</h3>
+
+          <p>
+            Live Video Call Host
+          </p>
+
+          <button
+            onclick="openProfile(
+              'Riya',
+              'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800'
+            )"
+          >
+            Start Call
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- HOST CARD -->
+      <div class="card">
+
+        <div class="image">
+
+          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800">
+
+          <span class="online">
+            Online
+          </span>
+
+        </div>
+
+        <div class="content">
+
+          <h3>Priya</h3>
+
+          <p>
+            Live Video Call Host
+          </p>
+
+          <button
+            onclick="openProfile(
+              'Priya',
+              'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800'
+            )"
+          >
+            Start Call
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- PROFILE -->
+    <div
+      class="profile-section"
+      id="profileSection"
+      style="display:none;"
+    >
+
+      <div class="simple-profile">
+
+        <div class="small-avatar">
+
+          U
+
+        </div>
+
+        <h2>
+          Hi, User 👋
+        </h2>
+
+        <p>
+          Welcome back to FlirtyFly
+        </p>
+
+        <div class="profile-menu">
+
+          <a href="/edit-profile.html">
+            Edit Profile
+          </a>
+
+          <a
+            href="#"
+            onclick="logoutUser()"
+          >
+            Logout
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- MODAL -->
+  <div
+    class="modal"
+    id="profileModal"
+  >
+
+    <div class="modal-box">
+
+      <span
+        class="close"
+        onclick="closeModal()"
+      >
+        ×
       </span>
 
-      <h3>
-        Unlimited Weekly
-      </h3>
+      <img id="modalImage">
 
-      <h1>
-        ₹899
-      </h1>
+      <h2 id="modalName"></h2>
 
       <p>
-        Unlimited Calls
-      </p>
-
-      <p>
-        Valid For 7 Days
+        Premium Live Video Host
       </p>
 
       <button
-
-onclick="buyPlan('Unlimited Weekly',899)"
-
-
-
-Buy Now
+        class="call-btn"
+      >
+        Start Video Call
+      </button>
 
     </div>
 
   </div>
 
-</div>
+<script>
 
-<!-- PROFILE -->
+function setActiveMenu(element){
 
-<div class="profile-top">
+  document.querySelectorAll(
+    ".menu-item"
+  ).forEach((item)=>{
 
-  <div class="small-avatar">
+    item.classList.remove(
+      "active-menu"
+    );
 
-    <span id="avatarLetter">
-      U
-    </span>
+  });
 
-  </div>
+  element.classList.add(
+    "active-menu"
+  );
 
-  <h2 id="profileGreeting">
-    Hi, User 👋
-  </h2>
+}
 
-  <p>
-    Welcome back to FlirtyFly
-  </p>
+function showDiscover(element){
 
-</div>
+  setActiveMenu(element);
 
+  document.getElementById(
+    "hostCards"
+  ).style.display = "grid";
 
+  document.getElementById(
+    "profileSection"
+  ).style.display = "none";
 
+  document.getElementById(
+    "pageTitle"
+  ).innerText =
 
+  "Discover Hosts";
 
-<ahref="#"onclick="logoutUser()"
+}
 
+function showProfile(element){
 
+  setActiveMenu(element);
 
-Logout
+  document.getElementById(
+    "hostCards"
+  ).style.display = "none";
 
-</div>
+  document.getElementById(
+    "profileSection"
+  ).style.display = "block";
 
-<div class="settings-card">
+  document.getElementById(
+    "pageTitle"
+  ).innerText =
 
-  <div class="setting-row">
+  "My Profile";
 
-    <div>
-      <h3>Membership</h3>
-      <p>Premium Plan Active</p>
-    </div>
+}
 
-  </div>
+function openProfile(name,image){
 
-  <div class="setting-row">
+  document.getElementById(
+    "profileModal"
+  ).style.display = "flex";
 
-    <div>
-      <h3>Free Trial Status</h3>
-      <p>1 Time Trial Enabled</p>
-    </div>
+  document.getElementById(
+    "modalName"
+  ).innerText = name;
 
-  </div>
+  document.getElementById(
+    "modalImage"
+  ).src = image;
 
-  <div class="setting-row">
+}
 
-    <div>
-      <h3>Account Security</h3>
-      <p>Your account is protected</p>
-    </div>
+function closeModal(){
 
-  </div>
+  document.getElementById(
+    "profileModal"
+  ).style.display = "none";
 
-  <button
-    class="logout-btn"
-    onclick="logoutUser()"
-  >
-    Logout
-  </button>
+}
 
-</div>
+function logoutUser(){
 
-<!-- HOSTS -->
-<div
-  class="cards"
-  id="hostCards"
-></div>
+  window.location.href =
+  "/login.html";
 
-<span
-  class="close"
-  onclick="closeModal()"
->
-  ×
-</span>
+}
 
-<img id="modalImage">
+</script>
 
-<h2 id="modalName"></h2>
+</body>
 
-<p>
-  Premium Live Video Host
-</p>
-
-<button
-  class="call-btn"
-  onclick="startCall()"
->
-  Start Video Call
-</button>
-
-<h2>
-  Terms & Conditions
-</h2>
-
-<p>
-
-  By continuing, you agree to our platform policies and community guidelines.
-
-</p>
-
-<div class="entry-rules">
-
-  <p>
-    • All payments are non-refundable
-  </p>
-
-  <p>
-    • Free trial valid one time only
-  </p>
-
-  <p>
-    • Accounts may be suspended anytime
-  </p>
-
-  <p>
-    • Service may change anytime
-  </p>
-
-</div>
-
-<button
-  onclick="acceptTerms()"
->
-  Agree & Continue
-</button>
+</html>
