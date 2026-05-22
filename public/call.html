@@ -3,64 +3,336 @@
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
-  <title>Video Call - FlirtyFly</title>
+<title>Video Call - FlirtyFly</title>
 
-  <link rel="stylesheet" href="call.css">
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+
+  font-family:Segoe UI,sans-serif;
+
+  height:100vh;
+
+  overflow:hidden;
+
+  background:#0f172a;
+
+  color:white;
+}
+
+/* MAIN VIDEO AREA */
+.video-wrapper{
+
+  position:relative;
+
+  width:100%;
+
+  height:100vh;
+
+  overflow:hidden;
+}
+
+/* REMOTE VIDEO */
+#remoteVideo{
+
+  position:absolute;
+
+  inset:0;
+
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  background:black;
+}
+
+/* LOCAL VIDEO */
+#localVideo{
+
+  position:absolute;
+
+  width:260px;
+  height:180px;
+
+  bottom:120px;
+  right:30px;
+
+  object-fit:cover;
+
+  border-radius:24px;
+
+  border:3px solid rgba(255,255,255,0.25);
+
+  background:black;
+
+  box-shadow:
+  0 15px 40px rgba(0,0,0,0.35);
+
+  z-index:10;
+}
+
+/* TOP BAR */
+.top-bar{
+
+  position:absolute;
+
+  top:25px;
+  left:50%;
+
+  transform:translateX(-50%);
+
+  width:92%;
+
+  padding:18px 24px;
+
+  border-radius:22px;
+
+  background:
+  rgba(255,255,255,0.08);
+
+  backdrop-filter:blur(18px);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  z-index:20;
+}
+
+.call-info h2{
+
+  font-size:22px;
+
+  margin-bottom:4px;
+}
+
+.call-info p{
+
+  font-size:14px;
+
+  opacity:0.8;
+}
+
+/* TIMER */
+.call-timer{
+
+  padding:12px 22px;
+
+  border-radius:50px;
+
+  background:
+  rgba(255,255,255,0.08);
+
+  font-size:16px;
+
+  font-weight:600;
+
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+/* CONTROLS */
+.controls{
+
+  position:absolute;
+
+  left:50%;
+  bottom:35px;
+
+  transform:translateX(-50%);
+
+  display:flex;
+
+  gap:22px;
+
+  z-index:25;
+}
+
+/* BUTTONS */
+.control-btn{
+
+  width:72px;
+  height:72px;
+
+  border:none;
+
+  border-radius:50%;
+
+  display:flex;
+
+  justify-content:center;
+  align-items:center;
+
+  cursor:pointer;
+
+  font-size:18px;
+
+  color:white;
+
+  transition:0.3s;
+
+  backdrop-filter:blur(10px);
+}
+
+.control-btn:hover{
+
+  transform:translateY(-4px);
+}
+
+/* MUTE */
+.mute-btn{
+
+  background:
+  rgba(255,255,255,0.12);
+
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+/* END CALL */
+.end-call-btn{
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff416c,
+    #ff4b2b
+  );
+
+  box-shadow:
+  0 15px 30px rgba(255,65,108,0.35);
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+  #localVideo{
+
+    width:140px;
+    height:190px;
+
+    right:15px;
+    bottom:120px;
+
+    border-radius:18px;
+  }
+
+  .top-bar{
+
+    flex-direction:column;
+
+    gap:15px;
+
+    align-items:flex-start;
+  }
+
+  .controls{
+
+    gap:15px;
+  }
+
+  .control-btn{
+
+    width:62px;
+    height:62px;
+  }
+
+  .call-info h2{
+
+    font-size:19px;
+  }
+}
+
+</style>
 
 </head>
 
 <body>
 
-<div class="video-container">
+<div class="video-wrapper">
 
+  <!-- REMOTE -->
   <video
-  id="localVideo"
-  autoplay
-  muted
-  playsinline
-></video>
+    id="remoteVideo"
+    autoplay
+    playsinline
+  ></video>
 
+  <!-- LOCAL -->
   <video
-  id="remoteVideo"
-  autoplay
-  playsinline
-></video>
+    id="localVideo"
+    autoplay
+    muted
+    playsinline
+  ></video>
 
-</div>
+  <!-- TOP BAR -->
+  <div class="top-bar">
 
-<button
-  class="end-call-btn"
-  onclick="endCall()"
->
-  End Call
-</button>
+    <div class="call-info">
 
-<button
-  class="mute-btn"
-  onclick="toggleMute()"
-  id="muteBtn"
->
-  Mute
-</button>
+      <h2>
+        FlirtyFly Live Call
+      </h2>
 
-<div
-  class="call-timer"
-  id="callTimer"
->
-  01:00
+      <p>
+        Secure premium connection
+      </p>
+
+    </div>
+
+    <div
+      class="call-timer"
+      id="callTimer"
+    >
+      01:00
+    </div>
+
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+
+    <button
+      class="control-btn mute-btn"
+      onclick="toggleMute()"
+      id="muteBtn"
+    >
+      🔇
+    </button>
+
+    <button
+      class="control-btn end-call-btn"
+      onclick="endCall()"
+    >
+      📞
+    </button>
+
+  </div>
+
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
 
+/* YOUR ORIGINAL JS */
 const params =
 
   new URLSearchParams(
@@ -72,21 +344,16 @@ const roomId = "flirty-room";
 const socket = io();
 
 socket.emit(
-
   "join-room",
-
   roomId
-
 );
 
 const localVideo =
-
   document.getElementById(
     "localVideo"
   );
 
 const remoteVideo =
-
   document.getElementById(
     "remoteVideo"
   );
@@ -96,11 +363,6 @@ let localStream;
 let peerConnection;
 
 let timerInterval;
-
-let callStartTime =
-  localStorage.getItem(
-    "callStartTime"
-  );
 
 const configuration = {
 
@@ -130,7 +392,7 @@ function toggleMute(){
 
     document.getElementById(
       "muteBtn"
-    ).innerText = "Mute";
+    ).innerText = "🔇";
 
     isMuted = false;
 
@@ -140,7 +402,7 @@ function toggleMute(){
 
     document.getElementById(
       "muteBtn"
-    ).innerText = "Unmute";
+    ).innerText = "🎤";
 
     isMuted = true;
 
@@ -170,21 +432,22 @@ function endCall(){
 
   clearInterval(timerInterval);
 
- if(
+  if(
 
-  window.location.search
-  .includes("role=host")
+    window.location.search
+    .includes("role=host")
 
-){
+  ){
 
-  window.location.href =   `/host.html?id=${localStorage.getItem("hostId")}&name=${localStorage.getItem("hostName")}&image=${localStorage.getItem("hostImage")}`;
+    window.location.href =
+    `/host.html?id=${localStorage.getItem("hostId")}&name=${localStorage.getItem("hostName")}&image=${localStorage.getItem("hostImage")}`;
 
-}else{
+  }else{
 
-  window.location.href =
-    "/user.html";
+    window.location.href =
+      "/user.html";
 
-}
+  }
 
 }
 
@@ -198,23 +461,14 @@ async function startVideo(){
       .getUserMedia({
 
         video:true,
-
         audio:true
 
       });
-
-    console.log(stream);
 
     localStream = stream;
 
     localVideo.srcObject =
       stream;
-
-    localVideo.onloadedmetadata = () => {
-
-      localVideo.play();
-
-    };
 
     createPeerConnection();
 
@@ -268,13 +522,6 @@ function createPeerConnection(){
 
         event.streams[0];
 
-      remoteVideo
-        .onloadedmetadata = () => {
-
-        remoteVideo.play();
-
-      };
-
     };
 
   peerConnection.onicecandidate =
@@ -323,7 +570,6 @@ async function createOffer(){
     {
 
       roomId,
-
       offer
 
     }
@@ -370,7 +616,6 @@ socket.on(
       {
 
         roomId,
-
         answer
 
       }
@@ -429,66 +674,21 @@ socket.on(
 
 async function startTimer(){
 
-  
   if(
 
-  !window.location.search
-  .includes("role=user")
+    !window.location.search
+    .includes("role=user")
 
-){
+  ){
 
-  document.getElementById(
-    "callTimer"
-  ).style.display = "none";
+    document.getElementById(
+      "callTimer"
+    ).style.display = "none";
 
-  return;
+    return;
 
-}
+  }
 
-const userMobile =
-
-  localStorage.getItem(
-    "userMobile"
-  );
-
-const response =
-
-  await fetch(
-
-    `/check-free-trial/${userMobile}`
-
-  );
-
-const data =
-  await response.json();
-
-if(data.freeTrialUsed){
-
-  alert(
-    "Free Trial Already Used"
-  );
-
-  endCall();
-
-  return;
-
-}
-
-if(data.deviceBlocked){
-
-  alert(
-    "This Device Already Used Free Trial"
-  );
-
-  endCall();
-
-  return;
-
-}
-
-
-
-    
   let freeSeconds =
 
   localStorage.getItem(
@@ -497,89 +697,54 @@ if(data.deviceBlocked){
 
   timerInterval =
 
-    setInterval(async () => {
+  setInterval(() => {
 
-      freeSeconds--;
+    freeSeconds--;
 
-localStorage.setItem(
+    localStorage.setItem(
+      "freeSeconds",
+      freeSeconds
+    );
 
-  "freeSeconds",
+    const minutes =
 
-  freeSeconds
+      String(
+        Math.floor(
+          freeSeconds / 60
+        )
+      ).padStart(2,"0");
 
-);
+    const seconds =
 
-      const minutes =
+      String(
+        freeSeconds % 60
+      ).padStart(2,"0");
 
-        String(
-          Math.floor(
-            freeSeconds / 60
-          )
-        ).padStart(2,"0");
+    document.getElementById(
+      "callTimer"
+    ).innerText =
 
-      const seconds =
+    `${minutes}:${seconds}`;
 
-        String(
-          freeSeconds % 60
-        ).padStart(2,"0");
+    if(freeSeconds <= 0){
 
-      document.getElementById(
-        "callTimer"
-      ).innerText =
+      clearInterval(
+        timerInterval
+      );
 
-        `${minutes}:${seconds}`;
+      alert(
+        "Free Call Ended. Please Subscribe."
+      );
 
-      if(freeSeconds <= 0){
+      localStorage.removeItem(
+        "freeSeconds"
+      );
 
-        clearInterval(
-          timerInterval
-        );
+      endCall();
 
-        alert(
-  "Free Call Ended. Please Subscribe."
-);
+    }
 
-const userMobile =
-
-  localStorage.getItem(
-    "userMobile"
-  );
-
-await fetch(
-
-  "/complete-free-trial",
-
-  {
-
-    method:"POST",
-
-    headers:{
-      "Content-Type":
-      "application/json"
-    },
-
-    body:JSON.stringify({
-
-      mobile:userMobile
-
-    })
-
-  }
-
-);
-
-localStorage.removeItem(
-  "freeSeconds"
-);
-
-
-
-
-endCall();
-
-      }
-
-    },1000);
+  },1000);
 
 }
 
