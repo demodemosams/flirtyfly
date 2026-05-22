@@ -1,302 +1,107 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>User Dashboard - FlirtyFly</title>
-
-  <link rel="stylesheet" href="user.css">
-
-</head>
-
-<body>
-
-  <!-- SIDEBAR -->
-  <aside
-    class="sidebar"
-    id="sidebar"
-  >
-
-    <h1>FlirtyFly</h1>
-
-    <ul>
-
-      <li
-        class="menu-item"
-        onclick="showDiscover(this)"
-      >
-        Discover
-      </li>
-
-      <li
-        class="menu-item"
-        onclick="showSubscriptions(this)"
-      >
-        Subscriptions
-      </li>
-
-      <li
-        class="menu-item"
-        onclick="showCallHistory(this)"
-      >
-        Call History
-      </li>
-
-      <li
-        class="menu-item"
-        onclick="showProfile(this)"
-      >
-        Profile
-      </li>
-
-      <li
-        class="menu-item"
-        onclick="showSettings(this)"
-      >
-        Settings
-      </li>
-
-    </ul>
-
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- TOPBAR -->
-    <div class="topbar">
-
-      <h2 id="pageTitle">
-        Discover Hosts
-      </h2>
-
-      <div class="premium">
-        Premium Active
-      </div>
-
-    </div>
-
-    <!-- HOSTS -->
-    <div
-      class="cards"
-      id="hostCards"
-    >
-
-      <!-- HOST CARD -->
-      <div class="card">
-
-        <div class="image">
-
-          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800">
-
-          <span class="online">
-            Online
-          </span>
-
-        </div>
-
-        <div class="content">
-
-          <h3>Riya</h3>
-
-          <p>
-            Live Video Call Host
-          </p>
-
-          <button
-            onclick="openProfile(
-              'Riya',
-              'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800'
-            )"
-          >
-            Start Call
-          </button>
-
-        </div>
-
-      </div>
-
-      <!-- HOST CARD -->
-      <div class="card">
-
-        <div class="image">
-
-          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800">
-
-          <span class="online">
-            Online
-          </span>
-
-        </div>
-
-        <div class="content">
-
-          <h3>Priya</h3>
-
-          <p>
-            Live Video Call Host
-          </p>
-
-          <button
-            onclick="openProfile(
-              'Priya',
-              'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800'
-            )"
-          >
-            Start Call
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- PROFILE -->
-    <div
-      class="profile-section"
-      id="profileSection"
-      style="display:none;"
-    >
-
-      <div class="simple-profile">
-
-        <div class="small-avatar">
-
-          U
-
-        </div>
-
-        <h2>
-          Hi, User 👋
-        </h2>
-
-        <p>
-          Welcome back to FlirtyFly
-        </p>
-
-        <div class="profile-menu">
-
-          <a href="/edit-profile.html">
-            Edit Profile
-          </a>
-
-          <a
-            href="#"
-            onclick="logoutUser()"
-          >
-            Logout
-          </a>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </main>
-
-  <!-- MODAL -->
-  <div
-    class="modal"
-    id="profileModal"
-  >
-
-    <div class="modal-box">
-
-      <span
-        class="close"
-        onclick="closeModal()"
-      >
-        ×
-      </span>
-
-      <img id="modalImage">
-
-      <h2 id="modalName"></h2>
-
-      <p>
-        Premium Live Video Host
-      </p>
-
-      <button
-        class="call-btn"
-      >
-        Start Video Call
-      </button>
-
-    </div>
-
-  </div>
+<!-- REAL DATABASE CONNECTED HOST SECTION -->
+
+<div
+  class="cards"
+  id="hostCards"
+></div>
 
 <script>
 
-function setActiveMenu(element){
+async function loadHosts(){
 
-  document.querySelectorAll(
-    ".menu-item"
-  ).forEach((item)=>{
+  try{
 
-    item.classList.remove(
-      "active-menu"
+    const response = await fetch(
+      "/get-hosts"
     );
 
-  });
+    const hosts =
+      await response.json();
 
-  element.classList.add(
-    "active-menu"
-  );
+    const hostCards =
+
+      document.getElementById(
+        "hostCards"
+      );
+
+    hostCards.innerHTML = "";
+
+    hosts.forEach((host) => {
+
+      hostCards.innerHTML += `
+
+        <div class="card">
+
+          <div class="image">
+
+            <img
+              src="/uploads/${host.image}"
+            >
+
+            <span class="${
+              host.status === "Online"
+              ? "online"
+              : "offline"
+            }">
+
+              ${host.status}
+
+            </span>
+
+          </div>
+
+          <div class="content">
+
+            <h3>
+              ${host.name}
+            </h3>
+
+            <p>
+              Premium Live Video Host
+            </p>
+
+            <button
+              onclick="openProfile(
+                '${host._id}',
+                '${host.name}',
+                '${host.image}'
+              )"
+            >
+
+              Start Call
+
+            </button>
+
+          </div>
+
+        </div>
+
+      `;
+
+    });
+
+  }catch(error){
+
+    console.log(error);
+
+  }
 
 }
 
-function showDiscover(element){
+/* OPEN HOST MODAL */
+function openProfile(
+  id,
+  name,
+  image
+){
 
-  setActiveMenu(element);
+  selectedHost = {
 
-  document.getElementById(
-    "hostCards"
-  ).style.display = "grid";
+    id,
+    name,
+    image
 
-  document.getElementById(
-    "profileSection"
-  ).style.display = "none";
-
-  document.getElementById(
-    "pageTitle"
-  ).innerText =
-
-  "Discover Hosts";
-
-}
-
-function showProfile(element){
-
-  setActiveMenu(element);
-
-  document.getElementById(
-    "hostCards"
-  ).style.display = "none";
-
-  document.getElementById(
-    "profileSection"
-  ).style.display = "block";
-
-  document.getElementById(
-    "pageTitle"
-  ).innerText =
-
-  "My Profile";
-
-}
-
-function openProfile(name,image){
+  };
 
   document.getElementById(
     "profileModal"
@@ -308,10 +113,11 @@ function openProfile(name,image){
 
   document.getElementById(
     "modalImage"
-  ).src = image;
+  ).src = `/uploads/${image}`;
 
 }
 
+/* CLOSE MODAL */
 function closeModal(){
 
   document.getElementById(
@@ -320,15 +126,116 @@ function closeModal(){
 
 }
 
-function logoutUser(){
+/* START VIDEO CALL */
+async function startCall(){
+
+  const userMobile =
+
+    localStorage.getItem(
+      "userMobile"
+    );
+
+  const userName =
+
+    localStorage.getItem(
+      "userName"
+    );
+
+  await fetch(
+
+    "/save-call",
+
+    {
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":
+        "application/json"
+      },
+
+      body:JSON.stringify({
+
+        userMobile,
+
+        hostId:
+        selectedHost.id,
+
+        hostName:
+        selectedHost.name,
+
+        hostImage:
+        selectedHost.image
+
+      })
+
+    }
+
+  );
+
+  socket.emit(
+
+    "call-host",
+
+    {
+
+      hostId:
+      selectedHost.id,
+
+      callerName:
+      userName
+
+    }
+
+  );
+
+  alert(
+    "Calling Host..."
+  );
 
   window.location.href =
-  "/login.html";
+
+  `/call.html?role=user`;
 
 }
 
+/* LOAD REAL HOSTS */
+loadHosts();
+
 </script>
 
-</body>
+<!-- MODAL -->
+<div
+  class="modal"
+  id="profileModal"
+>
 
-</html>
+  <div class="modal-box">
+
+    <span
+      class="close"
+      onclick="closeModal()"
+    >
+      ×
+    </span>
+
+    <img id="modalImage">
+
+    <h2 id="modalName"></h2>
+
+    <p>
+      Premium Live Video Host
+    </p>
+
+    <button
+      class="call-btn"
+      onclick="startCall()"
+    >
+
+      Start Video Call
+
+    </button>
+
+  </div>
+
+</div>
