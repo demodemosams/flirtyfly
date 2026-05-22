@@ -2,137 +2,598 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Admin Dashboard - FlirtyFly</title>
+<meta charset="UTF-8">
 
-  <link rel="stylesheet" href="admin.css">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>Admin Dashboard - FlirtyFly</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+
+  font-family:Segoe UI,sans-serif;
+
+  background:#f4f7fb;
+
+  min-height:100vh;
+
+  display:flex;
+
+  color:#1f2937;
+}
+
+/* SIDEBAR */
+.sidebar{
+
+  width:280px;
+
+  background:
+  linear-gradient(
+    180deg,
+    #111827,
+    #1f2937
+  );
+
+  color:white;
+
+  padding:35px 25px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:space-between;
+
+  position:fixed;
+
+  top:0;
+  left:0;
+  bottom:0;
+}
+
+.sidebar h1{
+
+  font-size:34px;
+
+  margin-bottom:50px;
+
+  font-weight:700;
+}
+
+.sidebar ul{
+
+  list-style:none;
+}
+
+.menu-item{
+
+  padding:18px 20px;
+
+  margin-bottom:15px;
+
+  border-radius:18px;
+
+  cursor:pointer;
+
+  transition:0.3s;
+
+  font-size:16px;
+
+  font-weight:600;
+
+  background:
+  rgba(255,255,255,0.04);
+}
+
+.menu-item:hover{
+
+  background:
+  rgba(255,255,255,0.1);
+}
+
+.active-menu{
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff416c,
+    #ff4b2b
+  );
+
+  box-shadow:
+  0 10px 25px rgba(255,65,108,0.3);
+}
+
+/* MAIN */
+.main{
+
+  margin-left:280px;
+
+  flex:1;
+
+  padding:35px;
+}
+
+/* TOPBAR */
+.topbar{
+
+  background:white;
+
+  border-radius:25px;
+
+  padding:25px 30px;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  box-shadow:
+  0 10px 30px rgba(0,0,0,0.06);
+
+  margin-bottom:30px;
+}
+
+.topbar h2{
+
+  font-size:30px;
+
+  color:#111827;
+}
+
+.admin-badge{
+
+  background:
+  linear-gradient(
+    135deg,
+    #111827,
+    #374151
+  );
+
+  color:white;
+
+  padding:12px 22px;
+
+  border-radius:50px;
+
+  font-size:14px;
+
+  font-weight:600;
+}
+
+/* SECTION */
+.section{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:30px;
+}
+
+/* CARD */
+.create-host,
+#paymentsSection{
+
+  background:white;
+
+  padding:30px;
+
+  border-radius:28px;
+
+  box-shadow:
+  0 10px 30px rgba(0,0,0,0.06);
+}
+
+.create-host h3,
+#paymentsSection h2{
+
+  margin-bottom:25px;
+
+  font-size:24px;
+
+  color:#111827;
+}
+
+/* FORM */
+.create-host form{
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(220px,1fr));
+
+  gap:20px;
+}
+
+.create-host input{
+
+  width:100%;
+
+  padding:17px;
+
+  border:none;
+
+  border-radius:16px;
+
+  background:#f3f4f6;
+
+  font-size:15px;
+
+  outline:none;
+
+  transition:0.3s;
+}
+
+.create-host input:focus{
+
+  background:white;
+
+  box-shadow:
+  0 0 0 3px rgba(255,65,108,0.12);
+}
+
+/* BUTTON */
+.add-btn{
+
+  border:none;
+
+  border-radius:16px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff416c,
+    #ff4b2b
+  );
+
+  color:white;
+
+  font-size:16px;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.3s;
+
+  padding:16px;
+}
+
+.add-btn:hover{
+
+  transform:translateY(-3px);
+
+  box-shadow:
+  0 15px 30px rgba(255,65,108,0.25);
+}
+
+/* ROW */
+.row{
+
+  background:white;
+
+  border-radius:24px;
+
+  padding:22px 25px;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  margin-bottom:20px;
+
+  box-shadow:
+  0 10px 25px rgba(0,0,0,0.05);
+
+  transition:0.3s;
+}
+
+.row:hover{
+
+  transform:translateY(-3px);
+}
+
+/* LEFT */
+.left{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:18px;
+}
+
+.left img{
+
+  width:75px;
+  height:75px;
+
+  border-radius:20px;
+
+  object-fit:cover;
+
+  border:3px solid #f3f4f6;
+}
+
+.left h3{
+
+  font-size:20px;
+
+  margin-bottom:6px;
+
+  color:#111827;
+}
+
+.left p{
+
+  color:#6b7280;
+
+  font-size:14px;
+
+  margin-bottom:4px;
+}
+
+/* ACTIONS */
+.actions{
+
+  display:flex;
+
+  gap:12px;
+}
+
+.delete{
+
+  border:none;
+
+  padding:12px 20px;
+
+  border-radius:14px;
+
+  background:#ef4444;
+
+  color:white;
+
+  font-size:14px;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.3s;
+}
+
+.delete:hover{
+
+  background:#dc2626;
+
+  transform:translateY(-2px);
+}
+
+/* MOBILE */
+@media(max-width:950px){
+
+  .sidebar{
+
+    width:100%;
+
+    height:auto;
+
+    position:relative;
+
+    padding:25px;
+  }
+
+  body{
+
+    flex-direction:column;
+  }
+
+  .main{
+
+    margin-left:0;
+
+    padding:25px;
+  }
+
+  .topbar{
+
+    flex-direction:column;
+
+    gap:15px;
+
+    align-items:flex-start;
+  }
+
+  .row{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:20px;
+  }
+
+  .actions{
+
+    width:100%;
+  }
+
+  .delete{
+
+    width:100%;
+  }
+}
+
+@media(max-width:600px){
+
+  .main{
+
+    padding:18px;
+  }
+
+  .topbar h2{
+
+    font-size:24px;
+  }
+
+  .create-host,
+  #paymentsSection{
+
+    padding:22px;
+  }
+
+  .left{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+  }
+}
+
+</style>
+
 </head>
 
 <body>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
+<!-- SIDEBAR -->
+<aside class="sidebar">
 
-    <h1>FlirtyFly</h1>
+  <div>
 
- <ul>
+    <h1>
+      FlirtyFly
+    </h1>
 
-<li
-  class="menu-item active-menu"
-  onclick="showHosts()"
->
-  Create Hosts
-</li>
+    <ul>
 
-<li
-  class="menu-item"
-  onclick="showPayments(this)"
->
-  Payments
-</li>
+      <li
+        class="menu-item active-menu"
+        onclick="showHosts(this)"
+      >
+        Create Hosts
+      </li>
 
-</ul>
+      <li
+        class="menu-item"
+        onclick="showPayments(this)"
+      >
+        Payments
+      </li>
 
-  </aside>
+    </ul>
 
-  <!-- MAIN -->
-  <main class="main">
+  </div>
 
-    <!-- TOPBAR -->
-    <div class="topbar">
+</aside>
 
-      <h2>Host Management</h2>
+<!-- MAIN -->
+<main class="main">
 
-      <div class="admin-badge">
-        Admin Access
-      </div>
+  <!-- TOPBAR -->
+  <div class="topbar">
+
+    <h2>
+      Admin Dashboard
+    </h2>
+
+    <div class="admin-badge">
+
+      Secure Admin Access
 
     </div>
 
+  </div>
 
-    
+  <!-- SECTION -->
+  <div class="section">
 
-    <!-- HOST MANAGEMENT -->
-    <div class="section">
+    <!-- CREATE HOST -->
+    <div class="create-host">
 
-      <div class="section-top">
+      <h3>
+        Create Host Account
+      </h3>
 
-        <h2>Host Management</h2>
+      <form
+        action="/create-host"
+        method="POST"
+        enctype="multipart/form-data"
+      >
 
-      </div>
-
-      <!-- CREATE HOST -->
-      <div class="create-host">
-
-        <h3>Create Host Account</h3>
-
-        <form
-          action="/create-host"
-          method="POST"
-          enctype="multipart/form-data"
+        <input
+          type="text"
+          name="name"
+          placeholder="Host Name"
+          required
         >
 
-          <input
-            type="text"
-            name="name"
-            placeholder="Host Name"
-            required
-          >
+        <input
+          type="tel"
+          name="mobile"
+          placeholder="Host Mobile Number"
+          required
+        >
 
-          <input
-  type="tel"
-  name="mobile"
-  placeholder="Host Mobile Number"
-  required
->
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          required
+        >
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            required
-          >
+        <input
+          type="file"
+          name="image"
+          required
+        >
 
-          <input
-            type="file"
-            name="image"
-            required
-          >
+        <button
+          type="submit"
+          class="add-btn"
+        >
+          Create Host
+        </button>
 
-          <button
-            type="submit"
-            class="add-btn"
-          >
-            Create Host
-          </button>
+      </form>
 
-        </form>
-
-      </div>
-
-      <div id="hostList"></div>
-
-<div
-  id="paymentsSection"
-  style="display:none;"
->
-
-  <h2>
-    Subscription Payments
-  </h2>
-
-  <div id="paymentsList"></div>
-
-</div>
-      
     </div>
 
-    
-    
+    <!-- HOST LIST -->
+    <div id="hostList"></div>
 
-  </main>
+    <!-- PAYMENTS -->
+    <div
+      id="paymentsSection"
+      style="display:none;"
+    >
+
+      <h2>
+        Subscription Payments
+      </h2>
+
+      <div id="paymentsList"></div>
+
+    </div>
+
+  </div>
+
+</main>
 
 <script>
 
@@ -144,7 +605,10 @@ async function loadHosts(){
 
   const hosts = await response.json();
 
-  const hostList = document.getElementById("hostList");
+  const hostList =
+    document.getElementById(
+      "hostList"
+    );
 
   hostList.innerHTML = "";
 
@@ -160,17 +624,19 @@ async function loadHosts(){
 
           <div>
 
-            <h3>${host.name}</h3>
+            <h3>
+              ${host.name}
+            </h3>
 
-            <p>${host.email}</p>
+            <p>
+              ${host.mobile}
+            </p>
 
           </div>
 
         </div>
 
         <div class="actions">
-
-          
 
           <button
             class="delete"
@@ -196,12 +662,13 @@ async function deleteHost(id){
     `/delete-host/${id}`,
 
     {
-      method: "DELETE"
+      method:"DELETE"
     }
 
   );
 
-  const message = await response.text();
+  const message =
+    await response.text();
 
   alert(message);
 
@@ -222,6 +689,20 @@ async function showPayments(element){
   document.getElementById(
     "paymentsSection"
   ).style.display = "block";
+
+  document.querySelectorAll(
+    ".menu-item"
+  ).forEach((item)=>{
+
+    item.classList.remove(
+      "active-menu"
+    );
+
+  });
+
+  element.classList.add(
+    "active-menu"
+  );
 
   const response = await fetch(
     "/get-payments"
@@ -272,7 +753,7 @@ async function showPayments(element){
 
 }
 
-  function showHosts(){
+function showHosts(element){
 
   document.querySelector(
     ".create-host"
@@ -286,8 +767,26 @@ async function showPayments(element){
     "paymentsSection"
   ).style.display = "none";
 
+  document.querySelectorAll(
+    ".menu-item"
+  ).forEach((item)=>{
+
+    item.classList.remove(
+      "active-menu"
+    );
+
+  });
+
+  if(element){
+
+    element.classList.add(
+      "active-menu"
+    );
+
+  }
+
 }
-  
+
 loadHosts();
 
 </script>
@@ -308,7 +807,7 @@ if(adminLoggedIn !== "true"){
 }
 
 </script>
-  
+
 </body>
 
 </html>
