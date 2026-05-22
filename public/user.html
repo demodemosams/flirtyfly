@@ -12,6 +12,8 @@
 
 <title>User Dashboard - FlirtyFly</title>
 
+<script src="/socket.io/socket.io.js"></script>
+
 <style>
 
 *{
@@ -199,7 +201,6 @@ body{
   translateY(-6px);
 }
 
-/* IMAGE */
 .image{
 
   position:relative;
@@ -214,7 +215,6 @@ body{
   object-fit:cover;
 }
 
-/* STATUS */
 .online,
 .offline{
 
@@ -244,7 +244,6 @@ body{
   background:#ff5252;
 }
 
-/* CONTENT */
 .content{
 
   padding:22px;
@@ -264,7 +263,6 @@ body{
   margin-bottom:20px;
 }
 
-/* BUTTON */
 .content button{
 
   width:100%;
@@ -289,35 +287,66 @@ body{
   font-weight:600;
 
   cursor:pointer;
-
-  transition:0.3s;
 }
 
-.content button:hover{
-
-  transform:translateY(-3px);
-}
-
-/* PROFILE */
-.profile-section{
+/* SUBSCRIPTIONS */
+.section{
 
   display:none;
 }
 
+.sub-card,
+.history-card,
+.settings-card,
 .simple-profile{
 
   background:white;
 
-  border-radius:35px;
+  padding:30px;
 
-  padding:40px;
+  border-radius:30px;
 
-  text-align:center;
+  margin-bottom:25px;
 
   box-shadow:
-  0 15px 35px rgba(0,0,0,0.05);
+  0 10px 25px rgba(0,0,0,0.05);
 }
 
+.sub-card h1{
+
+  color:#ff4f87;
+
+  margin:15px 0;
+}
+
+.buy-btn,
+.logout-btn{
+
+  margin-top:20px;
+
+  width:100%;
+
+  border:none;
+
+  padding:15px;
+
+  border-radius:18px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff4f87,
+    #ff7b54
+  );
+
+  color:white;
+
+  font-weight:600;
+
+  cursor:pointer;
+}
+
+/* PROFILE */
 .small-avatar{
 
   width:90px;
@@ -372,6 +401,26 @@ body{
   color:#ff4f87;
 
   font-weight:600;
+}
+
+/* HISTORY */
+.history-card{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:18px;
+}
+
+.history-card img{
+
+  width:80px;
+  height:80px;
+
+  border-radius:20px;
+
+  object-fit:cover;
 }
 
 /* MODAL */
@@ -481,15 +530,6 @@ body{
 
     margin-left:0;
   }
-
-  .topbar{
-
-    flex-direction:column;
-
-    align-items:flex-start;
-
-    gap:15px;
-  }
 }
 
 </style>
@@ -499,10 +539,7 @@ body{
 <body>
 
 <!-- SIDEBAR -->
-<aside
-  class="sidebar"
-  id="sidebar"
->
+<aside class="sidebar">
 
   <h1>
     FlirtyFly
@@ -512,16 +549,37 @@ body{
 
     <li
       class="menu-item active-menu"
-      onclick="showDiscover(this)"
+      onclick="showSection('discover',this)"
     >
       Discover
     </li>
 
     <li
       class="menu-item"
-      onclick="showProfile(this)"
+      onclick="showSection('subscriptions',this)"
+    >
+      Subscriptions
+    </li>
+
+    <li
+      class="menu-item"
+      onclick="showSection('history',this)"
+    >
+      Call History
+    </li>
+
+    <li
+      class="menu-item"
+      onclick="showSection('profile',this)"
     >
       Profile
+    </li>
+
+    <li
+      class="menu-item"
+      onclick="showSection('settings',this)"
+    >
+      Settings
     </li>
 
   </ul>
@@ -531,82 +589,131 @@ body{
 <!-- MAIN -->
 <main class="main">
 
-  <!-- TOPBAR -->
-  <div class="topbar">
+<div class="topbar">
 
-    <h2 id="pageTitle">
+  <h2 id="pageTitle">
+    Discover Hosts
+  </h2>
 
-      Discover Hosts
+  <div class="premium">
+    Premium Active
+  </div>
 
+</div>
+
+<!-- DISCOVER -->
+<div
+  class="cards"
+  id="discoverSection"
+></div>
+
+<!-- SUBSCRIPTIONS -->
+<div
+  class="section"
+  id="subscriptionsSection"
+>
+
+  <div class="sub-card">
+
+    <h2>
+      Premium Plan
     </h2>
 
-    <div class="premium">
+    <h1>
+      ₹499
+    </h1>
 
-      Premium Active
+    <p>
+      Unlimited Video Calls
+    </p>
 
-    </div>
+    <button class="buy-btn">
+      Buy Subscription
+    </button>
 
   </div>
 
-  <!-- HOSTS -->
-  <div
-    class="cards"
-    id="hostCards"
-  ></div>
+</div>
 
-  <!-- PROFILE -->
-  <div
-    class="profile-section"
-    id="profileSection"
-  >
+<!-- HISTORY -->
+<div
+  class="section"
+  id="historySection"
+>
 
-    <div class="simple-profile">
+  <div class="history-card">
 
-      <div
-        class="small-avatar"
-        id="avatarLetter"
-      >
+    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800">
 
-        U
+    <div>
 
-      </div>
-
-      <h2
-        id="profileGreeting"
-      >
-
-        Hi, User 👋
-
-      </h2>
+      <h3>
+        Riya
+      </h3>
 
       <p>
-
-        Welcome back to FlirtyFly
-
+        15 Minutes Call
       </p>
-
-      <div class="profile-menu">
-
-        <a href="/edit-profile.html">
-
-          Edit Profile
-
-        </a>
-
-        <a
-          href="#"
-          onclick="logoutUser()"
-        >
-
-          Logout
-
-        </a>
-
-      </div>
 
     </div>
 
   </div>
+
+</div>
+
+<!-- PROFILE -->
+<div
+  class="section"
+  id="profileSection"
+>
+
+  <div class="simple-profile">
+
+    <div
+      class="small-avatar"
+      id="avatarLetter"
+    >
+      U
+    </div>
+
+    <h2 id="profileGreeting">
+      Hi User 👋
+    </h2>
+
+    <div class="profile-menu">
+
+      <a href="/edit-profile.html">
+        Edit Profile
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- SETTINGS -->
+<div
+  class="section"
+  id="settingsSection"
+>
+
+  <div class="settings-card">
+
+    <h2>
+      Account Settings
+    </h2>
+
+    <button
+      class="logout-btn"
+      onclick="logoutUser()"
+    >
+      Logout
+    </button>
+
+  </div>
+
+</div>
 
 </main>
 
@@ -630,25 +737,19 @@ body{
     <h2 id="modalName"></h2>
 
     <p>
-
       Premium Live Video Host
-
     </p>
 
     <button
       class="call-btn"
       onclick="startCall()"
     >
-
       Start Video Call
-
     </button>
 
   </div>
 
 </div>
-
-<script src="/socket.io/socket.io.js"></script>
 
 <script>
 
@@ -656,85 +757,75 @@ const socket = io();
 
 let selectedHost = {};
 
-/* LOAD REAL HOSTS */
+/* LOAD HOSTS */
 async function loadHosts(){
 
-  try{
+  const response = await fetch(
+    "/get-hosts"
+  );
 
-    const response = await fetch(
-      "/get-hosts"
+  const hosts =
+    await response.json();
+
+  const discoverSection =
+
+    document.getElementById(
+      "discoverSection"
     );
 
-    const hosts =
-      await response.json();
+  discoverSection.innerHTML = "";
 
-    const hostCards =
+  hosts.forEach((host)=>{
 
-      document.getElementById(
-        "hostCards"
-      );
+    discoverSection.innerHTML += `
 
-    hostCards.innerHTML = "";
+      <div class="card">
 
-    hosts.forEach((host) => {
+        <div class="image">
 
-      hostCards.innerHTML += `
+          <img
+            src="/uploads/${host.image}"
+          >
 
-        <div class="card">
+          <span class="${
+            host.status === "Online"
+            ? "online"
+            : "offline"
+          }">
 
-          <div class="image">
+            ${host.status}
 
-            <img
-              src="/uploads/${host.image}"
-            >
-
-            <span class="${
-              host.status === "Online"
-              ? "online"
-              : "offline"
-            }">
-
-              ${host.status}
-
-            </span>
-
-          </div>
-
-          <div class="content">
-
-            <h3>
-              ${host.name}
-            </h3>
-
-            <p>
-              Premium Live Video Host
-            </p>
-
-            <button
-              onclick="openProfile(
-                '${host._id}',
-                '${host.name}',
-                '${host.image}'
-              )"
-            >
-
-              Start Call
-
-            </button>
-
-          </div>
+          </span>
 
         </div>
 
-      `;
+        <div class="content">
 
-    });
+          <h3>
+            ${host.name}
+          </h3>
 
-  }catch(error){
+          <p>
+            Premium Live Video Host
+          </p>
 
-    console.log(error);
+          <button
+            onclick="openProfile(
+              '${host._id}',
+              '${host.name}',
+              '${host.image}'
+            )"
+          >
+            Start Call
+          </button>
 
-  }
+        </div>
+
+      </div>
+
+    `;
+
+  });
 
 }
 
@@ -746,11 +837,9 @@ function openProfile(
 ){
 
   selectedHost = {
-
     id,
     name,
     image
-
   };
 
   document.getElementById(
@@ -767,7 +856,7 @@ function openProfile(
 
 }
 
-/* CLOSE MODAL */
+/* CLOSE */
 function closeModal(){
 
   document.getElementById(
@@ -839,18 +928,16 @@ async function startCall(){
 
   );
 
-  alert(
-    "Calling Host..."
-  );
-
   window.location.href =
-
-  `/call.html?role=user`;
+  "/call.html?role=user";
 
 }
 
-/* MENU */
-function setActiveMenu(element){
+/* SECTIONS */
+function showSection(
+  section,
+  element
+){
 
   document.querySelectorAll(
     ".menu-item"
@@ -866,67 +953,50 @@ function setActiveMenu(element){
     "active-menu"
   );
 
-}
+  document.querySelectorAll(
+    ".section"
+  ).forEach((sec)=>{
 
-/* DISCOVER */
-function showDiscover(element){
+    sec.style.display = "none";
 
-  setActiveMenu(element);
-
-  document.getElementById(
-    "hostCards"
-  ).style.display = "grid";
+  });
 
   document.getElementById(
-    "profileSection"
+    "discoverSection"
   ).style.display = "none";
 
-  document.getElementById(
-    "pageTitle"
-  ).innerText =
+  if(section === "discover"){
 
-  "Discover Hosts";
+    document.getElementById(
+      "discoverSection"
+    ).style.display = "grid";
 
-}
+    document.getElementById(
+      "pageTitle"
+    ).innerText =
 
-/* PROFILE */
-function showProfile(element){
+    "Discover Hosts";
 
-  setActiveMenu(element);
+  }else{
 
-  document.getElementById(
-    "hostCards"
-  ).style.display = "none";
+    document.getElementById(
+      section + "Section"
+    ).style.display = "block";
 
-  document.getElementById(
-    "profileSection"
-  ).style.display = "block";
+    document.getElementById(
+      "pageTitle"
+    ).innerText =
 
-  document.getElementById(
-    "pageTitle"
-  ).innerText =
+    section
+    .charAt(0)
+    .toUpperCase()
+    + section.slice(1);
 
-  "My Profile";
-
-}
-
-/* LOGOUT */
-function logoutUser(){
-
-  localStorage.removeItem(
-    "userName"
-  );
-
-  localStorage.removeItem(
-    "userMobile"
-  );
-
-  window.location.href =
-  "/login.html";
+  }
 
 }
 
-/* USER DATA */
+/* USER */
 const savedName =
 
   localStorage.getItem(
@@ -946,8 +1016,18 @@ if(savedName){
   ).innerText =
 
   savedName
-    .charAt(0)
-    .toUpperCase();
+  .charAt(0)
+  .toUpperCase();
+
+}
+
+/* LOGOUT */
+function logoutUser(){
+
+  localStorage.clear();
+
+  window.location.href =
+  "/login.html";
 
 }
 
