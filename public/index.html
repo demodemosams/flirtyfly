@@ -2,146 +2,744 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>FlirtyFly</title>
+<meta charset="UTF-8">
 
-  <link rel="stylesheet" href="style.css">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>FlirtyFly</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+
+  font-family:Segoe UI,sans-serif;
+
+  background:
+  linear-gradient(
+    135deg,
+    #fff0f4,
+    #ffe0e9
+  );
+
+  color:#222;
+
+  overflow-x:hidden;
+}
+
+/* NAVBAR */
+.navbar{
+
+  width:100%;
+
+  padding:22px 8%;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  position:fixed;
+
+  top:0;
+
+  z-index:1000;
+
+  background:
+  rgba(255,255,255,0.6);
+
+  backdrop-filter:blur(14px);
+
+  border-bottom:
+  1px solid rgba(255,255,255,0.3);
+}
+
+/* LOGO */
+.logo{
+
+  font-size:30px;
+
+  font-weight:700;
+
+  color:#ff4f87;
+}
+
+/* NAV */
+nav{
+
+  display:flex;
+
+  gap:35px;
+}
+
+nav a{
+
+  text-decoration:none;
+
+  color:#444;
+
+  font-weight:500;
+
+  transition:0.3s;
+}
+
+nav a:hover{
+
+  color:#ff4f87;
+}
+
+/* BUTTONS */
+.buttons{
+
+  display:flex;
+
+  gap:14px;
+}
+
+.buttons button{
+
+  border:none;
+
+  padding:12px 22px;
+
+  border-radius:50px;
+
+  cursor:pointer;
+
+  font-size:15px;
+
+  font-weight:600;
+
+  transition:0.3s;
+}
+
+.login{
+
+  background:white;
+
+  color:#ff4f87;
+}
+
+.register{
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff4f87,
+    #ff7b54
+  );
+
+  color:white;
+
+  box-shadow:
+  0 12px 25px rgba(255,79,135,0.25);
+}
+
+.buttons button:hover{
+
+  transform:translateY(-2px);
+}
+
+/* HERO */
+.hero{
+
+  min-height:100vh;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+
+  align-items:center;
+
+  text-align:center;
+
+  padding:120px 20px 70px;
+}
+
+.hero h1{
+
+  font-size:70px;
+
+  max-width:900px;
+
+  line-height:1.1;
+
+  color:#222;
+
+  margin-bottom:25px;
+}
+
+.hero p{
+
+  font-size:20px;
+
+  color:#666;
+
+  margin-bottom:35px;
+}
+
+.start{
+
+  border:none;
+
+  padding:18px 38px;
+
+  border-radius:60px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff4f87,
+    #ff7b54
+  );
+
+  color:white;
+
+  font-size:17px;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.3s;
+
+  box-shadow:
+  0 18px 35px rgba(255,79,135,0.28);
+}
+
+.start:hover{
+
+  transform:translateY(-4px);
+}
+
+/* HOSTS */
+.hosts{
+
+  padding:30px 8% 90px;
+}
+
+.hosts h2{
+
+  font-size:38px;
+
+  margin-bottom:35px;
+
+  color:#222;
+}
+
+/* HOST LIST */
+.swipe-container{
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(260px,1fr));
+
+  gap:28px;
+}
+
+/* CARD */
+.card{
+
+  background:white;
+
+  border-radius:30px;
+
+  overflow:hidden;
+
+  cursor:pointer;
+
+  transition:0.3s;
+
+  box-shadow:
+  0 15px 35px rgba(0,0,0,0.08);
+}
+
+.card:hover{
+
+  transform:
+  translateY(-8px);
+}
+
+.card img{
+
+  width:100%;
+
+  height:340px;
+
+  object-fit:cover;
+}
+
+/* CARD INFO */
+.card-info{
+
+  padding:20px;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+}
+
+.card-info h3{
+
+  font-size:22px;
+}
+
+/* ONLINE */
+.online{
+
+  width:12px;
+  height:12px;
+
+  border-radius:50%;
+
+  background:#00d26a;
+
+  box-shadow:
+  0 0 10px #00d26a;
+}
+
+/* MODAL */
+.modal{
+
+  position:fixed;
+
+  inset:0;
+
+  background:
+  rgba(0,0,0,0.6);
+
+  display:none;
+
+  justify-content:center;
+
+  align-items:center;
+
+  z-index:2000;
+}
+
+/* MODAL BOX */
+.modal-content{
+
+  width:90%;
+  max-width:400px;
+
+  background:white;
+
+  border-radius:32px;
+
+  padding:25px;
+
+  text-align:center;
+
+  position:relative;
+
+  animation:popup 0.3s ease;
+}
+
+@keyframes popup{
+
+  from{
+
+    transform:scale(0.8);
+    opacity:0;
+  }
+
+  to{
+
+    transform:scale(1);
+    opacity:1;
+  }
+}
+
+.close{
+
+  position:absolute;
+
+  top:15px;
+  right:20px;
+
+  font-size:28px;
+
+  cursor:pointer;
+
+  color:#666;
+}
+
+.modal-content img{
+
+  width:100%;
+
+  height:380px;
+
+  object-fit:cover;
+
+  border-radius:24px;
+
+  margin-bottom:20px;
+}
+
+.modal-content h2{
+
+  font-size:30px;
+
+  margin-bottom:8px;
+}
+
+.modal-content p{
+
+  color:#666;
+
+  margin-bottom:25px;
+}
+
+/* CALL BUTTON */
+.call-btn{
+
+  width:100%;
+
+  border:none;
+
+  padding:16px;
+
+  border-radius:18px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff4f87,
+    #ff7b54
+  );
+
+  color:white;
+
+  font-size:16px;
+
+  font-weight:600;
+
+  cursor:pointer;
+}
+
+/* FOOTER */
+footer{
+
+  text-align:center;
+
+  padding:30px;
+
+  color:#666;
+
+  font-size:14px;
+}
+
+/* MOBILE */
+@media(max-width:850px){
+
+  nav{
+
+    display:none;
+  }
+
+  .hero h1{
+
+    font-size:48px;
+  }
+
+  .hero p{
+
+    font-size:17px;
+  }
+}
+
+@media(max-width:550px){
+
+  .navbar{
+
+    padding:18px 5%;
+  }
+
+  .logo{
+
+    font-size:24px;
+  }
+
+  .buttons button{
+
+    padding:10px 16px;
+
+    font-size:14px;
+  }
+
+  .hero h1{
+
+    font-size:38px;
+  }
+
+  .hosts{
+
+    padding:20px 5% 70px;
+  }
+
+  .hosts h2{
+
+    font-size:30px;
+  }
+}
+
+</style>
+
 </head>
 
 <body>
 
-  <!-- NAVBAR -->
-  <header class="navbar">
+<!-- NAVBAR -->
+<header class="navbar">
 
-    <div class="logo">FlirtyFly</div>
+  <div class="logo">
+    FlirtyFly
+  </div>
 
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-    </nav>
+  <nav>
 
-    <div class="buttons">
+    <a href="#">
+      Home
+    </a>
 
-      <button class="login" onclick="goLogin()">
-        Login
-      </button>
+    <a href="#">
+      About
+    </a>
 
-      <button class="register" onclick="goRegister()">
-        Register
-      </button>
+    <a href="#">
+      Contact
+    </a>
+
+  </nav>
+
+  <div class="buttons">
+
+    <button
+      class="login"
+      onclick="goLogin()"
+    >
+      Login
+    </button>
+
+    <button
+      class="register"
+      onclick="goRegister()"
+    >
+      Register
+    </button>
+
+  </div>
+
+</header>
+
+<!-- HERO -->
+<section class="hero">
+
+  <h1>
+
+    Find Your
+    Perfect Connection
+
+  </h1>
+
+  <p>
+
+    Premium live video experience with verified hosts
+
+  </p>
+
+  <button
+    class="start"
+    onclick="goRegister()"
+  >
+
+    Start Exploring
+
+  </button>
+
+</section>
+
+<!-- HOSTS -->
+<section class="hosts">
+
+  <h2>
+    🔥 Online Hosts
+  </h2>
+
+  <div class="swipe-container">
+
+    <!-- CARD -->
+    <div
+      class="card"
+      onclick="openModal(
+      'Riya',
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800'
+    )"
+    >
+
+      <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800">
+
+      <div class="card-info">
+
+        <h3>
+          Riya
+        </h3>
+
+        <span class="online"></span>
+
+      </div>
 
     </div>
 
-  </header>
+    <!-- CARD -->
+    <div
+      class="card"
+      onclick="openModal(
+      'Ananya',
+      'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?q=80&w=800'
+    )"
+    >
 
-  <!-- HERO -->
-  <section class="hero">
+      <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?q=80&w=800">
 
-    <h1>
-      Find Your Perfect Connection
-    </h1>
+      <div class="card-info">
 
-    <p>
-      Premium live video experience with verified hosts
-    </p>
+        <h3>
+          Ananya
+        </h3>
 
-    <button class="start" onclick="goRegister()">
-  Start Exploring
-</button>
-
-  </section>
-
-  <!-- HOSTS -->
-  <section class="hosts">
-
-    <h2>🔥 Online Hosts</h2>
-
-    <div class="swipe-container">
-
-      <!-- CARD 1 -->
-      <div class="card"
-        onclick="openModal(
-        'Riya',
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800'
-      )">
-
-        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800">
-
-        <div class="card-info">
-          <h3>Riya</h3>
-          <span class="online"></span>
-        </div>
-
-      </div>
-
-      <!-- CARD 2 -->
-      <div class="card"
-        onclick="openModal(
-        'Ananya',
-        'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?q=80&w=800'
-      )">
-
-        <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?q=80&w=800">
-
-        <div class="card-info">
-          <h3>Ananya</h3>
-          <span class="online"></span>
-        </div>
-
-      </div>
-
-      <!-- CARD 3 -->
-      <div class="card"
-        onclick="openModal(
-        'Priya',
-        'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800'
-      )">
-
-        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800">
-
-        <div class="card-info">
-          <h3>Priya</h3>
-          <span class="online"></span>
-        </div>
+        <span class="online"></span>
 
       </div>
 
     </div>
 
-  </section>
+    <!-- CARD -->
+    <div
+      class="card"
+      onclick="openModal(
+      'Priya',
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800'
+    )"
+    >
 
-  <!-- MODAL -->
-  <div class="modal" id="modal">
+      <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800">
 
-    <div class="modal-content">
+      <div class="card-info">
 
-      <span class="close" onclick="closeModal()">
-        &times;
-      </span>
+        <h3>
+          Priya
+        </h3>
 
-      <img id="modal-img">
+        <span class="online"></span>
 
-      <h2 id="modal-name"></h2>
-
-      <p>Verified Host • Online Now</p>
-
-      <button class="call-btn">
-        Start Video Call
-      </button>
+      </div>
 
     </div>
 
   </div>
 
-  <!-- FOOTER -->
-  <footer>
-    © 2026 FlirtyFly
-  </footer>
+</section>
 
-  <script src="script.js"></script>
+<!-- MODAL -->
+<div
+  class="modal"
+  id="modal"
+>
+
+  <div class="modal-content">
+
+    <span
+      class="close"
+      onclick="closeModal()"
+    >
+      &times;
+    </span>
+
+    <img id="modal-img">
+
+    <h2 id="modal-name"></h2>
+
+    <p>
+      Verified Host • Online Now
+    </p>
+
+    <button class="call-btn">
+
+      Start Video Call
+
+    </button>
+
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+
+  © 2026 FlirtyFly
+
+</footer>
+
+<script>
+
+function goLogin(){
+
+  window.location.href =
+  "/login.html";
+
+}
+
+function goRegister(){
+
+  window.location.href =
+  "/register.html";
+
+}
+
+function openModal(name,image){
+
+  document.getElementById(
+    "modal"
+  ).style.display = "flex";
+
+  document.getElementById(
+    "modal-name"
+  ).innerText = name;
+
+  document.getElementById(
+    "modal-img"
+  ).src = image;
+
+}
+
+function closeModal(){
+
+  document.getElementById(
+    "modal"
+  ).style.display = "none";
+
+}
+
+</script>
 
 </body>
+
 </html>
