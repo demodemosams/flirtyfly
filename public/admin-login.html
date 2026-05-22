@@ -3,16 +3,438 @@
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
-  <title>Admin Login - FlirtyFly</title>
+<title>Admin Login - FlirtyFly</title>
 
-  <link rel="stylesheet" href="login.css">
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+
+  font-family:Segoe UI,sans-serif;
+
+  min-height:100vh;
+
+  background:
+  linear-gradient(
+    135deg,
+    #111827,
+    #1f2937,
+    #111827
+  );
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  padding:30px;
+
+  overflow:hidden;
+}
+
+/* MAIN */
+.container{
+
+  width:100%;
+  max-width:1180px;
+
+  min-height:700px;
+
+  background:white;
+
+  border-radius:35px;
+
+  overflow:hidden;
+
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  box-shadow:
+  0 30px 70px rgba(0,0,0,0.35);
+}
+
+/* LEFT */
+.left{
+
+  position:relative;
+
+  background:
+  linear-gradient(
+    135deg,
+    #0f172a,
+    #111827,
+    #1e293b
+  );
+
+  color:white;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+
+  padding:80px;
+
+  overflow:hidden;
+}
+
+/* DECORATION */
+.left::before{
+
+  content:"";
+
+  position:absolute;
+
+  width:350px;
+  height:350px;
+
+  border-radius:50%;
+
+  background:
+  rgba(255,255,255,0.05);
+
+  top:-120px;
+  right:-100px;
+}
+
+.left::after{
+
+  content:"";
+
+  position:absolute;
+
+  width:260px;
+  height:260px;
+
+  border-radius:50%;
+
+  background:
+  rgba(255,255,255,0.04);
+
+  bottom:-90px;
+  left:-70px;
+}
+
+.left-content{
+
+  position:relative;
+
+  z-index:2;
+}
+
+.admin-tag{
+
+  display:inline-block;
+
+  padding:10px 18px;
+
+  border-radius:50px;
+
+  background:
+  rgba(255,255,255,0.08);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  margin-bottom:30px;
+
+  font-size:14px;
+
+  letter-spacing:1px;
+
+  text-transform:uppercase;
+}
+
+.left h1{
+
+  font-size:62px;
+
+  line-height:1.1;
+
+  margin-bottom:25px;
+}
+
+.left p{
+
+  font-size:19px;
+
+  line-height:1.8;
+
+  max-width:450px;
+
+  opacity:0.92;
+}
+
+/* SECURITY BOX */
+.security-box{
+
+  margin-top:45px;
+
+  background:
+  rgba(255,255,255,0.06);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  border-radius:22px;
+
+  padding:22px;
+}
+
+.security-box h3{
+
+  margin-bottom:10px;
+
+  font-size:18px;
+}
+
+.security-box p{
+
+  font-size:14px;
+
+  line-height:1.7;
+
+  opacity:0.85;
+}
+
+/* RIGHT */
+.right{
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  padding:50px;
+
+  background:#ffffff;
+}
+
+/* LOGIN BOX */
+.login-box{
+
+  width:100%;
+  max-width:420px;
+}
+
+.logo{
+
+  text-align:center;
+
+  margin-bottom:20px;
+}
+
+.logo span{
+
+  display:inline-flex;
+
+  width:70px;
+  height:70px;
+
+  border-radius:20px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #111827,
+    #374151
+  );
+
+  color:white;
+
+  justify-content:center;
+  align-items:center;
+
+  font-size:28px;
+
+  font-weight:bold;
+
+  box-shadow:
+  0 15px 30px rgba(0,0,0,0.15);
+}
+
+.login-box h2{
+
+  text-align:center;
+
+  font-size:40px;
+
+  color:#111827;
+
+  margin-bottom:10px;
+}
+
+.sub-text{
+
+  text-align:center;
+
+  color:#6b7280;
+
+  margin-bottom:35px;
+
+  font-size:15px;
+}
+
+/* INPUT GROUP */
+.input-group{
+
+  margin-bottom:22px;
+}
+
+.input-group label{
+
+  display:block;
+
+  margin-bottom:8px;
+
+  font-size:14px;
+
+  font-weight:600;
+
+  color:#374151;
+}
+
+.input-group input{
+
+  width:100%;
+
+  padding:18px;
+
+  border:none;
+
+  border-radius:16px;
+
+  background:#f3f4f6;
+
+  font-size:15px;
+
+  outline:none;
+
+  transition:0.3s;
+}
+
+.input-group input:focus{
+
+  background:white;
+
+  box-shadow:
+  0 0 0 3px rgba(17,24,39,0.1);
+}
+
+/* BUTTON */
+.login-box button{
+
+  width:100%;
+
+  padding:18px;
+
+  border:none;
+
+  border-radius:18px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #111827,
+    #374151
+  );
+
+  color:white;
+
+  font-size:17px;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.3s;
+
+  box-shadow:
+  0 15px 30px rgba(0,0,0,0.15);
+}
+
+.login-box button:hover{
+
+  transform:translateY(-3px);
+
+  box-shadow:
+  0 20px 35px rgba(0,0,0,0.2);
+}
+
+/* FOOTER */
+.bottom-text{
+
+  text-align:center;
+
+  margin-top:24px;
+
+  color:#6b7280;
+
+  font-size:14px;
+}
+
+/* MOBILE */
+@media(max-width:950px){
+
+  .container{
+
+    grid-template-columns:1fr;
+  }
+
+  .left{
+
+    padding:60px 35px;
+  }
+
+  .left h1{
+
+    font-size:48px;
+  }
+
+  .right{
+
+    padding:45px 25px 55px;
+  }
+}
+
+@media(max-width:550px){
+
+  body{
+    padding:15px;
+  }
+
+  .container{
+
+    border-radius:25px;
+  }
+
+  .left{
+
+    padding:50px 25px;
+  }
+
+  .left h1{
+
+    font-size:40px;
+  }
+
+  .login-box h2{
+
+    font-size:32px;
+  }
+}
+
+</style>
 
 </head>
 
@@ -23,11 +445,37 @@
   <!-- LEFT -->
   <div class="left">
 
-    <h1>Admin Access</h1>
+    <div class="left-content">
 
-    <p>
-      Secure FlirtyFly Management Panel
-    </p>
+      <div class="admin-tag">
+
+        Admin Panel
+
+      </div>
+
+      <h1>
+        Secure
+        Management
+        Access
+      </h1>
+
+      <p>
+        Access the FlirtyFly administration dashboard securely and manage users, hosts, payments and platform activities.
+      </p>
+
+      <div class="security-box">
+
+        <h3>
+          Security Notice
+        </h3>
+
+        <p>
+          This panel is protected and monitored. Unauthorized access attempts are restricted and logged automatically.
+        </p>
+
+      </div>
+
+    </div>
 
   </div>
 
@@ -39,25 +487,63 @@
       id="adminLoginForm"
     >
 
-      <h2>Admin Login</h2>
+      <div class="logo">
 
-      <input
-        type="text"
-        id="adminUsername"
-        placeholder="Username"
-        required
-      >
+        <span>
+          A
+        </span>
 
-      <input
-        type="password"
-        id="adminPassword"
-        placeholder="Password"
-        required
-      >
+      </div>
+
+      <h2>
+        Admin Login
+      </h2>
+
+      <p class="sub-text">
+        Enter your administrator credentials
+      </p>
+
+      <div class="input-group">
+
+        <label>
+          Username
+        </label>
+
+        <input
+          type="text"
+          id="adminUsername"
+          placeholder="Enter username"
+          required
+        >
+
+      </div>
+
+      <div class="input-group">
+
+        <label>
+          Password
+        </label>
+
+        <input
+          type="password"
+          id="adminPassword"
+          placeholder="Enter password"
+          required
+        >
+
+      </div>
 
       <button type="submit">
-        Login
+
+        Secure Login
+
       </button>
+
+      <p class="bottom-text">
+
+        FlirtyFly Secure Administration Portal
+
+      </p>
 
     </form>
 
