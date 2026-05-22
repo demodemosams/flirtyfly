@@ -3,1139 +3,673 @@
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
-  <title>User Dashboard - FlirtyFly</title>
+<title>User Dashboard - FlirtyFly</title>
 
-  <link rel="stylesheet" href="user.css">
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+
+  font-family:Segoe UI,sans-serif;
+
+  background:
+  linear-gradient(
+    135deg,
+    #fff0f4,
+    #ffe4ec
+  );
+
+  color:#222;
+
+  display:flex;
+
+  min-height:100vh;
+
+  overflow-x:hidden;
+}
+
+/* SIDEBAR */
+.sidebar{
+
+  width:270px;
+
+  background:white;
+
+  padding:35px 22px;
+
+  border-right:
+  1px solid #f1f1f1;
+
+  position:fixed;
+
+  top:0;
+  left:0;
+  bottom:0;
+}
+
+.sidebar h1{
+
+  font-size:32px;
+
+  color:#ff4f87;
+
+  margin-bottom:45px;
+}
+
+.sidebar ul{
+
+  list-style:none;
+}
+
+.menu-item{
+
+  padding:16px 18px;
+
+  border-radius:18px;
+
+  margin-bottom:12px;
+
+  cursor:pointer;
+
+  font-weight:600;
+
+  transition:0.3s;
+
+  color:#555;
+}
+
+.menu-item:hover{
+
+  background:#fff1f5;
+
+  color:#ff4f87;
+}
+
+.active-menu{
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff4f87,
+    #ff7b54
+  );
+
+  color:white;
+}
+
+/* MAIN */
+.main{
+
+  flex:1;
+
+  margin-left:270px;
+
+  padding:30px;
+}
+
+/* TOPBAR */
+.topbar{
+
+  background:white;
+
+  border-radius:25px;
+
+  padding:22px 28px;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  margin-bottom:30px;
+
+  box-shadow:
+  0 10px 25px rgba(0,0,0,0.05);
+}
+
+.topbar h2{
+
+  font-size:30px;
+}
+
+.premium{
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff4f87,
+    #ff7b54
+  );
+
+  color:white;
+
+  padding:12px 22px;
+
+  border-radius:50px;
+
+  font-size:14px;
+
+  font-weight:600;
+}
+
+/* HOST CARDS */
+.cards{
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(260px,1fr));
+
+  gap:25px;
+}
+
+.card{
+
+  background:white;
+
+  border-radius:30px;
+
+  overflow:hidden;
+
+  box-shadow:
+  0 15px 35px rgba(0,0,0,0.06);
+
+  transition:0.3s;
+}
+
+.card:hover{
+
+  transform:translateY(-6px);
+}
+
+.image{
+
+  position:relative;
+}
+
+.image img{
+
+  width:100%;
+
+  height:320px;
+
+  object-fit:cover;
+}
+
+.online,
+.offline{
+
+  position:absolute;
+
+  top:18px;
+  right:18px;
+
+  padding:8px 14px;
+
+  border-radius:50px;
+
+  font-size:12px;
+
+  font-weight:600;
+
+  color:white;
+}
+
+.online{
+
+  background:#00c853;
+}
+
+.offline{
+
+  background:#ff5252;
+}
+
+.content{
+
+  padding:22px;
+}
+
+.content h3{
+
+  font-size:24px;
+
+  margin-bottom:8px;
+}
+
+.content p{
+
+  color:#666;
+
+  margin-bottom:20px;
+}
+
+.content button{
+
+  width:100%;
+
+  border:none;
+
+  padding:15px;
+
+  border-radius:18px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff4f87,
+    #ff7b54
+  );
+
+  color:white;
+
+  font-size:15px;
+
+  font-weight:600;
+
+  cursor:pointer;
+}
+
+/* PROFILE */
+.profile-section{
+
+  display:none;
+}
+
+.simple-profile{
+
+  background:white;
+
+  border-radius:35px;
+
+  padding:40px;
+
+  text-align:center;
+}
+
+.small-avatar{
+
+  width:90px;
+  height:90px;
+
+  margin:auto;
+
+  border-radius:28px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff4f87,
+    #ff7b54
+  );
+
+  color:white;
+
+  display:flex;
+
+  justify-content:center;
+  align-items:center;
+
+  font-size:34px;
+
+  font-weight:700;
+
+  margin-bottom:20px;
+}
+
+.profile-menu{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:15px;
+
+  margin-top:30px;
+}
+
+.profile-menu a{
+
+  text-decoration:none;
+
+  background:#fff3f6;
+
+  padding:16px;
+
+  border-radius:18px;
+
+  color:#ff4f87;
+
+  font-weight:600;
+}
+
+/* MODAL */
+.modal{
+
+  position:fixed;
+
+  inset:0;
+
+  background:
+  rgba(0,0,0,0.6);
+
+  display:none;
+
+  justify-content:center;
+
+  align-items:center;
+
+  z-index:1000;
+}
+
+.modal-box{
+
+  width:90%;
+  max-width:400px;
+
+  background:white;
+
+  border-radius:32px;
+
+  padding:25px;
+
+  text-align:center;
+
+  position:relative;
+}
+
+.modal-box img{
+
+  width:100%;
+
+  height:380px;
+
+  object-fit:cover;
+
+  border-radius:24px;
+
+  margin-bottom:20px;
+}
+
+.close{
+
+  position:absolute;
+
+  top:15px;
+  right:20px;
+
+  font-size:28px;
+
+  cursor:pointer;
+}
+
+.call-btn{
+
+  width:100%;
+
+  margin-top:20px;
+
+  border:none;
+
+  padding:16px;
+
+  border-radius:18px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff4f87,
+    #ff7b54
+  );
+
+  color:white;
+
+  font-weight:600;
+
+  cursor:pointer;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+
+  body{
+
+    flex-direction:column;
+  }
+
+  .sidebar{
+
+    width:100%;
+
+    position:relative;
+
+    border-right:none;
+  }
+
+  .main{
+
+    margin-left:0;
+  }
+
+  .topbar{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:15px;
+  }
+}
+
+</style>
 
 </head>
 
 <body>
 
-  <!-- SIDEBAR -->
-  <aside
-    class="sidebar"
-    id="sidebar"
+<!-- SIDEBAR -->
+<aside
+  class="sidebar"
+  id="sidebar"
+>
+
+  <h1>
+    FlirtyFly
+  </h1>
+
+  <ul>
+
+    <li
+      class="menu-item active-menu"
+      onclick="showDiscover(this)"
+    >
+      Discover
+    </li>
+
+    <li
+      class="menu-item"
+      onclick="showProfile(this)"
+    >
+      Profile
+    </li>
+
+  </ul>
+
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+
+    <h2 id="pageTitle">
+
+      Discover Hosts
+
+    </h2>
+
+    <div class="premium">
+
+      Premium Active
+
+    </div>
+
+  </div>
+
+  <!-- HOSTS -->
+  <div
+    class="cards"
+    id="hostCards"
   >
 
-    <h1>FlirtyFly</h1>
+    <!-- CARD -->
+    <div class="card">
 
-    <ul>
+      <div class="image">
 
-      <li
-  class="menu-item"
-  onclick="showDiscover(this)"
->
-  Discover
-</li>
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800">
 
-      <li
-  class="menu-item"
-  onclick="showSubscriptions(this)"
->
-  Subscriptions
-</li>
+        <span class="online">
 
-      <li
-  class="menu-item"
-  onclick="showCallHistory(this)"
->
-  Call History
-</li>
+          Online
 
-      <li
-  class="menu-item"
-  onclick="showProfile(this)"
->
-  Profile
-</li>
-
-      <li
-  class="menu-item"
-  onclick="showSettings(this)"
->
-  Settings
-</li>
-
-   
-
-    </ul>
-
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- TOPBAR -->
-    <div class="topbar">
-
-      <h2 id="pageTitle">
-  Discover Hosts
-</h2>
-
-      <div class="premium">
-        Premium Active
-      </div>
-
-    </div>
-
-    <!-- SUBSCRIPTIONS -->
-    <div
-      class="subscriptions"
-      id="subscriptions"
-      style="display:none;"
-    >
-
-      <div class="sub-top">
-
-        <h2 class="sub-title">
-          Premium Plans
-        </h2>
-
-      </div>
-
-      <div class="sub-cards">
-
-        <!-- PLAN 1 -->
-        <div class="sub-card">
-
-          <h3>
-            Basic Weekly
-          </h3>
-
-          <h1>
-            ₹299
-          </h1>
-
-          <p>
-            2 Hours Daily
-          </p>
-
-          <p>
-            Valid For 7 Days
-          </p>
-
-          <button
-  onclick="buyPlan(
-    'Basic Weekly',
-    299
-  )"
->
-  Buy Now
-</button>
-
-        </div>
-
-        <!-- PLAN 2 -->
-        <div class="sub-card premium-card">
-
-          <span class="best">
-            BEST VALUE
-          </span>
-
-          <h3>
-            Unlimited Weekly
-          </h3>
-
-          <h1>
-            ₹899
-          </h1>
-
-          <p>
-            Unlimited Calls
-          </p>
-
-          <p>
-            Valid For 7 Days
-          </p>
-
-          <button
-  onclick="buyPlan(
-    'Unlimited Weekly',
-    899
-  )"
->
-  Buy Now
-</button>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- PROFILE -->
-<div
-  class="profile-section"
-  id="profileSection"
-  style="display:none;"
->
-
-  <div class="simple-profile">
-
-    <div class="profile-top">
-
-      <div class="small-avatar">
-
-        <span id="avatarLetter">
-          U
         </span>
 
       </div>
 
-      <h2 id="profileGreeting">
+      <div class="content">
+
+        <h3>
+          Riya
+        </h3>
+
+        <p>
+          Live Video Call Host
+        </p>
+
+        <button
+          onclick="openProfile(
+            'Riya',
+            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800'
+          )"
+        >
+
+          Start Call
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- CARD -->
+    <div class="card">
+
+      <div class="image">
+
+        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800">
+
+        <span class="online">
+
+          Online
+
+        </span>
+
+      </div>
+
+      <div class="content">
+
+        <h3>
+          Priya
+        </h3>
+
+        <p>
+          Live Video Call Host
+        </p>
+
+        <button
+          onclick="openProfile(
+            'Priya',
+            'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800'
+          )"
+        >
+
+          Start Call
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- PROFILE -->
+  <div
+    class="profile-section"
+    id="profileSection"
+  >
+
+    <div class="simple-profile">
+
+      <div class="small-avatar">
+
+        U
+
+      </div>
+
+      <h2>
+
         Hi, User 👋
+
       </h2>
 
       <p>
+
         Welcome back to FlirtyFly
+
       </p>
 
-    </div>
+      <div class="profile-menu">
 
-   <div class="profile-menu">
+        <a href="/edit-profile.html">
 
-  <a href="/edit-profile.html">
-    Edit Profile
-  </a>
+          Edit Profile
 
- 
+        </a>
 
-  
-
-  <a
-  href="#"
-  onclick="logoutUser()"
->
-  Logout
-</a>
-
-</div>
-
-    </div>
-
-  </div>
-
-</div>
-
-<!-- SETTINGS -->
-
-<div
-  class="settings-section"
-  id="settingsSection"
-  style="display:none;"
->
-
-  <div class="settings-container">
-
-    <div class="settings-card">
-
-      <div class="setting-row">
-
-        <div>
-          <h3>Membership</h3>
-          <p>Premium Plan Active</p>
-        </div>
-
-      </div>
-
-      <div class="setting-row">
-
-        <div>
-          <h3>Free Trial Status</h3>
-          <p>1 Time Trial Enabled</p>
-        </div>
-
-      </div>
-
-      <div class="setting-row">
-
-        <div>
-          <h3>Account Security</h3>
-          <p>Your account is protected</p>
-        </div>
-
-      </div>
-
-      <button
-        class="logout-btn"
-        onclick="logoutUser()"
-      >
-        Logout
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-<!-- CALL HISTORY -->
-<div
-  class="call-history-section"
-  id="callHistorySection"
-  style="display:none;"
->
-
-  <div id="callHistoryList"></div>
-
-</div>
-
-    <!-- HOSTS -->
-    <div
-      class="cards"
-      id="hostCards"
-    ></div>
-
-  </main>
-
-<script src="/socket.io/socket.io.js"></script>
-
-<script>
-
-async function checkTermsPopup(){
-
-  const mobile =
-
-    localStorage.getItem(
-      "userMobile"
-    );
-
-  const response =
-
-    await fetch(
-
-      "/login-check/" + mobile
-
-    );
-
-  const data =
-    await response.json();
-
-  if(!data.termsAccepted){
-
-    document.getElementById(
-      "entryPopup"
-    ).style.display = "flex";
-
-  }
-
-}
-
-async function acceptTerms(){
-
-  const mobile =
-
-    localStorage.getItem(
-      "userMobile"
-    );
-
-  await fetch(
-
-    "/accept-terms",
-
-    {
-
-      method:"POST",
-
-      headers:{
-        "Content-Type":
-        "application/json"
-      },
-
-      body:JSON.stringify({
-
-        mobile
-
-      })
-
-    }
-
-  );
-
-  document.getElementById(
-    "entryPopup"
-  ).style.display = "none";
-
-}
-
-checkTermsPopup();
-
-function openTerms(){
-
-  window.location.href =
-    "/terms.html";
-
-}
-
-function openPrivacy(){
-
-  window.location.href =
-    "/privacy.html";
-
-}
-
-function openRefer(){
-
-  window.location.href =
-    "/refer.html";
-
-}
-
-
-
-const socket = io();
-
-let selectedHost = {};
-
-async function loadHosts(){
-
-  try{
-
-    const response = await fetch(
-      "/get-hosts"
-    );
-
-    const hosts = await response.json();
-
-    const hostCards =
-      document.getElementById(
-        "hostCards"
-      );
-
-    hostCards.innerHTML = "";
-
-    hosts.forEach((host) => {
-
-      hostCards.innerHTML += `
-
-        <div class="card">
-
-          <div class="image">
-
-            <img
-              src="/uploads/${host.image}"
-            >
-
-            <span class="${
-              host.status === "Online"
-              ? "online"
-              : "offline"
-            }">
-
-              ${host.status}
-
-            </span>
-
-          </div>
-
-          <div class="content">
-
-            <h3>${host.name}</h3>
-
-            <p>
-              Live Video Call Host
-            </p>
-
-            <button
-              onclick="openProfile(
-  '${host._id}',
-  '${host.name}',
-  '${host.image}'
-)"
-            >
-              Start Call
-            </button>
-
-          </div>
-
-        </div>
-
-      `;
-
-    });
-
-  }catch(error){
-
-    console.log(error);
-
-  }
-
-}
-
-function openProfile(
-  id,
-  name,
-  image
-){
-
-  selectedHost = {
-
-    id,
-    name,
-    image
-
-  };
-
-  document.getElementById(
-    "profileModal"
-  ).style.display = "flex";
-
-  document.getElementById(
-    "modalName"
-  ).innerText = name;
-
-  document.getElementById(
-    "modalImage"
-  ).src = `/uploads/${image}`;
-
-}
-
-function closeModal(){
-
-  document.getElementById(
-    "profileModal"
-  ).style.display = "none";
-
-}
-
-async function startCall(){
-
-  
-
- const userMobile =
-
-  localStorage.getItem(
-    "userMobile"
-  );
-
-const userName =
-
-  localStorage.getItem(
-    "userName"
-  );
-
-    
-
- 
-
-const response =
-
-  await fetch(
-
-    `/check-free-trial/${userMobile}`
-
-  );
-
-const data =
-  await response.json();
-
-if(data.freeTrialUsed){
-
-  alert(
-    "Free Trial Already Used"
-  );
-
-  return;
-
-}
-
-if(data.deviceBlocked){
-
-  alert(
-    "This Device Already Used Free Trial"
-  );
-
-  return;
-
-}
-
- await fetch(
-
-    "/save-call",
-
-    {
-
-      method:"POST",
-
-      headers:{
-        "Content-Type":
-        "application/json"
-      },
-
-      body:JSON.stringify({
-
-        userMobile,
-
-hostId:selectedHost.id,
-
-        hostName:
-        selectedHost.name,
-
-        hostImage:
-        selectedHost.image
-         
-
-
-      })
-
-    }
-
-  );
-
- socket.emit(
-
-  "call-host",
-
-  {
-
-    hostId:
-      selectedHost.id,
-
-    callerName:
-      userName
-
-  }
-
-);
-
-alert(
-  "Calling Host..."
-);
-
-window.location.href =
-
-`/call.html?role=user`;
-
-}
-
-function setActiveMenu(element){
-
-  const items =
-
-    document.querySelectorAll(
-      ".menu-item"
-    );
-
-  items.forEach((item) => {
-
-    item.classList.remove(
-      "active-menu"
-    );
-
-  });
-
-  element.classList.add(
-    "active-menu"
-  );
-
-}
-  
-function showDiscover(element){
-
-  setActiveMenu(element);
-
-  document.getElementById(
-    "hostCards"
-  ).style.display = "grid";
-
-  document.getElementById(
-    "subscriptions"
-  ).style.display = "none";
-
-  document.getElementById(
-    "profileSection"
-  ).style.display = "none";
-
-  document.getElementById(
-    "pageTitle"
-  ).innerText = "Discover Hosts";
-
-document.getElementById(
-  "settingsSection"
-).style.display = "none";
-
-document.getElementById(
-  "callHistorySection"
-).style.display = "none";
-
-  loadHosts();
-
-}
-
-function showSubscriptions(element){
-
-  setActiveMenu(element);
-
-  document.getElementById(
-    "hostCards"
-  ).style.display = "none";
-
-  document.getElementById(
-    "subscriptions"
-  ).style.display = "flex";
-
-  document.getElementById(
-    "profileSection"
-  ).style.display = "none";
-
-  document.getElementById(
-  "pageTitle"
-).innerText = "Subscriptions";
-
-document.getElementById(
-  "settingsSection"
-).style.display = "none";
-
-document.getElementById(
-  "callHistorySection"
-).style.display = "none";
-
-}
-
-function showProfile(element){
-
-  setActiveMenu(element);
-
-  document.getElementById(
-    "hostCards"
-  ).style.display = "none";
-
-  document.getElementById(
-    "subscriptions"
-  ).style.display = "none";
-
-  document.getElementById(
-    "profileSection"
-  ).style.display = "flex";
-
-  document.getElementById(
-    "pageTitle"
-  ).innerText = "My Profile";
-
-document.getElementById(
-  "settingsSection"
-).style.display = "none";
-
-document.getElementById(
-  "callHistorySection"
-).style.display = "none";
-
-}
-
-function showSettings(element){
-
-  setActiveMenu(element);
-
-  document.getElementById(
-    "hostCards"
-  ).style.display = "none";
-
-  document.getElementById(
-    "subscriptions"
-  ).style.display = "none";
-
-  document.getElementById(
-    "profileSection"
-  ).style.display = "none";
-
-  document.getElementById(
-    "settingsSection"
-  ).style.display = "flex";
-
-  document.getElementById(
-    "pageTitle"
-  ).innerText = "Settings";
-
-document.getElementById(
-  "callHistorySection"
-).style.display = "none";
-
-}
-
-async function showCallHistory(element){
-
-  setActiveMenu(element);
-
-  document.getElementById(
-    "hostCards"
-  ).style.display = "none";
-
-  document.getElementById(
-    "subscriptions"
-  ).style.display = "none";
-
-  document.getElementById(
-    "profileSection"
-  ).style.display = "none";
-
-  document.getElementById(
-    "settingsSection"
-  ).style.display = "none";
-
-  document.getElementById(
-    "callHistorySection"
-  ).style.display = "block";
-
-  document.getElementById(
-    "pageTitle"
-  ).innerText = "Call History";
-
-  const mobile =
-
-    localStorage.getItem(
-      "userMobile"
-    );
-
-  const response = await fetch(
-
-    `/call-history/${mobile}`
-
-  );
-
-  const calls =
-    await response.json();
-
-  const historyList =
-
-    document.getElementById(
-      "callHistoryList"
-    );
-
-  historyList.innerHTML = "";
-
-  calls.forEach((call) => {
-
-    historyList.innerHTML += `
-
-      <div class="history-card">
-
-        <img
-          src="/uploads/${call.hostImage}"
+        <a
+          href="#"
+          onclick="logoutUser()"
         >
 
-        <div>
+          Logout
 
-          <h3>
-            ${call.hostName}
-          </h3>
-
-
-
-          <p>
-            ${new Date(
-              call.callTime
-            ).toLocaleString()}
-          </p>
-
-        </div>
+        </a>
 
       </div>
 
-    `;
+    </div>
 
-  });
+  </div>
 
-}
+</main>
 
-function logoutUser(){
-
-  localStorage.removeItem(
-    "userName"
-  );
-
-  localStorage.removeItem(
-    "userMobile"
-  );
-
-  localStorage.removeItem(
-    "userBio"
-  );
-
-  window.location.href =
-    "/login.html";
-
-}
-
-async function saveProfile(){
-
-  const updatedName =
-
-    document.getElementById(
-      "profileName"
-    ).value;
-
-  const updatedBio =
-
-    document.getElementById(
-      "profileBio"
-    ).value;
-
-  const mobile =
-
-    localStorage.getItem(
-      "userMobile"
-    );
-
-  const response = await fetch(
-
-    "/update-profile",
-
-    {
-
-      method:"POST",
-
-      headers:{
-        "Content-Type":
-        "application/json"
-      },
-
-      body:JSON.stringify({
-
-        mobile,
-        name:updatedName,
-        bio:updatedBio
-
-      })
-
-    }
-
-  );
-
-  const data =
-    await response.json();
-
-  if(data.success){
-
-    localStorage.setItem(
-      "userName",
-      updatedName
-    );
-
-    localStorage.setItem(
-      "userBio",
-      updatedBio
-    );
-
-    
-      document.getElementById(
-  "profileGreeting"
-).innerText =
-
-`Hi, ${updatedName} 👋`;
-
-document.getElementById(
-  "avatarLetter"
-).innerText =
-
-updatedName
-  .charAt(0)
-  .toUpperCase();
-    
-    document.getElementById(
-  "avatarLetter"
-).innerText =
-
-    updatedName
-      .charAt(0)
-      .toUpperCase();
-
-    document.getElementById(
-      "profileName"
-    ).setAttribute(
-      "readonly",
-      true
-    );
-
-    document.getElementById(
-      "profileBio"
-    ).setAttribute(
-      "readonly",
-      true
-    );
-
-    
-
-    document.querySelector(
-      ".profile-card button"
-    ).style.display = "none";
-
-    document.getElementById(
-      "profileName"
-    ).style.border = "none";
-
-    document.getElementById(
-      "profileBio"
-    ).style.border = "none";
-
-    document.getElementById(
-      "profileName"
-    ).style.background =
-      "transparent";
-
-    document.getElementById(
-      "profileBio"
-    ).style.background =
-      "transparent";
-
-    alert(
-      "Profile Updated Successfully"
-    );
-
-  }else{
-
-    alert(
-      "Profile Update Failed"
-    );
-
-  }
-
-}
-
-
-
-
-
-
-
-const savedName =
-  localStorage.getItem(
-    "userName"
-  );
-
-if(savedName){
-
-  
-    document.getElementById(
-  "profileGreeting"
-).innerText =
-
-`Hi, ${savedName} 👋`;
-
-document.getElementById(
-  "avatarLetter"
-).innerText =
-
-savedName
-  .charAt(0)
-  .toUpperCase();
-  
-
- document.getElementById(
-  "avatarLetter"
-).innerText =
-
-  savedName.charAt(0).toUpperCase();
-
-}
-
-function buyPlan(
-  plan,
-  amount
-){
-
-  const options = {
-
-    key:"rzp_test_SrfMsDdWLG7b8d",
-
-    amount:amount * 100,
-
-    currency:"INR",
-
-    name:"FlirtyFly",
-
-    description:plan,
-
-    prefill:{
-
-      contact:
-        localStorage.getItem(
-          "userMobile"
-        )
-
-    },
-
-    handler: async function(response){
-
-      const userMobile =
-
-        localStorage.getItem(
-          "userMobile"
-        );
-
-      await fetch(
-
-        "/save-payment",
-
-        {
-
-          method:"POST",
-
-          headers:{
-            "Content-Type":
-            "application/json"
-          },
-
-          body:JSON.stringify({
-
-            userMobile,
-
-            hostId:"No Host",
-
-            hostName:"Direct Subscription",
-
-            amount,
-
-            plan
-
-          })
-
-        }
-
-      );
-
-      alert(
-        "Payment Successful"
-      );
-
-    },
-
-    method:{
-
-      upi:true,
-
-      card:true,
-
-      netbanking:true,
-
-      wallet:true
-
-    },
-
-    theme:{
-      color:"#ff4081"
-    }
-
-  };
-
-  const rzp =
-    new Razorpay(options);
-
-  rzp.open();
-
-}
-
-loadHosts();
-  
-</script>
-
-<!-- PROFILE MODAL -->
+<!-- MODAL -->
 <div
   class="modal"
   id="profileModal"
@@ -1155,69 +689,116 @@ loadHosts();
     <h2 id="modalName"></h2>
 
     <p>
+
       Premium Live Video Host
+
     </p>
 
     <button
       class="call-btn"
-      onclick="startCall()"
     >
+
       Start Video Call
+
     </button>
 
   </div>
 
 </div>
 
-<div
-  class="entry-popup"
-  id="entryPopup"
->
+<script>
 
-  <div class="entry-box">
+function setActiveMenu(element){
 
-    <h2>
-      Terms & Conditions
-    </h2>
+  document.querySelectorAll(
+    ".menu-item"
+  ).forEach((item)=>{
 
-    <p>
+    item.classList.remove(
+      "active-menu"
+    );
 
-      By continuing, you agree to our platform policies and community guidelines.
+  });
 
-    </p>
+  element.classList.add(
+    "active-menu"
+  );
 
-    <div class="entry-rules">
+}
 
-      <p>
-        • All payments are non-refundable
-      </p>
+function showDiscover(element){
 
-      <p>
-        • Free trial valid one time only
-      </p>
+  setActiveMenu(element);
 
-      <p>
-        • Accounts may be suspended anytime
-      </p>
+  document.getElementById(
+    "hostCards"
+  ).style.display = "grid";
 
-      <p>
-        • Service may change anytime
-      </p>
+  document.getElementById(
+    "profileSection"
+  ).style.display = "none";
 
-    </div>
+  document.getElementById(
+    "pageTitle"
+  ).innerText =
 
-    <button
-      onclick="acceptTerms()"
-    >
-      Agree & Continue
-    </button>
+  "Discover Hosts";
 
-  </div>
+}
 
-</div>
+function showProfile(element){
 
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  
+  setActiveMenu(element);
+
+  document.getElementById(
+    "hostCards"
+  ).style.display = "none";
+
+  document.getElementById(
+    "profileSection"
+  ).style.display = "block";
+
+  document.getElementById(
+    "pageTitle"
+  ).innerText =
+
+  "My Profile";
+
+}
+
+function openProfile(name,image){
+
+  document.getElementById(
+    "profileModal"
+  ).style.display = "flex";
+
+  document.getElementById(
+    "modalName"
+  ).innerText = name;
+
+  document.getElementById(
+    "modalImage"
+  ).src = image;
+
+}
+
+function closeModal(){
+
+  document.getElementById(
+    "profileModal"
+  ).style.display = "none";
+
+}
+
+function logoutUser(){
+
+  window.location.href =
+  "/login.html";
+
+}
+
+</script>
+
 </body>
 
 </html>
