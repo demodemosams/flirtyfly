@@ -2,12 +2,416 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <title>Register - FlirtyFly</title>
 
-  <link rel="stylesheet" href="register.css">
+  <style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+
+  font-family:Segoe UI,sans-serif;
+
+  min-height:100vh;
+
+  background:
+  linear-gradient(
+    135deg,
+    #ffdde1,
+    #ee9ca7
+  );
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  padding:30px;
+}
+
+/* MAIN CARD */
+.container{
+
+  width:100%;
+  max-width:1200px;
+
+  min-height:720px;
+
+  background:white;
+
+  border-radius:35px;
+
+  overflow:hidden;
+
+  display:grid;
+
+  grid-template-columns:1.1fr 0.9fr;
+
+  box-shadow:
+  0 25px 60px rgba(0,0,0,0.15);
+}
+
+/* LEFT SIDE */
+.left{
+
+  position:relative;
+
+  background:
+  linear-gradient(
+    135deg,
+    rgba(255,65,108,0.95),
+    rgba(255,75,43,0.92)
+  );
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+
+  padding:80px;
+
+  color:white;
+
+  overflow:hidden;
+}
+
+/* CIRCLE DESIGN */
+.left::before{
+
+  content:"";
+
+  position:absolute;
+
+  width:350px;
+  height:350px;
+
+  border-radius:50%;
+
+  background:
+  rgba(255,255,255,0.08);
+
+  top:-120px;
+  right:-80px;
+}
+
+.left::after{
+
+  content:"";
+
+  position:absolute;
+
+  width:250px;
+  height:250px;
+
+  border-radius:50%;
+
+  background:
+  rgba(255,255,255,0.08);
+
+  bottom:-100px;
+  left:-80px;
+}
+
+.brand{
+
+  position:relative;
+  z-index:2;
+}
+
+.brand h1{
+
+  font-size:65px;
+
+  line-height:1.1;
+
+  margin-bottom:25px;
+}
+
+.brand p{
+
+  font-size:19px;
+
+  line-height:1.9;
+
+  max-width:470px;
+
+  opacity:0.95;
+}
+
+/* FEATURES */
+.features{
+
+  position:relative;
+  z-index:2;
+
+  margin-top:50px;
+}
+
+.feature{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:15px;
+
+  margin-bottom:22px;
+
+  font-size:16px;
+}
+
+.feature-icon{
+
+  width:45px;
+  height:45px;
+
+  border-radius:12px;
+
+  background:
+  rgba(255,255,255,0.15);
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  font-size:18px;
+}
+
+/* RIGHT SIDE */
+.right{
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  padding:50px;
+}
+
+/* FORM BOX */
+.register-box{
+
+  width:100%;
+  max-width:420px;
+}
+
+.register-box h2{
+
+  font-size:40px;
+
+  color:#ff416c;
+
+  margin-bottom:10px;
+
+  text-align:center;
+}
+
+.register-box .sub{
+
+  text-align:center;
+
+  color:#777;
+
+  margin-bottom:35px;
+
+  font-size:15px;
+}
+
+/* INPUT GROUP */
+.input-group{
+
+  margin-bottom:20px;
+}
+
+.input-group label{
+
+  display:block;
+
+  margin-bottom:8px;
+
+  font-size:14px;
+
+  color:#444;
+
+  font-weight:600;
+}
+
+.input-group input{
+
+  width:100%;
+
+  padding:17px 18px;
+
+  border:none;
+
+  border-radius:16px;
+
+  background:#f5f5f7;
+
+  font-size:15px;
+
+  outline:none;
+
+  transition:0.3s;
+}
+
+.input-group input:focus{
+
+  background:white;
+
+  box-shadow:
+  0 0 0 3px rgba(255,65,108,0.15);
+}
+
+/* TERMS */
+.terms-check{
+
+  display:flex;
+
+  align-items:flex-start;
+
+  gap:10px;
+
+  margin:20px 0;
+
+  color:#555;
+
+  font-size:14px;
+
+  line-height:1.5;
+}
+
+.terms-check input{
+
+  margin-top:5px;
+
+  accent-color:#ff416c;
+}
+
+.terms-check a{
+
+  color:#ff416c;
+
+  text-decoration:none;
+
+  font-weight:600;
+}
+
+/* BUTTON */
+.register-box button{
+
+  width:100%;
+
+  padding:18px;
+
+  border:none;
+
+  border-radius:18px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff416c,
+    #ff4b2b
+  );
+
+  color:white;
+
+  font-size:17px;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.3s;
+
+  box-shadow:
+  0 15px 30px rgba(255,65,108,0.25);
+}
+
+.register-box button:hover{
+
+  transform:translateY(-3px);
+
+  box-shadow:
+  0 20px 35px rgba(255,65,108,0.35);
+}
+
+/* LOGIN */
+.login-text{
+
+  text-align:center;
+
+  margin-top:25px;
+
+  color:#666;
+}
+
+.login-text a{
+
+  color:#ff416c;
+
+  text-decoration:none;
+
+  font-weight:700;
+}
+
+/* MOBILE */
+@media(max-width:950px){
+
+  .container{
+
+    grid-template-columns:1fr;
+  }
+
+  .left{
+
+    padding:60px 35px;
+  }
+
+  .brand h1{
+
+    font-size:48px;
+  }
+
+  .right{
+
+    padding:40px 25px 50px;
+  }
+}
+
+@media(max-width:550px){
+
+  body{
+    padding:15px;
+  }
+
+  .container{
+
+    border-radius:25px;
+  }
+
+  .left{
+
+    padding:50px 25px;
+  }
+
+  .brand h1{
+
+    font-size:40px;
+  }
+
+  .register-box h2{
+
+    font-size:32px;
+  }
+}
+
+  </style>
 </head>
 
 <body>
@@ -17,78 +421,132 @@
     <!-- LEFT -->
     <div class="left">
 
-      <h1>Join FlirtyFly</h1>
+      <div class="brand">
 
-      <p>
-        Create your account and start exploring premium live connections
-      </p>
+        <h1>FlirtyFly</h1>
+
+        <p>
+          Create your premium account and enjoy smooth, secure and exclusive live connections with people worldwide.
+        </p>
+
+      </div>
+
+      <div class="features">
+
+        <div class="feature">
+          <div class="feature-icon">✓</div>
+          <span>Fast & Secure Registration</span>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">❤</div>
+          <span>Premium Live Experiences</span>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">⚡</div>
+          <span>Instant Access Anywhere</span>
+        </div>
+
+      </div>
 
     </div>
 
     <!-- RIGHT -->
     <div class="right">
 
-      <!-- FORM -->
       <form class="register-box">
 
         <h2>Create Account</h2>
 
-        <input
-          type="text"
-          name="name"
-          placeholder="Full Name"
-          required
-        >
+        <p class="sub">
+          Join thousands of users on FlirtyFly
+        </p>
 
-        <input
-  type="tel"
-  name="mobile"
-  placeholder="Mobile Number"
-  required
->
+        <div class="input-group">
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-        >
+          <label>Full Name</label>
 
-     <input
-      type="password"
-      name="confirmPassword"
-      placeholder="Confirm Password"
-      required
->
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter your full name"
+            required
+          >
 
-<div class="terms-check">
+        </div>
 
-  <input
-  type="checkbox"
-  id="termsCheck"
-  name="termsAccepted"
-  required
->
+        <div class="input-group">
 
-  <label for="termsCheck">
+          <label>Mobile Number</label>
 
-    I agree to the
+          <input
+            type="tel"
+            name="mobile"
+            placeholder="Enter mobile number"
+            required
+          >
 
-    <a href="/terms.html">
-      Terms & Conditions
-    </a>
+        </div>
 
-  </label>
+        <div class="input-group">
 
-</div>
+          <label>Password</label>
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Create password"
+            required
+          >
+
+        </div>
+
+        <div class="input-group">
+
+          <label>Confirm Password</label>
+
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm password"
+            required
+          >
+
+        </div>
+
+        <div class="terms-check">
+
+          <input
+            type="checkbox"
+            id="termsCheck"
+            name="termsAccepted"
+            required
+          >
+
+          <label for="termsCheck">
+
+            I agree to the
+            <a href="/terms.html">
+              Terms & Conditions
+            </a>
+
+          </label>
+
+        </div>
 
         <button type="submit">
-          Register
+          Create Account
         </button>
 
         <p class="login-text">
+
           Already have an account?
-          <a href="login.html">Login</a>
+
+          <a href="login.html">
+            Login
+          </a>
+
         </p>
 
       </form>
@@ -97,8 +555,6 @@
 
   </div>
 
-
-  
 <script>
 
 document.querySelector(
@@ -139,7 +595,6 @@ async function(e){
     alert("Passwords do not match");
 
     return;
-
   }
 
   const response = await fetch(
@@ -180,7 +635,6 @@ async function(e){
 
     window.location.href =
       "/login.html";
-
   }
 
 });
@@ -188,5 +642,4 @@ async function(e){
 </script>
 
 </body>
-
 </html>
