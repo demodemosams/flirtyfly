@@ -289,24 +289,20 @@ body{
   cursor:pointer;
 }
 
-/* SUBSCRIPTIONS */
+/* SECTIONS */
 .section{
 
   display:none;
 }
 
-.sub-card,
-.history-card,
-.settings-card,
-.simple-profile{
+/* SUBSCRIPTIONS */
+.sub-card{
 
   background:white;
 
   padding:30px;
 
   border-radius:30px;
-
-  margin-bottom:25px;
 
   box-shadow:
   0 10px 25px rgba(0,0,0,0.05);
@@ -319,12 +315,11 @@ body{
   margin:15px 0;
 }
 
-.buy-btn,
-.logout-btn{
-
-  margin-top:20px;
+.buy-btn{
 
   width:100%;
+
+  margin-top:20px;
 
   border:none;
 
@@ -346,7 +341,52 @@ body{
   cursor:pointer;
 }
 
+/* HISTORY */
+.history-card{
+
+  background:white;
+
+  border-radius:25px;
+
+  padding:20px;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:18px;
+
+  margin-bottom:20px;
+
+  box-shadow:
+  0 10px 25px rgba(0,0,0,0.05);
+}
+
+.history-card img{
+
+  width:80px;
+  height:80px;
+
+  border-radius:20px;
+
+  object-fit:cover;
+}
+
 /* PROFILE */
+.simple-profile{
+
+  background:white;
+
+  border-radius:35px;
+
+  padding:40px;
+
+  text-align:center;
+
+  box-shadow:
+  0 15px 35px rgba(0,0,0,0.05);
+}
+
 .small-avatar{
 
   width:90px;
@@ -403,24 +443,43 @@ body{
   font-weight:600;
 }
 
-/* HISTORY */
-.history-card{
+/* SETTINGS */
+.settings-card{
 
-  display:flex;
+  background:white;
 
-  align-items:center;
+  border-radius:30px;
 
-  gap:18px;
+  padding:30px;
+
+  box-shadow:
+  0 10px 25px rgba(0,0,0,0.05);
 }
 
-.history-card img{
+.logout-btn{
 
-  width:80px;
-  height:80px;
+  width:100%;
 
-  border-radius:20px;
+  margin-top:25px;
 
-  object-fit:cover;
+  border:none;
+
+  padding:16px;
+
+  border-radius:18px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff416c,
+    #ff4b2b
+  );
+
+  color:white;
+
+  font-weight:600;
+
+  cursor:pointer;
 }
 
 /* MODAL */
@@ -513,7 +572,6 @@ body{
 @media(max-width:900px){
 
   body{
-
     flex-direction:column;
   }
 
@@ -527,9 +585,9 @@ body{
   }
 
   .main{
-
     margin-left:0;
   }
+
 }
 
 </style>
@@ -541,63 +599,64 @@ body{
 <!-- SIDEBAR -->
 <aside class="sidebar">
 
-  <h1>
-    FlirtyFly
-  </h1>
+<h1>
+  FlirtyFly
+</h1>
 
-  <ul>
+<ul>
 
-    <li
-      class="menu-item active-menu"
-      onclick="showSection('discover',this)"
-    >
-      Discover
-    </li>
+<li
+  class="menu-item active-menu"
+  onclick="showSection('discover',this)"
+>
+  Discover
+</li>
 
-    <li
-      class="menu-item"
-      onclick="showSection('subscriptions',this)"
-    >
-      Subscriptions
-    </li>
+<li
+  class="menu-item"
+  onclick="showSection('subscriptions',this)"
+>
+  Subscriptions
+</li>
 
-    <li
-      class="menu-item"
-      onclick="showSection('history',this)"
-    >
-      Call History
-    </li>
+<li
+  class="menu-item"
+  onclick="showSection('history',this)"
+>
+  Call History
+</li>
 
-    <li
-      class="menu-item"
-      onclick="showSection('profile',this)"
-    >
-      Profile
-    </li>
+<li
+  class="menu-item"
+  onclick="showSection('profile',this)"
+>
+  Profile
+</li>
 
-    <li
-      class="menu-item"
-      onclick="showSection('settings',this)"
-    >
-      Settings
-    </li>
+<li
+  class="menu-item"
+  onclick="showSection('settings',this)"
+>
+  Settings
+</li>
 
-  </ul>
+</ul>
 
 </aside>
 
 <!-- MAIN -->
 <main class="main">
 
+<!-- TOPBAR -->
 <div class="topbar">
 
-  <h2 id="pageTitle">
-    Discover Hosts
-  </h2>
+<h2 id="pageTitle">
+  Discover Hosts
+</h2>
 
-  <div class="premium">
-    Premium Active
-  </div>
+<div class="premium">
+  Premium Active
+</div>
 
 </div>
 
@@ -611,55 +670,13 @@ body{
 <div
   class="section"
   id="subscriptionsSection"
->
-
-  <div class="sub-card">
-
-    <h2>
-      Premium Plan
-    </h2>
-
-    <h1>
-      ₹499
-    </h1>
-
-    <p>
-      Unlimited Video Calls
-    </p>
-
-    <button class="buy-btn">
-      Buy Subscription
-    </button>
-
-  </div>
-
-</div>
+></div>
 
 <!-- HISTORY -->
 <div
   class="section"
   id="historySection"
->
-
-  <div class="history-card">
-
-    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800">
-
-    <div>
-
-      <h3>
-        Riya
-      </h3>
-
-      <p>
-        15 Minutes Call
-      </p>
-
-    </div>
-
-  </div>
-
-</div>
+></div>
 
 <!-- PROFILE -->
 <div
@@ -667,28 +684,28 @@ body{
   id="profileSection"
 >
 
-  <div class="simple-profile">
+<div class="simple-profile">
 
-    <div
-      class="small-avatar"
-      id="avatarLetter"
-    >
-      U
-    </div>
+<div
+  class="small-avatar"
+  id="avatarLetter"
+>
+  U
+</div>
 
-    <h2 id="profileGreeting">
-      Hi User 👋
-    </h2>
+<h2 id="profileGreeting">
+  Hi User 👋
+</h2>
 
-    <div class="profile-menu">
+<div class="profile-menu">
 
-      <a href="/edit-profile.html">
-        Edit Profile
-      </a>
+<a href="/edit-profile.html">
+  Edit Profile
+</a>
 
-    </div>
+</div>
 
-  </div>
+</div>
 
 </div>
 
@@ -696,24 +713,7 @@ body{
 <div
   class="section"
   id="settingsSection"
->
-
-  <div class="settings-card">
-
-    <h2>
-      Account Settings
-    </h2>
-
-    <button
-      class="logout-btn"
-      onclick="logoutUser()"
-    >
-      Logout
-    </button>
-
-  </div>
-
-</div>
+></div>
 
 </main>
 
@@ -723,31 +723,31 @@ body{
   id="profileModal"
 >
 
-  <div class="modal-box">
+<div class="modal-box">
 
-    <span
-      class="close"
-      onclick="closeModal()"
-    >
-      ×
-    </span>
+<span
+  class="close"
+  onclick="closeModal()"
+>
+  ×
+</span>
 
-    <img id="modalImage">
+<img id="modalImage">
 
-    <h2 id="modalName"></h2>
+<h2 id="modalName"></h2>
 
-    <p>
-      Premium Live Video Host
-    </p>
+<p>
+  Premium Live Video Host
+</p>
 
-    <button
-      class="call-btn"
-      onclick="startCall()"
-    >
-      Start Video Call
-    </button>
+<button
+  class="call-btn"
+  onclick="startCall()"
+>
+  Start Video Call
+</button>
 
-  </div>
+</div>
 
 </div>
 
@@ -816,7 +816,9 @@ async function loadHosts(){
               '${host.image}'
             )"
           >
+
             Start Call
+
           </button>
 
         </div>
@@ -829,7 +831,7 @@ async function loadHosts(){
 
 }
 
-/* OPEN MODAL */
+/* OPEN PROFILE */
 function openProfile(
   id,
   name,
@@ -856,7 +858,7 @@ function openProfile(
 
 }
 
-/* CLOSE */
+/* CLOSE MODAL */
 function closeModal(){
 
   document.getElementById(
@@ -933,6 +935,246 @@ async function startCall(){
 
 }
 
+/* CALL HISTORY */
+async function loadCallHistory(){
+
+  const mobile =
+
+    localStorage.getItem(
+      "userMobile"
+    );
+
+  const response = await fetch(
+
+    `/call-history/${mobile}`
+
+  );
+
+  const calls =
+    await response.json();
+
+  const historySection =
+
+    document.getElementById(
+      "historySection"
+    );
+
+  historySection.innerHTML = "";
+
+  calls.forEach((call)=>{
+
+    historySection.innerHTML += `
+
+      <div class="history-card">
+
+        <img
+          src="/uploads/${call.hostImage}"
+        >
+
+        <div>
+
+          <h3>
+            ${call.hostName}
+          </h3>
+
+          <p>
+            Recent Video Call
+          </p>
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+/* SUBSCRIPTIONS */
+async function loadSubscriptions(){
+
+  const response = await fetch(
+    "/get-payments"
+  );
+
+  const payments =
+    await response.json();
+
+  const mobile =
+
+    localStorage.getItem(
+      "userMobile"
+    );
+
+  const subscriptionsSection =
+
+    document.getElementById(
+      "subscriptionsSection"
+    );
+
+  subscriptionsSection.innerHTML = "";
+
+  const myPayments =
+
+    payments.filter((payment)=>{
+
+      return (
+        payment.userMobile === mobile
+      );
+
+    });
+
+  if(myPayments.length === 0){
+
+    subscriptionsSection.innerHTML = `
+
+      <div class="sub-card">
+
+        <h2>
+          No Active Subscription
+        </h2>
+
+        <button
+          class="buy-btn"
+          onclick="buyPremium()"
+        >
+
+          Buy Premium
+
+        </button>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+  myPayments.forEach((payment)=>{
+
+    subscriptionsSection.innerHTML += `
+
+      <div class="sub-card">
+
+        <h2>
+          ${payment.plan}
+        </h2>
+
+        <h1>
+          ₹${payment.amount}
+        </h1>
+
+        <p>
+          Subscription Active
+        </p>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+/* BUY PREMIUM */
+async function buyPremium(){
+
+  const userMobile =
+
+    localStorage.getItem(
+      "userMobile"
+    );
+
+  await fetch(
+
+    "/save-payment",
+
+    {
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":
+        "application/json"
+      },
+
+      body:JSON.stringify({
+
+        userMobile,
+
+        hostId:"premium",
+
+        hostName:"Premium",
+
+        amount:499,
+
+        plan:"Premium Monthly"
+
+      })
+
+    }
+
+  );
+
+  alert(
+    "Premium Activated"
+  );
+
+  loadSubscriptions();
+
+}
+
+/* SETTINGS */
+function loadSettings(){
+
+  const settingsSection =
+
+    document.getElementById(
+      "settingsSection"
+    );
+
+  settingsSection.innerHTML = `
+
+    <div class="settings-card">
+
+      <h2>
+        Account Settings
+      </h2>
+
+      <p
+        style="
+          margin-top:15px;
+          color:#666;
+        "
+      >
+
+        Logged in as:
+
+        ${
+          localStorage.getItem(
+            "userName"
+          )
+        }
+
+      </p>
+
+      <button
+        class="logout-btn"
+        onclick="logoutUser()"
+      >
+
+        Logout
+
+      </button>
+
+    </div>
+
+  `;
+
+}
+
 /* SECTIONS */
 function showSection(
   section,
@@ -953,16 +1195,24 @@ function showSection(
     "active-menu"
   );
 
-  document.querySelectorAll(
-    ".section"
-  ).forEach((sec)=>{
-
-    sec.style.display = "none";
-
-  });
-
   document.getElementById(
     "discoverSection"
+  ).style.display = "none";
+
+  document.getElementById(
+    "subscriptionsSection"
+  ).style.display = "none";
+
+  document.getElementById(
+    "historySection"
+  ).style.display = "none";
+
+  document.getElementById(
+    "profileSection"
+  ).style.display = "none";
+
+  document.getElementById(
+    "settingsSection"
   ).style.display = "none";
 
   if(section === "discover"){
@@ -971,32 +1221,26 @@ function showSection(
       "discoverSection"
     ).style.display = "grid";
 
-    document.getElementById(
-      "pageTitle"
-    ).innerText =
-
-    "Discover Hosts";
-
   }else{
 
     document.getElementById(
       section + "Section"
     ).style.display = "block";
 
-    document.getElementById(
-      "pageTitle"
-    ).innerText =
-
-    section
-    .charAt(0)
-    .toUpperCase()
-    + section.slice(1);
-
   }
+
+  document.getElementById(
+    "pageTitle"
+  ).innerText =
+
+  section
+  .charAt(0)
+  .toUpperCase()
+  + section.slice(1);
 
 }
 
-/* USER */
+/* USER PROFILE */
 const savedName =
 
   localStorage.getItem(
@@ -1033,6 +1277,12 @@ function logoutUser(){
 
 /* LOAD */
 loadHosts();
+
+loadCallHistory();
+
+loadSubscriptions();
+
+loadSettings();
 
 </script>
 
