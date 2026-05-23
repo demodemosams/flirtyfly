@@ -2,12 +2,19 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <title>Register - FlirtyFly</title>
+<meta charset="UTF-8">
 
-  <style>
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+/>
+
+<title>
+  FlirtyFly Register
+</title>
+
+<style>
 
 *{
   margin:0;
@@ -29,19 +36,20 @@ body{
   );
 
   display:flex;
+
   justify-content:center;
+
   align-items:center;
 
-  padding:3px;
+  padding:20px;
 }
 
-/* MAIN CARD */
+/* CONTAINER */
 .container{
 
-  width:90%;
-  max-width:1200px;
+  width:100%;
 
-  min-height:720px;
+  max-width:1150px;
 
   background:white;
 
@@ -51,44 +59,45 @@ body{
 
   display:grid;
 
-  grid-template-columns:1.1fr 0.9fr;
+  grid-template-columns:1fr 1fr;
 
   box-shadow:
   0 25px 60px rgba(0,0,0,0.15);
 }
 
-/* LEFT SIDE */
+/* LEFT */
 .left{
-
-  position:relative;
 
   background:
   linear-gradient(
     135deg,
-    rgba(255,65,108,0.95),
-    rgba(255,75,43,0.92)
+    #ff416c,
+    #ff4b2b
   );
 
+  color:white;
+
+  padding:70px 60px;
+
   display:flex;
+
   flex-direction:column;
+
   justify-content:center;
 
-  padding:80px;
-
-  color:white;
+  position:relative;
 
   overflow:hidden;
 }
 
-/* CIRCLE DESIGN */
 .left::before{
 
   content:"";
 
   position:absolute;
 
-  width:350px;
-  height:350px;
+  width:320px;
+  height:320px;
 
   border-radius:50%;
 
@@ -105,51 +114,46 @@ body{
 
   position:absolute;
 
-  width:250px;
-  height:250px;
+  width:220px;
+  height:220px;
 
   border-radius:50%;
 
   background:
   rgba(255,255,255,0.08);
 
-  bottom:-100px;
+  bottom:-80px;
   left:-80px;
 }
 
-.brand{
+.left-content{
 
   position:relative;
+
   z-index:2;
 }
 
-.brand h1{
+.left h1{
 
-  font-size:65px;
-
-  line-height:1.1;
+  font-size:62px;
 
   margin-bottom:25px;
+
+  line-height:1.1;
 }
 
-.brand p{
+.left p{
 
-  font-size:19px;
+  font-size:18px;
 
   line-height:1.9;
-
-  max-width:470px;
 
   opacity:0.95;
 }
 
-/* FEATURES */
-.features{
+.feature-list{
 
-  position:relative;
-  z-index:2;
-
-  margin-top:50px;
+  margin-top:45px;
 }
 
 .feature{
@@ -158,9 +162,9 @@ body{
 
   align-items:center;
 
-  gap:15px;
+  gap:14px;
 
-  margin-bottom:22px;
+  margin-bottom:20px;
 
   font-size:16px;
 }
@@ -170,32 +174,37 @@ body{
   width:45px;
   height:45px;
 
-  border-radius:12px;
+  border-radius:14px;
 
   background:
   rgba(255,255,255,0.15);
 
   display:flex;
+
   justify-content:center;
+
   align-items:center;
 
   font-size:18px;
 }
 
-/* RIGHT SIDE */
+/* RIGHT */
 .right{
 
   display:flex;
+
   justify-content:center;
+
   align-items:center;
 
   padding:50px;
 }
 
-/* FORM BOX */
+/* FORM */
 .register-box{
 
   width:100%;
+
   max-width:420px;
 }
 
@@ -205,23 +214,21 @@ body{
 
   color:#ff416c;
 
-  margin-bottom:10px;
+  margin-bottom:12px;
 
   text-align:center;
 }
 
-.register-box .sub{
+.sub-text{
 
   text-align:center;
 
   color:#777;
 
   margin-bottom:35px;
-
-  font-size:15px;
 }
 
-/* INPUT GROUP */
+/* INPUT */
 .input-group{
 
   margin-bottom:20px;
@@ -233,9 +240,9 @@ body{
 
   margin-bottom:8px;
 
-  font-size:14px;
-
   color:#444;
+
+  font-size:14px;
 
   font-weight:600;
 }
@@ -244,7 +251,7 @@ body{
 
   width:100%;
 
-  padding:17px 18px;
+  padding:17px;
 
   border:none;
 
@@ -267,8 +274,70 @@ body{
   0 0 0 3px rgba(255,65,108,0.15);
 }
 
+/* OTP */
+.otp-row{
+
+  display:flex;
+
+  gap:10px;
+
+  margin-top:12px;
+}
+
+.send-otp-btn{
+
+  border:none;
+
+  padding:15px 18px;
+
+  border-radius:14px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #111827,
+    #1f2937
+  );
+
+  color:white;
+
+  cursor:pointer;
+
+  font-weight:600;
+
+  white-space:nowrap;
+}
+
+.verify-btn{
+
+  width:100%;
+
+  margin-top:12px;
+
+  border:none;
+
+  padding:15px;
+
+  border-radius:16px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff416c,
+    #ff4b2b
+  );
+
+  color:white;
+
+  font-size:15px;
+
+  font-weight:700;
+
+  cursor:pointer;
+}
+
 /* TERMS */
-.terms-check{
+.terms{
 
   display:flex;
 
@@ -276,23 +345,14 @@ body{
 
   gap:10px;
 
-  margin:20px 0;
-
-  color:#555;
+  margin:18px 0;
 
   font-size:14px;
 
-  line-height:1.5;
+  color:#555;
 }
 
-.terms-check input{
-
-  margin-top:5px;
-
-  accent-color:#ff416c;
-}
-
-.terms-check a{
+.terms a{
 
   color:#ff416c;
 
@@ -301,14 +361,14 @@ body{
   font-weight:600;
 }
 
-/* BUTTON */
-.register-box button{
+/* REGISTER BUTTON */
+.register-btn{
 
   width:100%;
 
-  padding:18px;
-
   border:none;
+
+  padding:18px;
 
   border-radius:18px;
 
@@ -323,30 +383,27 @@ body{
 
   font-size:17px;
 
-  font-weight:600;
+  font-weight:700;
 
   cursor:pointer;
 
   transition:0.3s;
 
   box-shadow:
-  0 15px 30px rgba(255,65,108,0.25);
+  0 15px 35px rgba(255,65,108,0.25);
 }
 
-.register-box button:hover{
+.register-btn:hover{
 
   transform:translateY(-3px);
-
-  box-shadow:
-  0 20px 35px rgba(255,65,108,0.35);
 }
 
 /* LOGIN */
 .login-text{
 
-  text-align:center;
+  margin-top:24px;
 
-  margin-top:25px;
+  text-align:center;
 
   color:#666;
 }
@@ -373,7 +430,7 @@ body{
     padding:60px 35px;
   }
 
-  .brand h1{
+  .left h1{
 
     font-size:48px;
   }
@@ -382,224 +439,283 @@ body{
 
     padding:40px 25px 50px;
   }
+
 }
 
-@media(max-width:550px){
+</style>
 
-  body{
-    padding:15px;
-  }
-
-  .container{
-
-    border-radius:25px;
-  }
-
-  .left{
-
-    padding:50px 25px;
-  }
-
-  .brand h1{
-
-    font-size:40px;
-  }
-
-  .register-box h2{
-
-    font-size:32px;
-  }
-}
-
-  </style>
 </head>
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <!-- LEFT -->
-    <div class="left">
+<!-- LEFT -->
+<div class="left">
 
-      <div class="brand">
+<div class="left-content">
 
-        <h1>FlirtyFly</h1>
+<h1>
+  Join FlirtyFly
+</h1>
 
-        <p>
-          Create your premium account and enjoy smooth, secure and exclusive live connections with people worldwide.
-        </p>
+<p>
+  Create your premium account and start exploring verified live connections instantly.
+</p>
 
-      </div>
+<div class="feature-list">
 
-      <div class="features">
+<div class="feature">
 
-        <div class="feature">
-          <div class="feature-icon">✓</div>
-          <span>Fast & Secure Registration</span>
-        </div>
+<div class="feature-icon">
+  ✓
+</div>
 
-        <div class="feature">
-          <div class="feature-icon">❤</div>
-          <span>Premium Live Experiences</span>
-        </div>
+<span>
+  Safe & Secure Platform
+</span>
 
-        <div class="feature">
-          <div class="feature-icon">⚡</div>
-          <span>Instant Access Anywhere</span>
-        </div>
+</div>
 
-      </div>
+<div class="feature">
 
-    </div>
+<div class="feature-icon">
+  ❤
+</div>
 
-    <!-- RIGHT -->
-    <div class="right">
+<span>
+  Verified Hosts
+</span>
 
-      <form class="register-box">
+</div>
 
-        <h2>Create Account</h2>
+<div class="feature">
 
-        <p class="sub">
-          Join thousands of users on FlirtyFly
-        </p>
+<div class="feature-icon">
+  ⚡
+</div>
 
-        <div class="input-group">
+<span>
+  Instant Access
+</span>
 
-          <label>Full Name</label>
+</div>
 
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter your full name"
-            required
-          >
+</div>
 
-        </div>
+</div>
 
-        <div class="input-group">
+</div>
 
-          <label>Mobile Number</label>
+<!-- RIGHT -->
+<div class="right">
 
-          <input
-            type="tel"
-            name="mobile"
-            placeholder="Enter mobile number"
-            required
-          >
+<form class="register-box">
 
-        </div>
+<h2>
+  Create Account
+</h2>
 
-        <div class="input-group">
+<p class="sub-text">
+  Register with OTP Verification
+</p>
 
-          <label>Password</label>
+<!-- NAME -->
+<div class="input-group">
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Create password"
-            required
-          >
+<label>
+  Full Name
+</label>
 
-        </div>
+<input
+  type="text"
+  id="name"
+  placeholder="Enter your name"
+  required
+>
 
-        <div class="input-group">
+</div>
 
-          <label>Confirm Password</label>
+<!-- EMAIL -->
+<div class="input-group">
 
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm password"
-            required
-          >
+<label>
+  Email Address
+</label>
 
-        </div>
+<input
+  type="email"
+  id="email"
+  placeholder="Enter email"
+  required
+>
 
-        <div class="terms-check">
+</div>
 
-          <input
-            type="checkbox"
-            id="termsCheck"
-            name="termsAccepted"
-            required
-          >
+<!-- MOBILE -->
+<div class="input-group">
 
-          <label for="termsCheck">
+<label>
+  Mobile Number
+</label>
 
-            I agree to the
-            <a href="/terms.html">
-              Terms & Conditions
-            </a>
+<input
+  type="tel"
+  id="mobile"
+  placeholder="Enter mobile number"
+  required
+>
 
-          </label>
+</div>
 
-        </div>
+<!-- OTP -->
+<div class="input-group">
 
-        <button type="submit">
-          Create Account
-        </button>
+<label>
+  Email OTP Verification
+</label>
 
-        <p class="login-text">
+<div class="otp-row">
 
-          Already have an account?
+<input
+  type="text"
+  id="otp"
+  placeholder="Enter OTP"
+>
 
-          <a href="login.html">
-            Login
-          </a>
+<button
+  type="button"
+  class="send-otp-btn"
+  onclick="sendOTP()"
+>
 
-        </p>
+  Send OTP
 
-      </form>
+</button>
 
-    </div>
+</div>
 
-  </div>
+<button
+  type="button"
+  class="verify-btn"
+  onclick="verifyOTP()"
+>
+
+  Verify OTP
+
+</button>
+
+</div>
+
+<!-- PASSWORD -->
+<div class="input-group">
+
+<label>
+  Password
+</label>
+
+<input
+  type="password"
+  id="password"
+  placeholder="Create password"
+  required
+>
+
+</div>
+
+<!-- CONFIRM -->
+<div class="input-group">
+
+<label>
+  Confirm Password
+</label>
+
+<input
+  type="password"
+  id="confirmPassword"
+  placeholder="Confirm password"
+  required
+>
+
+</div>
+
+<!-- TERMS -->
+<div class="terms">
+
+<input
+  type="checkbox"
+  id="termsCheck"
+  required
+>
+
+<label for="termsCheck">
+
+  I agree to the
+
+  <a href="/terms.html">
+
+    Terms & Conditions
+
+  </a>
+
+</label>
+
+</div>
+
+<!-- REGISTER -->
+<button
+  type="submit"
+  class="register-btn"
+>
+
+  Create Account
+
+</button>
+
+<p class="login-text">
+
+  Already have an account?
+
+  <a href="/login.html">
+
+    Login
+
+  </a>
+
+</p>
+
+</form>
+
+</div>
+
+</div>
 
 <script>
 
-document.querySelector(
-  ".register-box"
-).addEventListener("submit",
+let generatedOTP = "";
+let otpVerified = false;
 
-async function(e){
+/* SEND OTP */
+async function sendOTP(){
 
-  e.preventDefault();
+  const email =
 
-  const name =
-    document.querySelector(
-      'input[name="name"]'
-    ).value;
+  document.getElementById(
+    "email"
+  ).value;
 
-  const mobile =
-    document.querySelector(
-      'input[name="mobile"]'
-    ).value;
+  if(!email){
 
-  const password =
-    document.querySelector(
-      'input[name="password"]'
-    ).value;
-
-  const confirmPassword =
-    document.querySelector(
-      'input[name="confirmPassword"]'
-    ).value;
-
-  const termsAccepted =
-    document.getElementById(
-      "termsCheck"
-    ).checked;
-
-  if(password !== confirmPassword){
-
-    alert("Passwords do not match");
+    alert(
+      "Enter Email First"
+    );
 
     return;
   }
 
   const response = await fetch(
 
-    "/register",
+    "/send-otp",
 
     {
 
@@ -612,10 +728,7 @@ async function(e){
 
       body:JSON.stringify({
 
-        name,
-        mobile,
-        password,
-        termsAccepted
+        email
 
       })
 
@@ -624,22 +737,186 @@ async function(e){
   );
 
   const data =
-    await response.text();
+  await response.json();
 
-  alert(data);
+  if(data.success){
 
-  if(
-    data ===
-    "Registration Successful"
-  ){
+    generatedOTP =
+    data.otp;
 
-    window.location.href =
-      "/login.html";
+    alert(
+      "OTP Sent Successfully"
+    );
+
+  }else{
+
+    alert(
+      "OTP Send Failed"
+    );
+
   }
 
-});
+}
+
+/* VERIFY OTP */
+async function verifyOTP(){
+
+  const otp =
+
+  document.getElementById(
+    "otp"
+  ).value;
+
+  const response = await fetch(
+
+    "/verify-otp",
+
+    {
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":
+        "application/json"
+      },
+
+      body:JSON.stringify({
+
+        otp
+
+      })
+
+    }
+
+  );
+
+  const data =
+  await response.json();
+
+  if(data.success){
+
+    otpVerified = true;
+
+    alert(
+      "OTP Verified Successfully"
+    );
+
+  }else{
+
+    alert(
+      "Invalid OTP"
+    );
+
+  }
+
+}
+
+/* REGISTER */
+document.querySelector(
+  ".register-box"
+).addEventListener(
+
+  "submit",
+
+  async function(e){
+
+    e.preventDefault();
+
+    if(!otpVerified){
+
+      alert(
+        "Please Verify OTP"
+      );
+
+      return;
+    }
+
+    const name =
+
+    document.getElementById(
+      "name"
+    ).value;
+
+    const email =
+
+    document.getElementById(
+      "email"
+    ).value;
+
+    const mobile =
+
+    document.getElementById(
+      "mobile"
+    ).value;
+
+    const password =
+
+    document.getElementById(
+      "password"
+    ).value;
+
+    const confirmPassword =
+
+    document.getElementById(
+      "confirmPassword"
+    ).value;
+
+    if(password !== confirmPassword){
+
+      alert(
+        "Passwords do not match"
+      );
+
+      return;
+    }
+
+    const response = await fetch(
+
+      "/register",
+
+      {
+
+        method:"POST",
+
+        headers:{
+          "Content-Type":
+          "application/json"
+        },
+
+        body:JSON.stringify({
+
+          name,
+          email,
+          mobile,
+          password
+
+        })
+
+      }
+
+    );
+
+    const data =
+    await response.text();
+
+    alert(data);
+
+    if(
+      data ===
+      "Registration Successful"
+    ){
+
+      window.location.href =
+      "/login.html";
+
+    }
+
+  }
+
+);
 
 </script>
 
 </body>
+
 </html>
