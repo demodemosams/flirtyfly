@@ -11,13 +11,15 @@
 >
 
 <title>
-  FlirtyFly Admin Dashboard
+  Host Dashboard — FlirtyFly
 </title>
 
 <link
 href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
 rel="stylesheet"
 >
+
+<script src="/socket.io/socket.io.js"></script>
 
 <style>
 
@@ -27,6 +29,27 @@ rel="stylesheet"
   box-sizing:border-box;
 }
 
+:root{
+
+  --primary:#ff4f87;
+  --secondary:#ff7b54;
+
+  --bg1:#0f172a;
+  --bg2:#111827;
+  --bg3:#1e293b;
+
+  --card:
+  rgba(255,255,255,0.06);
+
+  --border:
+  rgba(255,255,255,0.08);
+
+  --text:#ffffff;
+
+  --muted:#cbd5e1;
+
+}
+
 body{
 
   font-family:'Poppins',sans-serif;
@@ -34,24 +57,30 @@ body{
   background:
   linear-gradient(
     135deg,
-    #0f172a,
-    #111827,
-    #1e293b
+    var(--bg1),
+    var(--bg2),
+    var(--bg3)
   );
 
-  color:white;
+  color:var(--text);
 
   min-height:100vh;
 
+  overflow-x:hidden;
+}
+
+/* LAYOUT */
+.layout{
+
   display:flex;
 
-  overflow-x:hidden;
+  min-height:100vh;
 }
 
 /* SIDEBAR */
 .sidebar{
 
-  width:290px;
+  width:280px;
 
   background:
   rgba(255,255,255,0.05);
@@ -59,7 +88,7 @@ body{
   backdrop-filter:blur(20px);
 
   border-right:
-  1px solid rgba(255,255,255,0.08);
+  1px solid var(--border);
 
   padding:35px 25px;
 
@@ -68,21 +97,21 @@ body{
   top:0;
   left:0;
   bottom:0;
-
-  z-index:100;
 }
 
-.sidebar h1{
+.logo{
 
-  font-size:36px;
+  font-size:34px;
+
+  font-weight:700;
 
   margin-bottom:45px;
 
   background:
   linear-gradient(
     135deg,
-    #ff4f87,
-    #ff7b54
+    var(--primary),
+    var(--secondary)
   );
 
   -webkit-background-clip:text;
@@ -126,8 +155,8 @@ body{
   background:
   linear-gradient(
     135deg,
-    #ff4f87,
-    #ff7b54
+    var(--primary),
+    var(--secondary)
   );
 
   box-shadow:
@@ -139,7 +168,7 @@ body{
 
   flex:1;
 
-  margin-left:290px;
+  margin-left:280px;
 
   padding:30px;
 }
@@ -156,27 +185,123 @@ body{
   margin-bottom:35px;
 }
 
-.topbar h2{
+/* PROFILE */
+.host-profile{
 
-  font-size:36px;
+  display:flex;
+
+  align-items:center;
+
+  gap:15px;
+
+  background:var(--card);
+
+  border:
+  1px solid var(--border);
+
+  padding:15px 20px;
+
+  border-radius:24px;
+
+  backdrop-filter:blur(20px);
 }
 
-.admin-badge{
+.host-profile img{
 
-  background:
-  linear-gradient(
-    135deg,
-    #ff4f87,
-    #ff7b54
-  );
+  width:70px;
+  height:70px;
 
-  padding:12px 22px;
+  border-radius:20px;
 
-  border-radius:50px;
+  object-fit:cover;
+}
+
+.host-profile h3{
+
+  font-size:22px;
+}
+
+.online-dot{
+
+  color:#00ff95;
 
   font-size:14px;
 
   font-weight:600;
+}
+
+/* BUTTONS */
+.top-actions{
+
+  display:flex;
+
+  gap:12px;
+}
+
+.status-btn,
+.logout-btn,
+.quick-btn{
+
+  border:none;
+
+  padding:14px 20px;
+
+  border-radius:18px;
+
+  color:white;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.3s;
+}
+
+.online{
+
+  background:
+  linear-gradient(
+    135deg,
+    #00c853,
+    #00e676
+  );
+}
+
+.offline{
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff5252,
+    #ff1744
+  );
+}
+
+.logout-btn{
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff416c,
+    #ff4b2b
+  );
+}
+
+.quick-btn{
+
+  background:
+  linear-gradient(
+    135deg,
+    var(--primary),
+    var(--secondary)
+  );
+}
+
+.status-btn:hover,
+.logout-btn:hover,
+.quick-btn:hover{
+
+  transform:translateY(-4px);
 }
 
 /* STATS */
@@ -194,13 +319,12 @@ body{
 
 .stat-card{
 
-  background:
-  rgba(255,255,255,0.06);
-
-  backdrop-filter:blur(20px);
+  background:var(--card);
 
   border:
-  1px solid rgba(255,255,255,0.08);
+  1px solid var(--border);
+
+  backdrop-filter:blur(20px);
 
   border-radius:30px;
 
@@ -211,7 +335,7 @@ body{
 
 .stat-card:hover{
 
-  transform:translateY(-5px);
+  transform:translateY(-6px);
 }
 
 .stat-card h1{
@@ -220,119 +344,38 @@ body{
 
   margin-bottom:10px;
 
-  color:#ff7b54;
+  color:var(--secondary);
 }
 
 .stat-card p{
 
-  color:#cbd5e1;
+  color:var(--muted);
 }
 
-/* SECTION */
-.section{
+/* PANEL */
+.panel{
 
-  background:
-  rgba(255,255,255,0.06);
+  background:var(--card);
 
   border:
-  1px solid rgba(255,255,255,0.08);
+  1px solid var(--border);
 
   backdrop-filter:blur(20px);
 
   border-radius:35px;
 
   padding:30px;
-
-  margin-bottom:30px;
 }
 
-.section h2{
+.panel h2{
 
   margin-bottom:25px;
 
-  font-size:30px;
+  font-size:28px;
 }
 
-/* HOST FORM */
-.host-form{
-
-  display:grid;
-
-  grid-template-columns:
-  repeat(auto-fit,minmax(220px,1fr));
-
-  gap:20px;
-}
-
-.host-form input{
-
-  padding:18px;
-
-  border:none;
-
-  border-radius:18px;
-
-  background:
-  rgba(255,255,255,0.08);
-
-  color:white;
-
-  outline:none;
-
-  font-size:15px;
-}
-
-.host-form input::placeholder{
-
-  color:#cbd5e1;
-}
-
-.host-form button{
-
-  border:none;
-
-  border-radius:18px;
-
-  background:
-  linear-gradient(
-    135deg,
-    #ff4f87,
-    #ff7b54
-  );
-
-  color:white;
-
-  font-size:16px;
-
-  font-weight:600;
-
-  cursor:pointer;
-
-  padding:18px;
-
-  transition:0.3s;
-}
-
-.host-form button:hover{
-
-  transform:translateY(-4px);
-
-  box-shadow:
-  0 18px 35px rgba(255,79,135,0.3);
-}
-
-/* ROW */
-.row{
-
-  background:
-  rgba(255,255,255,0.05);
-
-  border:
-  1px solid rgba(255,255,255,0.06);
-
-  border-radius:25px;
-
-  padding:20px;
+/* ROW ITEM */
+.row-item{
 
   display:flex;
 
@@ -340,69 +383,110 @@ body{
 
   align-items:center;
 
-  margin-bottom:20px;
+  background:
+  rgba(255,255,255,0.04);
+
+  padding:18px 20px;
+
+  border-radius:20px;
+
+  margin-bottom:15px;
 
   transition:0.3s;
 }
 
-.row:hover{
-
-  transform:translateY(-4px);
+.row-item:hover{
 
   background:
   rgba(255,255,255,0.08);
 }
 
-.left{
+/* QUICK ACTIONS */
+.quick-actions{
 
   display:flex;
 
+  gap:15px;
+
+  margin-bottom:30px;
+
+  flex-wrap:wrap;
+}
+
+/* POPUP */
+.incoming-popup{
+
+  position:fixed;
+
+  inset:0;
+
+  background:
+  rgba(0,0,0,0.6);
+
+  display:none;
+
+  justify-content:center;
+
   align-items:center;
 
-  gap:18px;
+  z-index:1000;
 }
 
-.left img{
+.incoming-popup.open{
 
-  width:85px;
-  height:85px;
-
-  border-radius:22px;
-
-  object-fit:cover;
+  display:flex;
 }
 
-.left h3{
+.incoming-box{
 
-  font-size:22px;
+  width:90%;
+  max-width:420px;
 
-  margin-bottom:6px;
+  background:
+  rgba(255,255,255,0.08);
+
+  backdrop-filter:blur(25px);
+
+  border:
+  1px solid rgba(255,255,255,0.1);
+
+  border-radius:35px;
+
+  padding:35px;
+
+  text-align:center;
 }
 
-.left p{
+.incoming-box h2{
 
-  color:#cbd5e1;
+  font-size:32px;
 
-  font-size:14px;
-
-  margin-top:3px;
+  margin-bottom:12px;
 }
 
-/* BUTTON */
-.delete{
+.incoming-box p{
+
+  color:var(--muted);
+
+  margin-bottom:30px;
+}
+
+.incoming-btns{
+
+  display:flex;
+
+  gap:15px;
+}
+
+.btn{
+
+  flex:1;
 
   border:none;
 
-  padding:14px 20px;
+  padding:16px;
 
-  border-radius:16px;
-
-  background:
-  linear-gradient(
-    135deg,
-    #ff416c,
-    #ff4b2b
-  );
+  border-radius:18px;
 
   color:white;
 
@@ -411,10 +495,30 @@ body{
   cursor:pointer;
 }
 
+.btn-success{
+
+  background:
+  linear-gradient(
+    135deg,
+    #00c853,
+    #00e676
+  );
+}
+
+.btn-danger{
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff416c,
+    #ff4b2b
+  );
+}
+
 /* MOBILE */
 @media(max-width:950px){
 
-  body{
+  .layout{
     flex-direction:column;
   }
 
@@ -438,15 +542,6 @@ body{
 
     align-items:flex-start;
 
-    gap:15px;
-  }
-
-  .row{
-
-    flex-direction:column;
-
-    align-items:flex-start;
-
     gap:20px;
   }
 
@@ -458,41 +553,21 @@ body{
 
 <body>
 
+<div class="layout">
+
 <!-- SIDEBAR -->
 <aside class="sidebar">
 
-<h1>
+<div class="logo">
   FlirtyFly
-</h1>
+</div>
 
 <ul>
 
 <li
   class="menu-item active-menu"
-  onclick="showDashboard(this)"
 >
   Dashboard
-</li>
-
-<li
-  class="menu-item"
-  onclick="showCreateHost(this)"
->
-  Create Host
-</li>
-
-<li
-  class="menu-item"
-  onclick="showUsers(this)"
->
-  Users
-</li>
-
-<li
-  class="menu-item"
-  onclick="showHosts(this)"
->
-  Hosts
 </li>
 
 </ul>
@@ -505,536 +580,426 @@ body{
 <!-- TOPBAR -->
 <div class="topbar">
 
-<h2 id="pageTitle">
-  Dashboard
-</h2>
+<div class="host-profile">
 
-<div class="admin-badge">
-  Super Admin
+<img id="hostImage">
+
+<div>
+
+<h3 id="hostName"></h3>
+
+<span
+  class="online-dot"
+  id="onlineText"
+>
+  Online
+</span>
+
 </div>
 
 </div>
 
-<!-- DASHBOARD -->
-<div id="dashboardSection">
+<div class="top-actions">
 
+<button
+  class="status-btn online"
+  id="statusBtn"
+  onclick="toggleStatus()"
+>
+  Go Offline
+</button>
+
+<button
+  class="logout-btn"
+  onclick="logoutHost()"
+>
+  Logout
+</button>
+
+</div>
+
+</div>
+
+<!-- QUICK ACTIONS -->
+<div class="quick-actions">
+
+<button class="quick-btn">
+  Live Dashboard
+</button>
+
+<button class="quick-btn">
+  My Earnings
+</button>
+
+<button class="quick-btn">
+  Call Analytics
+</button>
+
+</div>
+
+<!-- STATS -->
 <div class="stats">
 
 <div class="stat-card">
 
-<h1 id="totalUsers">
-  0
+<h1 id="liveStatus">
+  Online
 </h1>
 
 <p>
-  Total Users
+  Current Status
 </p>
 
 </div>
 
 <div class="stat-card">
 
-<h1 id="todayUsers">
-  0
-</h1>
-
-<p>
-  Today's Users
-</p>
-
-</div>
-
-<div class="stat-card">
-
-<h1 id="totalHosts">
-  0
-</h1>
-
-<p>
-  Total Hosts
-</p>
-
-</div>
-
-<div class="stat-card">
-
-<h1 id="onlineHosts">
-  0
-</h1>
-
-<p>
-  Online Hosts
-</p>
-
-</div>
-
-<div class="stat-card">
-
-<h1 id="totalRevenue">
+<h1 id="earnings">
   ₹0
 </h1>
 
 <p>
-  Revenue
+  Total Earnings
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h1 id="totalCalls">
+  0
+</h1>
+
+<p>
+  Total Calls
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h1>
+  4.9 ★
+</h1>
+
+<p>
+  Rating
 </p>
 
 </div>
 
 </div>
 
-</div>
-
-<!-- CREATE HOST -->
-<div
-  class="section"
-  id="createHostSection"
-  style="display:none;"
->
+<!-- RECENT CALLS -->
+<div class="panel">
 
 <h2>
-  Create Host
+  Recent Calls
 </h2>
 
-<form
-  class="host-form"
-  action="/create-host"
-  method="POST"
-  enctype="multipart/form-data"
->
-
-<input
-  type="text"
-  name="name"
-  placeholder="Host Name"
-  required
->
-
-<input
-  type="tel"
-  name="mobile"
-  placeholder="Host Mobile Number"
-  required
->
-
-<input
-  type="password"
-  name="password"
-  placeholder="Password"
-  required
->
-
-<input
-  type="file"
-  name="image"
-  required
->
-
-<button type="submit">
-
-  Create Host
-
-</button>
-
-</form>
-
-</div>
-
-<!-- USERS -->
-<div
-  class="section"
-  id="usersSection"
-  style="display:none;"
->
-
-<h2>
-  All Users
-</h2>
-
-<div id="usersList"></div>
-
-</div>
-
-<!-- HOSTS -->
-<div
-  class="section"
-  id="hostsSection"
-  style="display:none;"
->
-
-<h2>
-  All Hosts
-</h2>
-
-<div id="hostsList"></div>
+<div id="hostCallsList"></div>
 
 </div>
 
 </main>
 
+</div>
+
+<!-- INCOMING CALL -->
+<div
+  class="incoming-popup"
+  id="incomingPopup"
+>
+
+<div class="incoming-box">
+
+<h2>
+  Incoming Call
+</h2>
+
+<p id="callerName">
+  User Calling...
+</p>
+
+<div class="incoming-btns">
+
+<button
+  class="btn btn-success"
+  onclick="acceptCall()"
+>
+  Accept
+</button>
+
+<button
+  class="btn btn-danger"
+  onclick="rejectCall()"
+>
+  Reject
+</button>
+
+</div>
+
+</div>
+
+</div>
+
 <script>
 
-/* ADMIN AUTH */
-const adminLoggedIn =
+const params =
 
-localStorage.getItem(
-  "adminLoggedIn"
+new URLSearchParams(
+  window.location.search
 );
 
-if(adminLoggedIn !== "true"){
+const hostId =
+params.get('id');
+
+const hostName =
+params.get('name');
+
+const hostImage =
+params.get('image');
+
+const socket = io();
+
+let currentStatus =
+'Online';
+
+/* PROFILE */
+document.getElementById(
+  'hostName'
+).innerText = hostName;
+
+document.getElementById(
+  'hostImage'
+).src = `/uploads/${hostImage}`;
+
+/* REGISTER HOST */
+socket.emit(
+  'register-host',
+  hostId
+);
+
+/* TOGGLE STATUS */
+async function toggleStatus(){
+
+  currentStatus =
+
+  currentStatus === 'Online'
+  ? 'Offline'
+  : 'Online';
+
+  const response = await fetch(
+
+    '/toggle-host-status',
+
+    {
+
+      method:'POST',
+
+      headers:{
+        'Content-Type':
+        'application/json'
+      },
+
+      body:JSON.stringify({
+
+        hostId,
+
+        status:currentStatus
+
+      })
+
+    }
+
+  );
+
+  const data =
+  await response.json();
+
+  if(data.success){
+
+    document.getElementById(
+      'liveStatus'
+    ).innerText =
+    currentStatus;
+
+    const btn =
+
+    document.getElementById(
+      'statusBtn'
+    );
+
+    const text =
+
+    document.getElementById(
+      'onlineText'
+    );
+
+    if(currentStatus === 'Online'){
+
+      btn.className =
+      'status-btn online';
+
+      btn.innerText =
+      'Go Offline';
+
+      text.innerText =
+      'Online';
+
+    }else{
+
+      btn.className =
+      'status-btn offline';
+
+      btn.innerText =
+      'Go Online';
+
+      text.innerText =
+      'Offline';
+
+    }
+
+  }
+
+}
+
+/* INCOMING CALL */
+socket.on(
+  'incoming-call',
+
+  (data)=>{
+
+    document.getElementById(
+      'incomingPopup'
+    ).classList.add(
+      'open'
+    );
+
+    document.getElementById(
+      'callerName'
+    ).innerText =
+
+    `${data.callerName} is calling...`;
+
+  }
+
+);
+
+/* ACCEPT */
+function acceptCall(){
+
+  document.getElementById(
+    'incomingPopup'
+  ).classList.remove(
+    'open'
+  );
 
   window.location.href =
-  "/admin-login.html";
+  '/call.html?role=host';
 
 }
 
-/* ACTIVE MENU */
-function setActive(element){
+/* REJECT */
+function rejectCall(){
 
-  document.querySelectorAll(
-    ".menu-item"
-  ).forEach((item)=>{
-
-    item.classList.remove(
-      "active-menu"
-    );
-
-  });
-
-  element.classList.add(
-    "active-menu"
+  document.getElementById(
+    'incomingPopup'
+  ).classList.remove(
+    'open'
   );
 
 }
 
-/* HIDE SECTIONS */
-function hideSections(){
+/* LOGOUT */
+function logoutHost(){
 
-  document.getElementById(
-    "dashboardSection"
-  ).style.display = "none";
-
-  document.getElementById(
-    "createHostSection"
-  ).style.display = "none";
-
-  document.getElementById(
-    "usersSection"
-  ).style.display = "none";
-
-  document.getElementById(
-    "hostsSection"
-  ).style.display = "none";
+  window.location.href =
+  `/host-logout/${hostId}`;
 
 }
 
-/* SHOW DASHBOARD */
-function showDashboard(element){
-
-  setActive(element);
-
-  hideSections();
-
-  document.getElementById(
-    "dashboardSection"
-  ).style.display = "block";
-
-  document.getElementById(
-    "pageTitle"
-  ).innerText =
-
-  "Dashboard";
-
-}
-
-/* SHOW CREATE HOST */
-function showCreateHost(element){
-
-  setActive(element);
-
-  hideSections();
-
-  document.getElementById(
-    "createHostSection"
-  ).style.display = "block";
-
-  document.getElementById(
-    "pageTitle"
-  ).innerText =
-
-  "Create Host";
-
-}
-
-/* SHOW USERS */
-function showUsers(element){
-
-  setActive(element);
-
-  hideSections();
-
-  document.getElementById(
-    "usersSection"
-  ).style.display = "block";
-
-  document.getElementById(
-    "pageTitle"
-  ).innerText =
-
-  "Users";
-
-}
-
-/* SHOW HOSTS */
-function showHosts(element){
-
-  setActive(element);
-
-  hideSections();
-
-  document.getElementById(
-    "hostsSection"
-  ).style.display = "block";
-
-  document.getElementById(
-    "pageTitle"
-  ).innerText =
-
-  "Hosts";
-
-}
-
-/* LOAD STATS */
-async function loadStats(){
+/* LOAD CALLS */
+async function loadRecentCalls(){
 
   const response = await fetch(
-    "/admin-stats"
+
+    `/host-call-history/${hostId}`
+
   );
 
-  const stats =
-    await response.json();
+  const calls =
+  await response.json();
 
   document.getElementById(
-    "totalUsers"
+    'totalCalls'
   ).innerText =
-  stats.totalUsers;
+  calls.length;
 
   document.getElementById(
-    "todayUsers"
+    'earnings'
   ).innerText =
-  stats.todayUsers;
+
+  `₹${calls.length * 99}`;
+
+  const list =
 
   document.getElementById(
-    "totalHosts"
-  ).innerText =
-  stats.totalHosts;
-
-  document.getElementById(
-    "onlineHosts"
-  ).innerText =
-  stats.onlineHosts;
-
-  document.getElementById(
-    "totalRevenue"
-  ).innerText =
-  `₹${stats.revenue}`;
-
-}
-
-/* LOAD USERS */
-async function loadUsers(){
-
-  const response = await fetch(
-    "/get-users"
+    'hostCallsList'
   );
 
-  const users =
-    await response.json();
+  list.innerHTML = '';
 
-  const usersList =
+  if(!calls.length){
 
-    document.getElementById(
-      "usersList"
-    );
+    list.innerHTML = `
 
-  usersList.innerHTML = "";
+      <p
+      style="
+      color:#cbd5e1;
+      ">
+        No calls yet
+      </p>
 
-  users.forEach((user)=>{
+    `;
 
-    usersList.innerHTML += `
+    return;
+  }
 
-      <div class="row">
+  calls.slice(0,10).forEach((call)=>{
 
-        <div class="left">
+    list.innerHTML += `
 
-          <img
-            src="https://ui-avatars.com/api/?name=${user.name}"
-          >
+      <div class="row-item">
 
-          <div>
+        <span>
+          ${call.userMobile}
+        </span>
 
-            <h3>
-              ${user.name}
-            </h3>
+        <span
+        style="
+        color:#cbd5e1;
+        font-size:13px;
+        ">
 
-            <p>
-              ${user.mobile}
-            </p>
+          ${
+            new Date(
+              call.callTime
+            ).toLocaleDateString()
+          }
 
-            <p>
-              ${user.bio || "No Bio"}
-            </p>
-
-          </div>
-
-        </div>
-
-        <button
-          class="delete"
-          onclick="deleteUser('${user._id}')"
-        >
-
-          Delete
-
-        </button>
+        </span>
 
       </div>
 
     `;
 
   });
-
-}
-
-/* DELETE USER */
-async function deleteUser(id){
-
-  if(
-    !confirm(
-      "Delete User?"
-    )
-  ){
-    return;
-  }
-
-  await fetch(
-
-    `/delete-user/${id}`,
-
-    {
-      method:"DELETE"
-    }
-
-  );
-
-  loadUsers();
-
-  loadStats();
-
-}
-
-/* LOAD HOSTS */
-async function loadHosts(){
-
-  const response = await fetch(
-    "/get-hosts"
-  );
-
-  const hosts =
-    await response.json();
-
-  const hostsList =
-
-    document.getElementById(
-      "hostsList"
-    );
-
-  hostsList.innerHTML = "";
-
-  hosts.forEach((host)=>{
-
-    hostsList.innerHTML += `
-
-      <div class="row">
-
-        <div class="left">
-
-          <img
-            src="/uploads/${host.image}"
-          >
-
-          <div>
-
-            <h3>
-              ${host.name}
-            </h3>
-
-            <p>
-              ${host.mobile}
-            </p>
-
-            <p>
-
-              Status:
-              ${
-                host.status || "Offline"
-              }
-
-            </p>
-
-          </div>
-
-        </div>
-
-        <button
-          class="delete"
-          onclick="deleteHost('${host._id}')"
-        >
-
-          Delete
-
-        </button>
-
-      </div>
-
-    `;
-
-  });
-
-}
-
-/* DELETE HOST */
-async function deleteHost(id){
-
-  if(
-    !confirm(
-      "Delete Host?"
-    )
-  ){
-    return;
-  }
-
-  await fetch(
-
-    `/delete-host/${id}`,
-
-    {
-      method:"DELETE"
-    }
-
-  );
-
-  loadHosts();
-
-  loadStats();
 
 }
 
 /* INITIAL LOAD */
-loadStats();
-
-loadUsers();
-
-loadHosts();
+loadRecentCalls();
 
 </script>
 
