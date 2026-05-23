@@ -10,7 +10,14 @@
   content="width=device-width, initial-scale=1.0"
 >
 
-<title>Admin Dashboard - FlirtyFly</title>
+<title>
+  FlirtyFly Admin Dashboard
+</title>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet"
+>
 
 <style>
 
@@ -22,53 +29,65 @@
 
 body{
 
-  font-family:Segoe UI,sans-serif;
+  font-family:'Poppins',sans-serif;
 
-  background:#f4f7fb;
+  background:
+  linear-gradient(
+    135deg,
+    #0f172a,
+    #111827,
+    #1e293b
+  );
+
+  color:white;
 
   min-height:100vh;
 
   display:flex;
 
-  color:#1f2937;
+  overflow-x:hidden;
 }
 
 /* SIDEBAR */
 .sidebar{
 
-  width:280px;
+  width:290px;
 
   background:
-  linear-gradient(
-    180deg,
-    #111827,
-    #1f2937
-  );
+  rgba(255,255,255,0.05);
 
-  color:white;
+  backdrop-filter:blur(20px);
+
+  border-right:
+  1px solid rgba(255,255,255,0.08);
 
   padding:35px 25px;
-
-  display:flex;
-
-  flex-direction:column;
-
-  justify-content:space-between;
 
   position:fixed;
 
   top:0;
   left:0;
   bottom:0;
+
+  z-index:100;
 }
 
 .sidebar h1{
 
-  font-size:34px;
+  font-size:36px;
 
-  margin-bottom:50px;
+  margin-bottom:45px;
 
-  font-weight:700;
+  background:
+  linear-gradient(
+    135deg,
+    #ff4f87,
+    #ff7b54
+  );
+
+  -webkit-background-clip:text;
+
+  -webkit-text-fill-color:transparent;
 }
 
 .sidebar ul{
@@ -80,15 +99,13 @@ body{
 
   padding:18px 20px;
 
-  margin-bottom:15px;
-
   border-radius:18px;
+
+  margin-bottom:15px;
 
   cursor:pointer;
 
   transition:0.3s;
-
-  font-size:16px;
 
   font-weight:600;
 
@@ -98,8 +115,10 @@ body{
 
 .menu-item:hover{
 
+  transform:translateX(5px);
+
   background:
-  rgba(255,255,255,0.1);
+  rgba(255,255,255,0.08);
 }
 
 .active-menu{
@@ -107,32 +126,26 @@ body{
   background:
   linear-gradient(
     135deg,
-    #ff416c,
-    #ff4b2b
+    #ff4f87,
+    #ff7b54
   );
 
   box-shadow:
-  0 10px 25px rgba(255,65,108,0.3);
+  0 15px 35px rgba(255,79,135,0.35);
 }
 
 /* MAIN */
 .main{
 
-  margin-left:280px;
-
   flex:1;
 
-  padding:35px;
+  margin-left:290px;
+
+  padding:30px;
 }
 
 /* TOPBAR */
 .topbar{
-
-  background:white;
-
-  border-radius:25px;
-
-  padding:25px 30px;
 
   display:flex;
 
@@ -140,17 +153,12 @@ body{
 
   align-items:center;
 
-  box-shadow:
-  0 10px 30px rgba(0,0,0,0.06);
-
-  margin-bottom:30px;
+  margin-bottom:35px;
 }
 
 .topbar h2{
 
-  font-size:30px;
-
-  color:#111827;
+  font-size:36px;
 }
 
 .admin-badge{
@@ -158,11 +166,9 @@ body{
   background:
   linear-gradient(
     135deg,
-    #111827,
-    #374151
+    #ff4f87,
+    #ff7b54
   );
-
-  color:white;
 
   padding:12px 22px;
 
@@ -173,42 +179,82 @@ body{
   font-weight:600;
 }
 
-/* SECTION */
-.section{
+/* STATS */
+.stats{
 
-  display:flex;
+  display:grid;
 
-  flex-direction:column;
+  grid-template-columns:
+  repeat(auto-fit,minmax(220px,1fr));
 
-  gap:30px;
+  gap:25px;
+
+  margin-bottom:35px;
 }
 
-/* CARD */
-.create-host,
-#paymentsSection{
+.stat-card{
 
-  background:white;
+  background:
+  rgba(255,255,255,0.06);
+
+  backdrop-filter:blur(20px);
+
+  border:
+  1px solid rgba(255,255,255,0.08);
+
+  border-radius:30px;
 
   padding:30px;
 
-  border-radius:28px;
-
-  box-shadow:
-  0 10px 30px rgba(0,0,0,0.06);
+  transition:0.3s;
 }
 
-.create-host h3,
-#paymentsSection h2{
+.stat-card:hover{
+
+  transform:translateY(-5px);
+}
+
+.stat-card h1{
+
+  font-size:42px;
+
+  margin-bottom:10px;
+
+  color:#ff7b54;
+}
+
+.stat-card p{
+
+  color:#cbd5e1;
+}
+
+/* SECTION */
+.section{
+
+  background:
+  rgba(255,255,255,0.06);
+
+  border:
+  1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter:blur(20px);
+
+  border-radius:35px;
+
+  padding:30px;
+
+  margin-bottom:30px;
+}
+
+.section h2{
 
   margin-bottom:25px;
 
-  font-size:24px;
-
-  color:#111827;
+  font-size:30px;
 }
 
-/* FORM */
-.create-host form{
+/* HOST FORM */
+.host-form{
 
   display:grid;
 
@@ -218,45 +264,40 @@ body{
   gap:20px;
 }
 
-.create-host input{
+.host-form input{
 
-  width:100%;
-
-  padding:17px;
+  padding:18px;
 
   border:none;
 
-  border-radius:16px;
+  border-radius:18px;
 
-  background:#f3f4f6;
+  background:
+  rgba(255,255,255,0.08);
 
-  font-size:15px;
+  color:white;
 
   outline:none;
 
-  transition:0.3s;
+  font-size:15px;
 }
 
-.create-host input:focus{
+.host-form input::placeholder{
 
-  background:white;
-
-  box-shadow:
-  0 0 0 3px rgba(255,65,108,0.12);
+  color:#cbd5e1;
 }
 
-/* BUTTON */
-.add-btn{
+.host-form button{
 
   border:none;
 
-  border-radius:16px;
+  border-radius:18px;
 
   background:
   linear-gradient(
     135deg,
-    #ff416c,
-    #ff4b2b
+    #ff4f87,
+    #ff7b54
   );
 
   color:white;
@@ -267,27 +308,31 @@ body{
 
   cursor:pointer;
 
-  transition:0.3s;
+  padding:18px;
 
-  padding:16px;
+  transition:0.3s;
 }
 
-.add-btn:hover{
+.host-form button:hover{
 
-  transform:translateY(-3px);
+  transform:translateY(-4px);
 
   box-shadow:
-  0 15px 30px rgba(255,65,108,0.25);
+  0 18px 35px rgba(255,79,135,0.3);
 }
 
 /* ROW */
 .row{
 
-  background:white;
+  background:
+  rgba(255,255,255,0.05);
 
-  border-radius:24px;
+  border:
+  1px solid rgba(255,255,255,0.06);
 
-  padding:22px 25px;
+  border-radius:25px;
+
+  padding:20px;
 
   display:flex;
 
@@ -297,18 +342,17 @@ body{
 
   margin-bottom:20px;
 
-  box-shadow:
-  0 10px 25px rgba(0,0,0,0.05);
-
   transition:0.3s;
 }
 
 .row:hover{
 
-  transform:translateY(-3px);
+  transform:translateY(-4px);
+
+  background:
+  rgba(255,255,255,0.08);
 }
 
-/* LEFT */
 .left{
 
   display:flex;
@@ -320,103 +364,81 @@ body{
 
 .left img{
 
-  width:75px;
-  height:75px;
+  width:85px;
+  height:85px;
 
-  border-radius:20px;
+  border-radius:22px;
 
   object-fit:cover;
-
-  border:3px solid #f3f4f6;
 }
 
 .left h3{
 
-  font-size:20px;
+  font-size:22px;
 
   margin-bottom:6px;
-
-  color:#111827;
 }
 
 .left p{
 
-  color:#6b7280;
+  color:#cbd5e1;
 
   font-size:14px;
 
-  margin-bottom:4px;
+  margin-top:3px;
 }
 
-/* ACTIONS */
-.actions{
-
-  display:flex;
-
-  gap:12px;
-}
-
+/* BUTTON */
 .delete{
 
   border:none;
 
-  padding:12px 20px;
+  padding:14px 20px;
 
-  border-radius:14px;
+  border-radius:16px;
 
-  background:#ef4444;
+  background:
+  linear-gradient(
+    135deg,
+    #ff416c,
+    #ff4b2b
+  );
 
   color:white;
-
-  font-size:14px;
 
   font-weight:600;
 
   cursor:pointer;
-
-  transition:0.3s;
-}
-
-.delete:hover{
-
-  background:#dc2626;
-
-  transform:translateY(-2px);
 }
 
 /* MOBILE */
 @media(max-width:950px){
 
+  body{
+    flex-direction:column;
+  }
+
   .sidebar{
 
     width:100%;
 
-    height:auto;
-
     position:relative;
 
-    padding:25px;
-  }
-
-  body{
-
-    flex-direction:column;
+    border-right:none;
   }
 
   .main{
 
     margin-left:0;
-
-    padding:25px;
   }
 
   .topbar{
 
     flex-direction:column;
 
-    gap:15px;
-
     align-items:flex-start;
+
+    gap:15px;
   }
 
   .row{
@@ -428,41 +450,6 @@ body{
     gap:20px;
   }
 
-  .actions{
-
-    width:100%;
-  }
-
-  .delete{
-
-    width:100%;
-  }
-}
-
-@media(max-width:600px){
-
-  .main{
-
-    padding:18px;
-  }
-
-  .topbar h2{
-
-    font-size:24px;
-  }
-
-  .create-host,
-  #paymentsSection{
-
-    padding:22px;
-  }
-
-  .left{
-
-    flex-direction:column;
-
-    align-items:flex-start;
-  }
 }
 
 </style>
@@ -474,221 +461,234 @@ body{
 <!-- SIDEBAR -->
 <aside class="sidebar">
 
-  <div>
+<h1>
+  FlirtyFly
+</h1>
 
-    <h1>
-      FlirtyFly
-    </h1>
+<ul>
 
-    <ul>
+<li
+  class="menu-item active-menu"
+  onclick="showDashboard(this)"
+>
+  Dashboard
+</li>
 
-      <li
-        class="menu-item active-menu"
-        onclick="showHosts(this)"
-      >
-        Create Hosts
-      </li>
+<li
+  class="menu-item"
+  onclick="showCreateHost(this)"
+>
+  Create Host
+</li>
 
-      <li
-        class="menu-item"
-        onclick="showPayments(this)"
-      >
-        Payments
-      </li>
+<li
+  class="menu-item"
+  onclick="showUsers(this)"
+>
+  Users
+</li>
 
-    </ul>
+<li
+  class="menu-item"
+  onclick="showHosts(this)"
+>
+  Hosts
+</li>
 
-  </div>
+</ul>
 
 </aside>
 
 <!-- MAIN -->
 <main class="main">
 
-  <!-- TOPBAR -->
-  <div class="topbar">
+<!-- TOPBAR -->
+<div class="topbar">
 
-    <h2>
-      Admin Dashboard
-    </h2>
+<h2 id="pageTitle">
+  Dashboard
+</h2>
 
-    <div class="admin-badge">
+<div class="admin-badge">
+  Super Admin
+</div>
 
-      Secure Admin Access
+</div>
 
-    </div>
+<!-- DASHBOARD -->
+<div id="dashboardSection">
 
-  </div>
+<div class="stats">
 
-  <!-- SECTION -->
-  <div class="section">
+<div class="stat-card">
 
-    <!-- CREATE HOST -->
-    <div class="create-host">
+<h1 id="totalUsers">
+  0
+</h1>
 
-      <h3>
-        Create Host Account
-      </h3>
+<p>
+  Total Users
+</p>
 
-      <form
-        action="/create-host"
-        method="POST"
-        enctype="multipart/form-data"
-      >
+</div>
 
-        <input
-          type="text"
-          name="name"
-          placeholder="Host Name"
-          required
-        >
+<div class="stat-card">
 
-        <input
-          type="tel"
-          name="mobile"
-          placeholder="Host Mobile Number"
-          required
-        >
+<h1 id="todayUsers">
+  0
+</h1>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-        >
+<p>
+  Today's Users
+</p>
 
-        <input
-          type="file"
-          name="image"
-          required
-        >
+</div>
 
-        <button
-          type="submit"
-          class="add-btn"
-        >
-          Create Host
-        </button>
+<div class="stat-card">
 
-      </form>
+<h1 id="totalHosts">
+  0
+</h1>
 
-    </div>
+<p>
+  Total Hosts
+</p>
 
-    <!-- HOST LIST -->
-    <div id="hostList"></div>
+</div>
 
-    <!-- PAYMENTS -->
-    <div
-      id="paymentsSection"
-      style="display:none;"
-    >
+<div class="stat-card">
 
-      <h2>
-        Subscription Payments
-      </h2>
+<h1 id="onlineHosts">
+  0
+</h1>
 
-      <div id="paymentsList"></div>
+<p>
+  Online Hosts
+</p>
 
-    </div>
+</div>
 
-  </div>
+<div class="stat-card">
+
+<h1 id="totalRevenue">
+  ₹0
+</h1>
+
+<p>
+  Revenue
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- CREATE HOST -->
+<div
+  class="section"
+  id="createHostSection"
+  style="display:none;"
+>
+
+<h2>
+  Create Host
+</h2>
+
+<form
+  class="host-form"
+  action="/create-host"
+  method="POST"
+  enctype="multipart/form-data"
+>
+
+<input
+  type="text"
+  name="name"
+  placeholder="Host Name"
+  required
+>
+
+<input
+  type="tel"
+  name="mobile"
+  placeholder="Host Mobile Number"
+  required
+>
+
+<input
+  type="password"
+  name="password"
+  placeholder="Password"
+  required
+>
+
+<input
+  type="file"
+  name="image"
+  required
+>
+
+<button type="submit">
+
+  Create Host
+
+</button>
+
+</form>
+
+</div>
+
+<!-- USERS -->
+<div
+  class="section"
+  id="usersSection"
+  style="display:none;"
+>
+
+<h2>
+  All Users
+</h2>
+
+<div id="usersList"></div>
+
+</div>
+
+<!-- HOSTS -->
+<div
+  class="section"
+  id="hostsSection"
+  style="display:none;"
+>
+
+<h2>
+  All Hosts
+</h2>
+
+<div id="hostsList"></div>
+
+</div>
 
 </main>
 
 <script>
 
-async function loadHosts(){
+/* ADMIN AUTH */
+const adminLoggedIn =
 
-  const response = await fetch(
-    "/get-hosts"
-  );
+localStorage.getItem(
+  "adminLoggedIn"
+);
 
-  const hosts = await response.json();
+if(adminLoggedIn !== "true"){
 
-  const hostList =
-    document.getElementById(
-      "hostList"
-    );
-
-  hostList.innerHTML = "";
-
-  hosts.forEach((host) => {
-
-    hostList.innerHTML += `
-
-      <div class="row">
-
-        <div class="left">
-
-          <img src="/uploads/${host.image}">
-
-          <div>
-
-            <h3>
-              ${host.name}
-            </h3>
-
-            <p>
-              ${host.mobile}
-            </p>
-
-          </div>
-
-        </div>
-
-        <div class="actions">
-
-          <button
-            class="delete"
-            onclick="deleteHost('${host._id}')"
-          >
-            Delete
-          </button>
-
-        </div>
-
-      </div>
-
-    `;
-
-  });
+  window.location.href =
+  "/admin-login.html";
 
 }
 
-async function deleteHost(id){
-
-  const response = await fetch(
-
-    `/delete-host/${id}`,
-
-    {
-      method:"DELETE"
-    }
-
-  );
-
-  const message =
-    await response.text();
-
-  alert(message);
-
-  loadHosts();
-
-}
-
-async function showPayments(element){
-
-  document.querySelector(
-    ".create-host"
-  ).style.display = "none";
-
-  document.getElementById(
-    "hostList"
-  ).style.display = "none";
-
-  document.getElementById(
-    "paymentsSection"
-  ).style.display = "block";
+/* ACTIVE MENU */
+function setActive(element){
 
   document.querySelectorAll(
     ".menu-item"
@@ -704,46 +704,198 @@ async function showPayments(element){
     "active-menu"
   );
 
+}
+
+/* HIDE SECTIONS */
+function hideSections(){
+
+  document.getElementById(
+    "dashboardSection"
+  ).style.display = "none";
+
+  document.getElementById(
+    "createHostSection"
+  ).style.display = "none";
+
+  document.getElementById(
+    "usersSection"
+  ).style.display = "none";
+
+  document.getElementById(
+    "hostsSection"
+  ).style.display = "none";
+
+}
+
+/* SHOW DASHBOARD */
+function showDashboard(element){
+
+  setActive(element);
+
+  hideSections();
+
+  document.getElementById(
+    "dashboardSection"
+  ).style.display = "block";
+
+  document.getElementById(
+    "pageTitle"
+  ).innerText =
+
+  "Dashboard";
+
+}
+
+/* SHOW CREATE HOST */
+function showCreateHost(element){
+
+  setActive(element);
+
+  hideSections();
+
+  document.getElementById(
+    "createHostSection"
+  ).style.display = "block";
+
+  document.getElementById(
+    "pageTitle"
+  ).innerText =
+
+  "Create Host";
+
+}
+
+/* SHOW USERS */
+function showUsers(element){
+
+  setActive(element);
+
+  hideSections();
+
+  document.getElementById(
+    "usersSection"
+  ).style.display = "block";
+
+  document.getElementById(
+    "pageTitle"
+  ).innerText =
+
+  "Users";
+
+}
+
+/* SHOW HOSTS */
+function showHosts(element){
+
+  setActive(element);
+
+  hideSections();
+
+  document.getElementById(
+    "hostsSection"
+  ).style.display = "block";
+
+  document.getElementById(
+    "pageTitle"
+  ).innerText =
+
+  "Hosts";
+
+}
+
+/* LOAD STATS */
+async function loadStats(){
+
   const response = await fetch(
-    "/get-payments"
+    "/admin-stats"
   );
 
-  const payments =
+  const stats =
     await response.json();
 
-  const paymentsList =
+  document.getElementById(
+    "totalUsers"
+  ).innerText =
+  stats.totalUsers;
+
+  document.getElementById(
+    "todayUsers"
+  ).innerText =
+  stats.todayUsers;
+
+  document.getElementById(
+    "totalHosts"
+  ).innerText =
+  stats.totalHosts;
+
+  document.getElementById(
+    "onlineHosts"
+  ).innerText =
+  stats.onlineHosts;
+
+  document.getElementById(
+    "totalRevenue"
+  ).innerText =
+  `₹${stats.revenue}`;
+
+}
+
+/* LOAD USERS */
+async function loadUsers(){
+
+  const response = await fetch(
+    "/get-users"
+  );
+
+  const users =
+    await response.json();
+
+  const usersList =
 
     document.getElementById(
-      "paymentsList"
+      "usersList"
     );
 
-  paymentsList.innerHTML = "";
+  usersList.innerHTML = "";
 
-  payments.forEach((payment) => {
+  users.forEach((user)=>{
 
-    paymentsList.innerHTML += `
+    usersList.innerHTML += `
 
       <div class="row">
 
         <div class="left">
 
+          <img
+            src="https://ui-avatars.com/api/?name=${user.name}"
+          >
+
           <div>
 
             <h3>
-              ${payment.plan}
+              ${user.name}
             </h3>
 
             <p>
-              ${payment.userMobile}
+              ${user.mobile}
             </p>
 
             <p>
-              ₹${payment.amount}
+              ${user.bio || "No Bio"}
             </p>
 
           </div>
 
         </div>
+
+        <button
+          class="delete"
+          onclick="deleteUser('${user._id}')"
+        >
+
+          Delete
+
+        </button>
 
       </div>
 
@@ -753,58 +905,136 @@ async function showPayments(element){
 
 }
 
-function showHosts(element){
+/* DELETE USER */
+async function deleteUser(id){
 
-  document.querySelector(
-    ".create-host"
-  ).style.display = "block";
+  if(
+    !confirm(
+      "Delete User?"
+    )
+  ){
+    return;
+  }
 
-  document.getElementById(
-    "hostList"
-  ).style.display = "block";
+  await fetch(
 
-  document.getElementById(
-    "paymentsSection"
-  ).style.display = "none";
+    `/delete-user/${id}`,
 
-  document.querySelectorAll(
-    ".menu-item"
-  ).forEach((item)=>{
+    {
+      method:"DELETE"
+    }
 
-    item.classList.remove(
-      "active-menu"
+  );
+
+  loadUsers();
+
+  loadStats();
+
+}
+
+/* LOAD HOSTS */
+async function loadHosts(){
+
+  const response = await fetch(
+    "/get-hosts"
+  );
+
+  const hosts =
+    await response.json();
+
+  const hostsList =
+
+    document.getElementById(
+      "hostsList"
     );
+
+  hostsList.innerHTML = "";
+
+  hosts.forEach((host)=>{
+
+    hostsList.innerHTML += `
+
+      <div class="row">
+
+        <div class="left">
+
+          <img
+            src="/uploads/${host.image}"
+          >
+
+          <div>
+
+            <h3>
+              ${host.name}
+            </h3>
+
+            <p>
+              ${host.mobile}
+            </p>
+
+            <p>
+
+              Status:
+              ${
+                host.status || "Offline"
+              }
+
+            </p>
+
+          </div>
+
+        </div>
+
+        <button
+          class="delete"
+          onclick="deleteHost('${host._id}')"
+        >
+
+          Delete
+
+        </button>
+
+      </div>
+
+    `;
 
   });
 
-  if(element){
+}
 
-    element.classList.add(
-      "active-menu"
-    );
+/* DELETE HOST */
+async function deleteHost(id){
 
+  if(
+    !confirm(
+      "Delete Host?"
+    )
+  ){
+    return;
   }
 
-}
+  await fetch(
 
-loadHosts();
+    `/delete-host/${id}`,
 
-</script>
+    {
+      method:"DELETE"
+    }
 
-<script>
-
-const adminLoggedIn =
-
-  localStorage.getItem(
-    "adminLoggedIn"
   );
 
-if(adminLoggedIn !== "true"){
+  loadHosts();
 
-  window.location.href =
-    "/admin-login.html";
+  loadStats();
 
 }
+
+/* INITIAL LOAD */
+loadStats();
+
+loadUsers();
+
+loadHosts();
 
 </script>
 
