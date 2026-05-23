@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — FlirtyFly</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --pink: #ff4f87; --orange: #ff7b54;
+  --grad: linear-gradient(135deg, #ff4f87, #ff7b54);
+  --text: #1a1a1a; --muted: #666; --border: rgba(255,79,135,0.12);
+  --bg: #fffbfd; --white: #fff;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); }
+
+/* NAVBAR */
+.navbar {
+  width: 100%; padding: 0 7%; height: 68px;
+  display: flex; justify-content: space-between; align-items: center;
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+.logo {
+  font-size: 24px; font-weight: 900;
+  background: var(--grad);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  text-decoration: none;
+}
+.nav-back {
+  display: flex; align-items: center; gap: 8px;
+  color: var(--pink); font-weight: 800; font-size: 14px;
+  text-decoration: none; padding: 8px 18px; border-radius: 50px;
+  border: 2px solid var(--pink); transition: all 0.2s;
+}
+.nav-back:hover { background: var(--pink); color: white; }
+
+/* HERO STRIP */
+.hero-strip {
+  background: var(--grad);
+  padding: 60px 7% 50px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.hero-strip::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 600px 300px at 80% 50%, rgba(255,255,255,0.08) 0%, transparent 70%);
+}
+.hero-strip .badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 6px 16px; border-radius: 50px;
+  font-size: 12px; font-weight: 800; letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+.hero-strip h1 { font-size: clamp(28px, 5vw, 50px); font-weight: 900; letter-spacing: -1px; margin-bottom: 10px; }
+.hero-strip p { font-size: 15px; opacity: 0.85; max-width: 500px; line-height: 1.6; }
+.hero-strip .meta { margin-top: 20px; font-size: 13px; opacity: 0.7; }
+
+/* LAYOUT */
+.layout {
+  max-width: 1060px; margin: 0 auto;
+  padding: 60px 6%;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 50px;
+  align-items: start;
+}
+
+/* SIDEBAR TOC */
+.toc {
+  position: sticky; top: 88px;
+  background: white;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  padding: 22px 20px;
+  box-shadow: 0 4px 20px rgba(255,79,135,0.06);
+}
+.toc h4 {
+  font-size: 11px; font-weight: 900; color: var(--muted);
+  letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 16px;
+}
+.toc a {
+  display: block; text-decoration: none;
+  font-size: 13px; font-weight: 700; color: var(--muted);
+  padding: 8px 12px; border-radius: 10px; margin-bottom: 4px;
+  transition: all 0.2s;
+}
+.toc a:hover { background: #fff1f5; color: var(--pink); }
+.toc a.active { background: rgba(255,79,135,0.08); color: var(--pink); }
+
+/* CONTENT */
+.content { min-width: 0; }
+.section-block {
+  background: white;
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  padding: 32px 34px;
+  margin-bottom: 22px;
+  transition: box-shadow 0.2s;
+}
+.section-block:hover { box-shadow: 0 6px 24px rgba(255,79,135,0.07); }
+.section-block .sec-header {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 18px;
+}
+.sec-icon {
+  width: 46px; height: 46px; border-radius: 14px;
+  background: rgba(255,79,135,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.sec-num { font-size: 12px; color: var(--pink); font-weight: 800; margin-bottom: 2px; }
+.sec-title { font-size: 18px; font-weight: 900; }
+.section-block p {
+  font-size: 14px; color: #444; line-height: 1.8; margin-bottom: 12px;
+}
+.section-block p:last-child { margin-bottom: 0; }
+.section-block ul {
+  padding-left: 0; list-style: none; margin: 12px 0;
+}
+.section-block ul li {
+  font-size: 14px; color: #444; line-height: 1.7;
+  padding: 6px 0 6px 26px; position: relative; border-bottom: 1px solid #faf0f4;
+}
+.section-block ul li:last-child { border-bottom: none; }
+.section-block ul li::before {
+  content: '→';
+  position: absolute; left: 0;
+  color: var(--pink); font-weight: 800;
+}
+.highlight-box {
+  background: rgba(255,79,135,0.05);
+  border-left: 3px solid var(--pink);
+  border-radius: 0 12px 12px 0;
+  padding: 14px 18px; margin: 14px 0;
+  font-size: 13px; color: #555; line-height: 1.7;
+}
+
+/* CONTACT STRIP */
+.contact-strip {
+  background: var(--grad);
+  border-radius: 22px;
+  padding: 30px 34px;
+  color: white;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap;
+}
+.contact-strip h3 { font-size: 18px; font-weight: 900; margin-bottom: 4px; }
+.contact-strip p { font-size: 13px; opacity: 0.85; }
+.btn-contact {
+  background: white; color: var(--pink);
+  border: none; padding: 12px 26px; border-radius: 50px;
+  font-size: 14px; font-weight: 800; cursor: pointer;
+  font-family: 'Nunito', sans-serif; white-space: nowrap;
+  transition: all 0.2s;
+}
+.btn-contact:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,0.15); }
+
+/* FOOTER */
+footer {
+  text-align: center; padding: 28px;
+  font-size: 13px; color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+footer a { color: var(--pink); text-decoration: none; font-weight: 700; }
+
+@media (max-width: 820px) {
+  .layout { grid-template-columns: 1fr; gap: 30px; }
+  .toc { position: static; }
+}
+@media (max-width: 500px) {
+  .section-block { padding: 22px 18px; }
+  .hero-strip { padding: 44px 5% 38px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <a class="logo" href="/index.html">FlirtyFly 💋</a>
+  <a class="nav-back" href="/index.html">← Back to Home</a>
+</header>
+
+<!-- HERO STRIP -->
+<div class="hero-strip">
+  <div class="badge">🔒 LEGAL</div>
+  <h1>Privacy Policy</h1>
+  <p>We take your privacy seriously. Here's exactly how we collect, use, and protect your data on FlirtyFly.</p>
+  <div class="meta">Last Updated: January 1, 2026 &nbsp;·&nbsp; Effective: January 1, 2026</div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="layout">
+
+  <!-- TOC -->
+  <aside class="toc">
+    <h4>Contents</h4>
+    <a href="#s1">1. Information We Collect</a>
+    <a href="#s2">2. How We Use It</a>
+    <a href="#s3">3. Data Sharing</a>
+    <a href="#s4">4. Cookies</a>
+    <a href="#s5">5. Data Security</a>
+    <a href="#s6">6. Your Rights</a>
+    <a href="#s7">7. Children's Privacy</a>
+    <a href="#s8">8. Call Recording</a>
+    <a href="#s9">9. Payments</a>
+    <a href="#s10">10. Contact Us</a>
+  </aside>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <div class="section-block" id="s1">
+      <div class="sec-header">
+        <div class="sec-icon">📋</div>
+        <div>
+          <div class="sec-num">Section 01</div>
+          <div class="sec-title">Information We Collect</div>
+        </div>
+      </div>
+      <p>When you use FlirtyFly, we collect certain information to provide and improve our services. This includes:</p>
+      <ul>
+        <li><strong>Account Information:</strong> Name, mobile number, and password when you register</li>
+        <li><strong>Profile Data:</strong> Bio, profile photo, and any information you voluntarily add</li>
+        <li><strong>Usage Data:</strong> Pages visited, features used, call history, and session duration</li>
+        <li><strong>Device Information:</strong> Device type, operating system, browser, and IP address</li>
+        <li><strong>Payment Information:</strong> Transaction records (we do not store full card details)</li>
+        <li><strong>Communication Data:</strong> Messages or support requests you send us</li>
+      </ul>
+      <div class="highlight-box">
+        📌 We only collect information that is necessary to provide you with the best experience on FlirtyFly. We never collect unnecessary personal data.
+      </div>
+    </div>
+
+    <div class="section-block" id="s2">
+      <div class="sec-header">
+        <div class="sec-icon">⚙️</div>
+        <div>
+          <div class="sec-num">Section 02</div>
+          <div class="sec-title">How We Use Your Information</div>
+        </div>
+      </div>
+      <p>The information we collect is used solely to operate and improve FlirtyFly. Specifically, we use your data to:</p>
+      <ul>
+        <li>Create and manage your account securely</li>
+        <li>Connect you with hosts for live video calls</li>
+        <li>Process payments and manage subscriptions</li>
+        <li>Send you important service notifications and updates</li>
+        <li>Prevent fraud, abuse, and unauthorized access</li>
+        <li>Improve platform performance and user experience</li>
+        <li>Respond to your support queries and feedback</li>
+      </ul>
+      <p>We do <strong>not</strong> use your data for unsolicited marketing, sell it to third parties, or use it for purposes unrelated to our services.</p>
+    </div>
+
+    <div class="section-block" id="s3">
+      <div class="sec-header">
+        <div class="sec-icon">🤝</div>
+        <div>
+          <div class="sec-num">Section 03</div>
+          <div class="sec-title">Data Sharing & Disclosure</div>
+        </div>
+      </div>
+      <p>FlirtyFly does not sell, rent, or trade your personal information. We may share data only in these limited circumstances:</p>
+      <ul>
+        <li><strong>Service Providers:</strong> Trusted vendors who help us operate the platform (hosting, payments, analytics) under strict confidentiality agreements</li>
+        <li><strong>Legal Compliance:</strong> When required by law, court order, or government authority</li>
+        <li><strong>Safety:</strong> To protect the rights, safety, or property of FlirtyFly, our users, or the public</li>
+        <li><strong>Business Transfer:</strong> In the event of a merger or acquisition, your data may be transferred with prior notice to you</li>
+      </ul>
+      <div class="highlight-box">
+        🚫 We will never sell your personal data to advertisers, data brokers, or any third party for commercial purposes.
+      </div>
+    </div>
+
+    <div class="section-block" id="s4">
+      <div class="sec-header">
+        <div class="sec-icon">🍪</div>
+        <div>
+          <div class="sec-num">Section 04</div>
+          <div class="sec-title">Cookies & Tracking</div>
+        </div>
+      </div>
+      <p>We use cookies and similar technologies to enhance your experience on FlirtyFly. These include:</p>
+      <ul>
+        <li><strong>Essential Cookies:</strong> Required for core functionality like keeping you logged in</li>
+        <li><strong>Analytics Cookies:</strong> Help us understand how users interact with the platform</li>
+        <li><strong>Preference Cookies:</strong> Remember your settings and preferences</li>
+      </ul>
+      <p>You can control or disable cookies through your browser settings. Note that disabling essential cookies may affect the functionality of the platform. We do not use cookies for cross-site advertising tracking.</p>
+    </div>
+
+    <div class="section-block" id="s5">
+      <div class="sec-header">
+        <div class="sec-icon">🛡️</div>
+        <div>
+          <div class="sec-num">Section 05</div>
+          <div class="sec-title">Data Security</div>
+        </div>
+      </div>
+      <p>We implement industry-standard security measures to protect your data from unauthorized access, alteration, or disclosure:</p>
+      <ul>
+        <li>All data transmitted is encrypted using HTTPS/TLS protocols</li>
+        <li>Passwords are hashed and never stored in plain text</li>
+        <li>Video calls are encrypted end-to-end using WebRTC</li>
+        <li>Regular security audits and vulnerability assessments</li>
+        <li>Access to user data is restricted to authorised personnel only</li>
+      </ul>
+      <div class="highlight-box">
+        ⚠️ While we take every precaution, no system is 100% secure. If you suspect unauthorized access to your account, please contact us immediately at security@flirtyfly.in.
+      </div>
+    </div>
+
+    <div class="section-block" id="s6">
+      <div class="sec-header">
+        <div class="sec-icon">⚖️</div>
+        <div>
+          <div class="sec-num">Section 06</div>
+          <div class="sec-title">Your Rights</div>
+        </div>
+      </div>
+      <p>You have full control over your personal data. You can exercise the following rights at any time:</p>
+      <ul>
+        <li><strong>Access:</strong> Request a copy of all personal data we hold about you</li>
+        <li><strong>Correction:</strong> Update or correct inaccurate information via your Profile settings</li>
+        <li><strong>Deletion:</strong> Request permanent deletion of your account and all associated data</li>
+        <li><strong>Portability:</strong> Request your data in a portable, machine-readable format</li>
+        <li><strong>Objection:</strong> Object to certain processing activities</li>
+        <li><strong>Withdrawal:</strong> Withdraw consent for data processing at any time</li>
+      </ul>
+      <p>To exercise any of these rights, contact us at <strong>privacy@flirtyfly.in</strong>. We will respond within 30 days.</p>
+    </div>
+
+    <div class="section-block" id="s7">
+      <div class="sec-header">
+        <div class="sec-icon">🧒</div>
+        <div>
+          <div class="sec-num">Section 07</div>
+          <div class="sec-title">Children's Privacy</div>
+        </div>
+      </div>
+      <p>FlirtyFly is strictly intended for users aged <strong>18 years and above</strong>. We do not knowingly collect personal data from minors. If we discover that a user under 18 has created an account, we will immediately terminate the account and delete all associated data.</p>
+      <p>If you are a parent or guardian and believe your child has used our platform, please contact us immediately at <strong>support@flirtyfly.in</strong>.</p>
+    </div>
+
+    <div class="section-block" id="s8">
+      <div class="sec-header">
+        <div class="sec-icon">📹</div>
+        <div>
+          <div class="sec-num">Section 08</div>
+          <div class="sec-title">Call Recording Policy</div>
+        </div>
+      </div>
+      <p>FlirtyFly does <strong>not</strong> record, store, or monitor live video calls between users and hosts. All video calls are peer-to-peer and encrypted via WebRTC.</p>
+      <ul>
+        <li>No video or audio recordings are stored on our servers</li>
+        <li>Screen recording or unauthorized capture of calls by users is strictly prohibited</li>
+        <li>Any violation may result in immediate account suspension</li>
+        <li>Call metadata (duration, timestamp, host ID) is stored for billing and safety purposes only</li>
+      </ul>
+    </div>
+
+    <div class="section-block" id="s9">
+      <div class="sec-header">
+        <div class="sec-icon">💳</div>
+        <div>
+          <div class="sec-num">Section 09</div>
+          <div class="sec-title">Payment Data</div>
+        </div>
+      </div>
+      <p>All payment processing is handled by trusted third-party payment gateways. FlirtyFly does not store your full card number, CVV, or banking credentials on our servers.</p>
+      <ul>
+        <li>Payment transactions are encrypted and processed by PCI-DSS compliant providers</li>
+        <li>We store only the transaction reference ID, amount, and timestamp for billing records</li>
+        <li>All subscription plans are non-refundable as stated in our Terms of Service</li>
+      </ul>
+      <div class="highlight-box">
+        🔐 Your financial information is handled exclusively by our payment partners. FlirtyFly never has direct access to your card or bank details.
+      </div>
+    </div>
+
+    <div class="section-block" id="s10">
+      <div class="sec-header">
+        <div class="sec-icon">📬</div>
+        <div>
+          <div class="sec-num">Section 10</div>
+          <div class="sec-title">Contact Us</div>
+        </div>
+      </div>
+      <p>If you have any questions, concerns, or requests regarding this Privacy Policy or your personal data, please reach out to us:</p>
+      <ul>
+        <li><strong>General Privacy:</strong> privacy@flirtyfly.in</li>
+        <li><strong>Security Issues:</strong> security@flirtyfly.in</li>
+        <li><strong>Data Deletion:</strong> delete@flirtyfly.in</li>
+        <li><strong>Support:</strong> support@flirtyfly.in</li>
+      </ul>
+      <p>We aim to respond to all privacy-related enquiries within <strong>30 business days</strong>.</p>
+    </div>
+
+    <!-- CONTACT STRIP -->
+    <div class="contact-strip">
+      <div>
+        <h3>Still have questions?</h3>
+        <p>Our support team is happy to help clarify anything about your privacy.</p>
+      </div>
+      <button class="btn-contact" onclick="window.location.href='/index.html#contact'">Contact Support →</button>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  © 2026 FlirtyFly. All rights reserved. &nbsp;·&nbsp;
+  <a href="/terms.html">Terms of Service</a> &nbsp;·&nbsp;
+  <a href="/refer.html">Refer & Earn</a> &nbsp;·&nbsp;
+  <a href="/index.html">Home</a>
+</footer>
+
+<script>
+  // highlight active TOC item on scroll
+  const sections = document.querySelectorAll('.section-block');
+  const links    = document.querySelectorAll('.toc a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
+    });
+    links.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+</body>
+</html>
