@@ -907,18 +907,158 @@
   }
 
   /* ── BUY PLAN ── */
-  async function buyPlan(plan, amount) {
-    try {
-      await fetch("/save-payment", {
+ /* ───────────────────────────── */
+/* BUY PLAN WITH RAZORPAY */
+/* ───────────────────────────── */
+
+async function buyPlan(plan, amount) {
+
+  try {
+
+    /* CREATE ORDER */
+
+    const orderResponse =
+
+    await fetch(
+
+      "/create-order",
+
+      {
+
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userMobile, plan, amount })
-      });
-      alert(`✅ ${plan} plan purchased successfully!`);
-    } catch(e) {
-      alert("Payment failed. Please try again.");
-    }
+
+        headers: {
+
+          "Content-Type":
+          "application/json"
+
+        },
+
+        body: JSON.stringify({
+
+          amount
+
+        })
+
+      }
+
+    );
+
+    const order =
+    await orderResponse.json();
+
+    /* RAZORPAY OPTIONS */
+
+    const options = {
+
+      key:
+      "YOUR_RAZORPAY_KEY",
+
+      amount:
+      order.amount,
+
+      currency:
+      "INR",
+
+      name:
+      "FlirtyFly",
+
+      description:
+      plan,
+
+      image:
+      "/logo.png",
+
+      order_id:
+      order.id,
+
+      handler:
+      async function(response) {
+
+        /* SAVE PAYMENT */
+
+        await fetch(
+
+          "/save-payment",
+
+          {
+
+            method:"POST",
+
+            headers:{
+
+              "Content-Type":
+              "application/json"
+
+            },
+
+            body:JSON.stringify({
+
+              userMobile,
+
+              userName,
+
+              amount,
+
+              plan,
+
+              paymentId:
+              response
+              .razorpay_payment_id
+
+            })
+
+          }
+
+        );
+
+        alert(
+          "✅ Subscription Activated"
+        );
+
+      },
+
+      prefill: {
+
+        name:
+        localStorage.getItem(
+          "userName"
+        ),
+
+        contact:
+        localStorage.getItem(
+          "userMobile"
+        )
+
+      },
+
+      theme: {
+
+        color:"#ff4f87"
+
+      }
+
+    };
+
+    /* OPEN RAZORPAY */
+
+    const razorpay =
+
+    new Razorpay(options);
+
+    razorpay.open();
+
+  } catch(error) {
+
+    console.log(error);
+
+    alert(
+      "Payment Failed"
+    );
+
   }
+
+}
 
   /* ── LOGOUT ── */
   function logoutUser() {
