@@ -1,4 +1,21 @@
-<!-- PREMIUM HOST DASHBOARD UI -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>Admin Dashboard - FlirtyFly</title>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+  rel="stylesheet"
+>
 
 <style>
 
@@ -10,7 +27,7 @@
 
 body{
 
-  font-family:Segoe UI,sans-serif;
+  font-family:'Poppins',sans-serif;
 
   background:
   linear-gradient(
@@ -20,19 +37,13 @@ body{
     #1e293b
   );
 
-  color:white;
-
   min-height:100vh;
-
-  overflow-x:hidden;
-}
-
-/* LAYOUT */
-.layout{
 
   display:flex;
 
-  min-height:100vh;
+  color:white;
+
+  overflow-x:hidden;
 }
 
 /* SIDEBAR */
@@ -41,23 +52,40 @@ body{
   width:280px;
 
   background:
-  rgba(255,255,255,0.05);
+  rgba(255,255,255,0.06);
 
-  backdrop-filter:blur(18px);
+  backdrop-filter:blur(20px);
 
   border-right:
   1px solid rgba(255,255,255,0.08);
 
   padding:35px 25px;
+
+  position:fixed;
+
+  top:0;
+  left:0;
+  bottom:0;
+
+  z-index:100;
 }
 
 .sidebar h1{
 
   font-size:34px;
 
-  margin-bottom:50px;
+  margin-bottom:45px;
 
-  color:#ff5f8f;
+  background:
+  linear-gradient(
+    135deg,
+    #ff4f87,
+    #ff7b54
+  );
+
+  -webkit-background-clip:text;
+
+  -webkit-text-fill-color:transparent;
 }
 
 .sidebar ul{
@@ -67,23 +95,25 @@ body{
 
 .menu-item{
 
-  padding:18px 22px;
-
-  margin-bottom:15px;
+  padding:18px 20px;
 
   border-radius:18px;
 
+  margin-bottom:15px;
+
   cursor:pointer;
 
-  transition:0.3s;
-
   font-weight:600;
+
+  transition:0.3s;
 
   background:
   rgba(255,255,255,0.04);
 }
 
 .menu-item:hover{
+
+  transform:translateX(5px);
 
   background:
   rgba(255,255,255,0.08);
@@ -94,12 +124,12 @@ body{
   background:
   linear-gradient(
     135deg,
-    #ff4081,
-    #ff6b6b
+    #ff4f87,
+    #ff7b54
   );
 
   box-shadow:
-  0 15px 30px rgba(255,64,129,0.35);
+  0 15px 35px rgba(255,79,135,0.35);
 }
 
 /* MAIN */
@@ -107,11 +137,25 @@ body{
 
   flex:1;
 
+  margin-left:280px;
+
   padding:30px;
 }
 
 /* TOPBAR */
 .topbar{
+
+  background:
+  rgba(255,255,255,0.06);
+
+  backdrop-filter:blur(20px);
+
+  border:
+  1px solid rgba(255,255,255,0.08);
+
+  border-radius:30px;
+
+  padding:25px 30px;
 
   display:flex;
 
@@ -119,23 +163,180 @@ body{
 
   align-items:center;
 
+  margin-bottom:35px;
+}
+
+.topbar h2{
+
+  font-size:32px;
+}
+
+.admin-badge{
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff4f87,
+    #ff7b54
+  );
+
+  padding:12px 22px;
+
+  border-radius:50px;
+
+  font-size:14px;
+
+  font-weight:600;
+}
+
+/* SECTION */
+.section{
+
   background:
   rgba(255,255,255,0.06);
 
-  backdrop-filter:blur(16px);
+  backdrop-filter:blur(20px);
 
   border:
   1px solid rgba(255,255,255,0.08);
 
-  padding:22px 28px;
+  border-radius:35px;
 
-  border-radius:28px;
+  padding:35px;
+}
+
+.section-top{
 
   margin-bottom:30px;
 }
 
-/* PROFILE */
-.profile{
+.section-top h2{
+
+  font-size:30px;
+}
+
+/* CREATE HOST */
+.create-host{
+
+  margin-bottom:40px;
+}
+
+.create-host h3{
+
+  margin-bottom:25px;
+
+  font-size:24px;
+}
+
+.create-host form{
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(220px,1fr));
+
+  gap:20px;
+}
+
+/* INPUTS */
+.create-host input{
+
+  padding:18px;
+
+  border:none;
+
+  border-radius:18px;
+
+  background:
+  rgba(255,255,255,0.08);
+
+  color:white;
+
+  outline:none;
+
+  font-size:15px;
+}
+
+.create-host input::placeholder{
+
+  color:#cbd5e1;
+}
+
+/* FILE INPUT */
+.create-host input[type="file"]{
+
+  padding:14px;
+}
+
+/* BUTTON */
+.add-btn{
+
+  border:none;
+
+  border-radius:18px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff4f87,
+    #ff7b54
+  );
+
+  color:white;
+
+  font-size:16px;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.3s;
+
+  padding:18px;
+}
+
+.add-btn:hover{
+
+  transform:translateY(-4px);
+
+  box-shadow:
+  0 18px 35px rgba(255,79,135,0.3);
+}
+
+/* HOST ROW */
+.row{
+
+  background:
+  rgba(255,255,255,0.05);
+
+  border:
+  1px solid rgba(255,255,255,0.06);
+
+  border-radius:25px;
+
+  padding:20px;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  margin-bottom:20px;
+
+  transition:0.3s;
+}
+
+.row:hover{
+
+  transform:translateY(-4px);
+
+  background:
+  rgba(255,255,255,0.08);
+}
+
+/* LEFT */
+.left{
 
   display:flex;
 
@@ -144,44 +345,40 @@ body{
   gap:18px;
 }
 
-.profile img{
+.left img{
 
-  width:75px;
-  height:75px;
+  width:90px;
+  height:90px;
 
-  border-radius:22px;
+  border-radius:24px;
 
   object-fit:cover;
-
-  border:3px solid rgba(255,255,255,0.15);
 }
 
-.profile h2{
+.left h3{
 
-  font-size:24px;
+  font-size:22px;
 
-  margin-bottom:5px;
+  margin-bottom:6px;
 }
 
-.online-text{
+.left p{
 
-  color:#00e676;
+  color:#cbd5e1;
 
   font-size:14px;
-
-  font-weight:600;
 }
 
-/* BUTTONS */
-.topbar-buttons{
+/* ACTIONS */
+.actions{
 
   display:flex;
 
   gap:15px;
 }
 
-.online-btn,
-.logout-btn{
+/* DELETE */
+.delete{
 
   border:none;
 
@@ -189,278 +386,39 @@ body{
 
   border-radius:16px;
 
-  font-size:15px;
-
-  font-weight:600;
-
-  cursor:pointer;
-
-  transition:0.3s;
-
-  color:white;
-}
-
-.online-btn{
-
-  background:
-  linear-gradient(
-    135deg,
-    #00c853,
-    #00e676
-  );
-}
-
-.logout-btn{
-
   background:
   linear-gradient(
     135deg,
     #ff416c,
     #ff4b2b
   );
+
+  color:white;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.3s;
 }
 
-.online-btn:hover,
-.logout-btn:hover{
+.delete:hover{
 
   transform:translateY(-3px);
 }
 
-/* STATS */
-.stats{
-
-  display:grid;
-
-  grid-template-columns:
-  repeat(auto-fit,minmax(220px,1fr));
-
-  gap:22px;
+/* PAYMENTS */
+#paymentsSection h2{
 
   margin-bottom:30px;
-}
-
-/* CARD */
-.card{
-
-  background:
-  rgba(255,255,255,0.06);
-
-  backdrop-filter:blur(18px);
-
-  border:
-  1px solid rgba(255,255,255,0.08);
-
-  padding:30px;
-
-  border-radius:28px;
-
-  transition:0.3s;
-}
-
-.card:hover{
-
-  transform:translateY(-5px);
-}
-
-.card h1{
-
-  font-size:34px;
-
-  margin-bottom:12px;
-
-  color:#ff7aa2;
-}
-
-.card p{
-
-  color:#cbd5e1;
-
-  font-size:15px;
-}
-
-/* RECENT CALLS */
-.recent{
-
-  background:
-  rgba(255,255,255,0.06);
-
-  backdrop-filter:blur(18px);
-
-  border:
-  1px solid rgba(255,255,255,0.08);
-
-  padding:30px;
-
-  border-radius:30px;
-}
-
-.recent h2{
-
-  margin-bottom:25px;
-
-  font-size:28px;
-}
-
-/* CALL ROW */
-.call-row{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-
-  padding:18px 20px;
-
-  margin-bottom:15px;
-
-  border-radius:18px;
-
-  background:
-  rgba(255,255,255,0.05);
-
-  transition:0.3s;
-}
-
-.call-row:hover{
-
-  background:
-  rgba(255,255,255,0.08);
-}
-
-/* POPUP */
-.incoming-popup{
-
-  position:fixed;
-
-  inset:0;
-
-  background:
-  rgba(0,0,0,0.65);
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  z-index:999;
-}
-
-/* POPUP BOX */
-.popup-box{
-
-  width:90%;
-  max-width:420px;
-
-  background:
-  rgba(255,255,255,0.08);
-
-  backdrop-filter:blur(22px);
-
-  border:
-  1px solid rgba(255,255,255,0.08);
-
-  padding:35px;
-
-  border-radius:32px;
-
-  text-align:center;
-
-  animation:popup 0.3s ease;
-}
-
-@keyframes popup{
-
-  from{
-
-    transform:scale(0.8);
-    opacity:0;
-  }
-
-  to{
-
-    transform:scale(1);
-    opacity:1;
-  }
-}
-
-.popup-box h2{
 
   font-size:30px;
-
-  margin-bottom:15px;
-}
-
-.popup-box p{
-
-  color:#cbd5e1;
-
-  margin-bottom:30px;
-
-  font-size:16px;
-}
-
-/* POPUP BUTTONS */
-.popup-buttons{
-
-  display:flex;
-
-  gap:15px;
-}
-
-.accept-btn,
-.reject-btn{
-
-  flex:1;
-
-  border:none;
-
-  padding:16px;
-
-  border-radius:18px;
-
-  font-size:16px;
-
-  font-weight:600;
-
-  cursor:pointer;
-
-  color:white;
-
-  transition:0.3s;
-}
-
-.accept-btn{
-
-  background:
-  linear-gradient(
-    135deg,
-    #00c853,
-    #00e676
-  );
-}
-
-.reject-btn{
-
-  background:
-  linear-gradient(
-    135deg,
-    #ff416c,
-    #ff4b2b
-  );
-}
-
-.accept-btn:hover,
-.reject-btn:hover{
-
-  transform:translateY(-3px);
 }
 
 /* MOBILE */
-@media(max-width:900px){
+@media(max-width:950px){
 
-  .layout{
+  body{
 
     flex-direction:column;
   }
@@ -469,10 +427,17 @@ body{
 
     width:100%;
 
+    position:relative;
+
     border-right:none;
 
     border-bottom:
     1px solid rgba(255,255,255,0.08);
+  }
+
+  .main{
+
+    margin-left:0;
   }
 
   .topbar{
@@ -481,30 +446,430 @@ body{
 
     align-items:flex-start;
 
-    gap:20px;
+    gap:15px;
   }
 
-  .topbar-buttons{
-
-    width:100%;
-
-    flex-direction:column;
-  }
-
-  .online-btn,
-  .logout-btn{
-
-    width:100%;
-  }
-
-  .call-row{
+  .row{
 
     flex-direction:column;
 
     align-items:flex-start;
 
-    gap:10px;
+    gap:20px;
+  }
+
+  .actions{
+
+    width:100%;
+  }
+
+  .delete{
+
+    width:100%;
   }
 }
 
 </style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+<h1>
+  FlirtyFly
+</h1>
+
+<ul>
+
+<li
+  class="menu-item active-menu"
+  id="hostsMenu"
+  onclick="showHosts(this)"
+>
+  Create Hosts
+</li>
+
+<li
+  class="menu-item"
+  id="paymentsMenu"
+  onclick="showPayments(this)"
+>
+  Payments
+</li>
+
+</ul>
+
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- TOPBAR -->
+<div class="topbar">
+
+<h2 id="pageTitle">
+  Host Management
+</h2>
+
+<div class="admin-badge">
+  Admin Access
+</div>
+
+</div>
+
+<!-- SECTION -->
+<div class="section">
+
+<!-- CREATE HOST -->
+<div class="create-host">
+
+<h3>
+  Create Host Account
+</h3>
+
+<form
+  action="/create-host"
+  method="POST"
+  enctype="multipart/form-data"
+>
+
+<input
+  type="text"
+  name="name"
+  placeholder="Host Name"
+  required
+>
+
+<input
+  type="tel"
+  name="mobile"
+  placeholder="Host Mobile Number"
+  required
+>
+
+<input
+  type="password"
+  name="password"
+  placeholder="Password"
+  required
+>
+
+<input
+  type="file"
+  name="image"
+  required
+>
+
+<button
+  type="submit"
+  class="add-btn"
+>
+
+  Create Host
+
+</button>
+
+</form>
+
+</div>
+
+<!-- HOST LIST -->
+<div id="hostList"></div>
+
+<!-- PAYMENTS -->
+<div
+  id="paymentsSection"
+  style="display:none;"
+>
+
+<h2>
+  Subscription Payments
+</h2>
+
+<div id="paymentsList"></div>
+
+</div>
+
+</div>
+
+</main>
+
+<script>
+
+/* LOAD HOSTS */
+async function loadHosts(){
+
+  const response = await fetch(
+    "/get-hosts"
+  );
+
+  const hosts =
+    await response.json();
+
+  const hostList =
+
+    document.getElementById(
+      "hostList"
+    );
+
+  hostList.innerHTML = "";
+
+  hosts.forEach((host)=>{
+
+    hostList.innerHTML += `
+
+      <div class="row">
+
+        <div class="left">
+
+          <img
+            src="/uploads/${host.image}"
+          >
+
+          <div>
+
+            <h3>
+              ${host.name}
+            </h3>
+
+            <p>
+              ${host.mobile}
+            </p>
+
+            <p>
+
+              Status:
+              ${
+                host.status || "Offline"
+              }
+
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="actions">
+
+          <button
+            class="delete"
+            onclick="deleteHost('${host._id}')"
+          >
+
+            Delete
+
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+/* DELETE HOST */
+async function deleteHost(id){
+
+  if(
+    !confirm(
+      "Delete this host?"
+    )
+  ){
+    return;
+  }
+
+  const response = await fetch(
+
+    `/delete-host/${id}`,
+
+    {
+      method:"DELETE"
+    }
+
+  );
+
+  const message =
+    await response.text();
+
+  alert(message);
+
+  loadHosts();
+
+}
+
+/* SHOW PAYMENTS */
+async function showPayments(element){
+
+  setActiveMenu(element);
+
+  document.querySelector(
+    ".create-host"
+  ).style.display = "none";
+
+  document.getElementById(
+    "hostList"
+  ).style.display = "none";
+
+  document.getElementById(
+    "paymentsSection"
+  ).style.display = "block";
+
+  document.getElementById(
+    "pageTitle"
+  ).innerText =
+
+  "Payments";
+
+  const response = await fetch(
+    "/get-payments"
+  );
+
+  const payments =
+    await response.json();
+
+  const paymentsList =
+
+    document.getElementById(
+      "paymentsList"
+    );
+
+  paymentsList.innerHTML = "";
+
+  if(payments.length === 0){
+
+    paymentsList.innerHTML = `
+
+      <div class="row">
+
+        <div class="left">
+
+          <div>
+
+            <h3>
+              No Payments Yet
+            </h3>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+  payments.forEach((payment)=>{
+
+    paymentsList.innerHTML += `
+
+      <div class="row">
+
+        <div class="left">
+
+          <div>
+
+            <h3>
+              ${payment.plan}
+            </h3>
+
+            <p>
+              ${payment.userName || "User"}
+            </p>
+
+            <p>
+              ${payment.userMobile}
+            </p>
+
+            <p>
+
+              ₹${payment.amount}
+
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+/* SHOW HOSTS */
+function showHosts(element){
+
+  setActiveMenu(element);
+
+  document.querySelector(
+    ".create-host"
+  ).style.display = "block";
+
+  document.getElementById(
+    "hostList"
+  ).style.display = "block";
+
+  document.getElementById(
+    "paymentsSection"
+  ).style.display = "none";
+
+  document.getElementById(
+    "pageTitle"
+  ).innerText =
+
+  "Host Management";
+
+}
+
+/* ACTIVE MENU */
+function setActiveMenu(element){
+
+  document.querySelectorAll(
+    ".menu-item"
+  ).forEach((item)=>{
+
+    item.classList.remove(
+      "active-menu"
+    );
+
+  });
+
+  element.classList.add(
+    "active-menu"
+  );
+
+}
+
+/* ADMIN AUTH */
+const adminLoggedIn =
+
+  localStorage.getItem(
+    "adminLoggedIn"
+  );
+
+if(adminLoggedIn !== "true"){
+
+  window.location.href =
+  "/admin-login.html";
+
+}
+
+/* INITIAL LOAD */
+loadHosts();
+
+</script>
+
+</body>
+
+</html>
