@@ -1,1115 +1,935 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Dashboard - FlirtyFly</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-  <link rel="stylesheet" href="user.css">
+    :root {
+      --pink: #ff4f87;
+      --orange: #ff7b54;
+      --grad: linear-gradient(135deg, #ff4f87, #ff7b54);
+      --grad-soft: linear-gradient(135deg, #fff0f4, #ffe4ec);
+      --white: #ffffff;
+      --bg: #fdf2f6;
+      --text: #222;
+      --muted: #888;
+      --border: #f0e0e8;
+      --shadow: 0 10px 30px rgba(255,79,135,0.10);
+      --shadow-card: 0 8px 28px rgba(0,0,0,0.07);
+      --radius: 22px;
+      --sidebar-w: 265px;
+    }
 
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── OVERLAY ── */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 90;
+    }
+    .overlay.show { display: block; }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--white);
+      padding: 32px 20px;
+      border-right: 1.5px solid var(--border);
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.32s cubic-bezier(.4,0,.2,1);
+    }
+
+    .sidebar-logo {
+      font-size: 30px;
+      font-weight: 900;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 38px;
+      letter-spacing: -1px;
+    }
+
+    .sidebar nav { flex: 1; }
+
+    .menu-item {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 15px;
+      color: #777;
+      transition: all 0.22s;
+      user-select: none;
+    }
+    .menu-item .ico { font-size: 19px; }
+    .menu-item:hover { background: #fff1f5; color: var(--pink); }
+    .menu-item.active-menu {
+      background: var(--grad);
+      color: white;
+      box-shadow: 0 8px 22px rgba(255,79,135,0.28);
+    }
+
+    .sidebar-footer {
+      padding: 18px;
+      background: #fff6f9;
+      border-radius: 16px;
+      text-align: center;
+    }
+    .sidebar-footer p { font-size: 12px; color: #bbb; }
+
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 12px;
+      background: var(--white);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2.5px;
+      background: var(--pink);
+      border-radius: 4px;
+      transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+    /* ── MAIN ── */
+    .main {
+      flex: 1;
+      margin-left: var(--sidebar-w);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--white);
+      border-bottom: 1.5px solid var(--border);
+      padding: 18px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 14px; }
+    .topbar h2 { font-size: 22px; font-weight: 900; }
+    .badge-premium {
+      background: var(--grad);
+      color: white;
+      padding: 7px 16px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── CONTENT ── */
+    .content-area { padding: 28px; flex: 1; }
+
+    /* ── HOST CARDS ── */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 22px;
+    }
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.22s, box-shadow 0.22s;
+    }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 16px 38px rgba(255,79,135,0.14); }
+    .card .img-wrap { position: relative; }
+    .card .img-wrap img { width: 100%; height: 290px; object-fit: cover; display: block; }
+    .status-badge {
+      position: absolute;
+      top: 14px; right: 14px;
+      padding: 6px 13px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: 0.5px;
+    }
+    .online { background: #00c853; }
+    .offline { background: #ff5252; }
+    .card .card-body { padding: 18px 20px 20px; }
+    .card .card-body h3 { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+    .card .card-body p { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+    .btn-call {
+      width: 100%;
+      border: none;
+      padding: 13px;
+      border-radius: 14px;
+      background: var(--grad);
+      color: white;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      font-family: 'Nunito', sans-serif;
+    }
+    .btn-call:hover { opacity: 0.88; transform: translateY(-2px); }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center;
+      padding: 70px 20px;
+      color: var(--muted);
+    }
+    .empty-state .ico-big { font-size: 54px; margin-bottom: 14px; }
+    .empty-state h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; color: #bbb; }
+
+    /* ── SUBSCRIPTIONS ── */
+    .sub-title { font-size: 24px; font-weight: 900; margin-bottom: 24px; }
+    .sub-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 22px;
+    }
+    .sub-card {
+      background: var(--white);
+      padding: 32px 28px;
+      border-radius: var(--radius);
+      text-align: center;
+      box-shadow: var(--shadow-card);
+      position: relative;
+      border: 2px solid transparent;
+      transition: transform 0.22s, box-shadow 0.22s;
+    }
+    .sub-card:hover { transform: translateY(-4px); }
+    .sub-card.featured { border-color: var(--pink); box-shadow: 0 10px 30px rgba(255,79,135,0.18); }
+    .sub-card .badge-best {
+      position: absolute;
+      top: -14px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--grad);
+      color: white;
+      padding: 6px 18px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .sub-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 10px; }
+    .sub-card .price { font-size: 46px; font-weight: 900; color: var(--pink); margin-bottom: 6px; }
+    .sub-card .price span { font-size: 20px; }
+    .sub-card .features { margin: 14px 0; }
+    .sub-card .features p { font-size: 14px; color: var(--muted); padding: 6px 0; border-bottom: 1px solid #f5f5f5; }
+    .sub-card .features p:last-child { border-bottom: none; }
+    .sub-card .btn-buy {
+      margin-top: 20px;
+      width: 100%;
+      border: none;
+      padding: 14px;
+      border-radius: 14px;
+      background: var(--grad);
+      color: white;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      font-family: 'Nunito', sans-serif;
+      transition: opacity 0.2s;
+    }
+    .sub-card .btn-buy:hover { opacity: 0.88; }
+
+    /* ── CALL HISTORY ── */
+    .history-list { display: flex; flex-direction: column; gap: 14px; }
+    .history-card {
+      background: var(--white);
+      border-radius: 18px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.2s;
+    }
+    .history-card:hover { transform: translateX(4px); }
+    .history-card img {
+      width: 64px; height: 64px;
+      border-radius: 14px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .history-card .info h3 { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+    .history-card .info p { font-size: 12px; color: var(--muted); }
+    .history-card .tag {
+      margin-left: auto;
+      background: #f0f9ff;
+      color: #2a7ced;
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* ── PROFILE ── */
+    .profile-wrap {
+      max-width: 460px;
+    }
+    .profile-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+    .profile-header {
+      background: var(--grad);
+      padding: 36px 28px 24px;
+      text-align: center;
+      color: white;
+    }
+    .avatar-circle {
+      width: 82px; height: 82px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.28);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 34px;
+      font-weight: 900;
+      margin: 0 auto 14px;
+      border: 3px solid rgba(255,255,255,0.5);
+    }
+    .profile-header h2 { font-size: 22px; font-weight: 900; }
+    .profile-header p { opacity: 0.85; font-size: 13px; margin-top: 4px; }
+    .profile-body { padding: 22px 24px; }
+    .profile-menu-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 15px 18px;
+      border-radius: 14px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 10px;
+      background: #fdf5f8;
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-family: 'Nunito', sans-serif;
+    }
+    .profile-menu-link:hover { background: #ffe0ec; color: var(--pink); }
+    .profile-menu-link .lico { font-size: 18px; }
+    .profile-menu-link.danger { color: #e53935; background: #fff0f0; }
+    .profile-menu-link.danger:hover { background: #ffe0e0; }
+
+    /* ── SETTINGS ── */
+    .settings-wrap { max-width: 520px; }
+    .settings-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 0;
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+    .settings-card-title {
+      padding: 22px 26px 14px;
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 11px;
+    }
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 17px 26px;
+      border-top: 1.5px solid var(--border);
+    }
+    .setting-row:first-of-type { border-top: none; }
+    .setting-row .s-info h3 { font-size: 15px; font-weight: 800; margin-bottom: 3px; }
+    .setting-row .s-info p { font-size: 12px; color: var(--muted); }
+    .setting-row .s-right { font-size: 18px; color: #ccc; }
+    .status-pill {
+      padding: 5px 14px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .status-pill.active { background: #e8faf1; color: #00a651; }
+    .status-pill.inactive { background: #fff0f0; color: #e53935; }
+    .btn-logout-full {
+      width: calc(100% - 52px);
+      margin: 20px 26px;
+      border: none;
+      padding: 15px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      color: white;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      font-family: 'Nunito', sans-serif;
+      transition: opacity 0.2s;
+    }
+    .btn-logout-full:hover { opacity: 0.88; }
+
+    /* ── SECTION HEADINGS ── */
+    .section-heading {
+      font-size: 22px;
+      font-weight: 900;
+      margin-bottom: 22px;
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.62);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-box {
+      background: var(--white);
+      border-radius: 28px;
+      width: 100%;
+      max-width: 380px;
+      overflow: hidden;
+      position: relative;
+      animation: popIn 0.28s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.88); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .modal-img { width: 100%; height: 340px; object-fit: cover; display: block; }
+    .modal-body { padding: 20px 22px 24px; text-align: center; }
+    .modal-body h2 { font-size: 22px; font-weight: 900; margin-bottom: 4px; }
+    .modal-body p { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+    .modal-close {
+      position: absolute;
+      top: 13px; right: 16px;
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.35);
+      color: white;
+      font-size: 20px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-weight: 700;
+      line-height: 1;
+      border: none;
+    }
+
+    /* ── TERMS POPUP ── */
+    .terms-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.62);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      padding: 20px;
+    }
+    .terms-overlay.show { display: flex; }
+    .terms-box {
+      background: var(--white);
+      border-radius: 28px;
+      width: 100%;
+      max-width: 430px;
+      padding: 34px 30px;
+      text-align: center;
+    }
+    .terms-box h2 { font-size: 22px; font-weight: 900; margin-bottom: 10px; }
+    .terms-box > p { color: var(--muted); line-height: 1.6; font-size: 14px; }
+    .terms-rules { background: #fdf5f8; border-radius: 16px; padding: 18px 20px; margin: 18px 0; text-align: left; }
+    .terms-rules p { font-size: 13px; color: #555; padding: 6px 0; border-bottom: 1px solid #f0e0e8; }
+    .terms-rules p:last-child { border-bottom: none; }
+    .btn-agree {
+      width: 100%; border: none; padding: 15px; border-radius: 16px;
+      background: var(--grad); color: white; font-weight: 800; font-size: 15px;
+      cursor: pointer; font-family: 'Nunito', sans-serif;
+    }
+
+    /* ── LOADER ── */
+    .loader { text-align: center; padding: 50px; color: var(--muted); font-weight: 700; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .sidebar {
+        transform: translateX(-110%);
+        box-shadow: 4px 0 24px rgba(0,0,0,0.1);
+      }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; }
+      .hamburger { display: flex; }
+    }
+
+    @media (max-width: 500px) {
+      .content-area { padding: 18px 14px; }
+      .topbar { padding: 14px 18px; }
+      .topbar h2 { font-size: 18px; }
+      .cards { grid-template-columns: 1fr 1fr; gap: 14px; }
+      .card .img-wrap img { height: 180px; }
+      .sub-cards { grid-template-columns: 1fr; }
+      .profile-wrap, .settings-wrap { max-width: 100%; }
+    }
+    @media (max-width: 380px) {
+      .cards { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
-
 <body>
 
-  <!-- SIDEBAR -->
-  <aside
-    class="sidebar"
-    id="sidebar"
-  >
+<!-- OVERLAY (mobile) -->
+<div class="overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
-    <h1>FlirtyFly</h1>
-
-    <ul>
-
-      <li
-  class="menu-item"
-  onclick="showDiscover(this)"
->
-  Discover
-</li>
-
-      <li
-  class="menu-item"
-  onclick="showSubscriptions(this)"
->
-  Subscriptions
-</li>
-
-      <li
-  class="menu-item"
-  onclick="showCallHistory(this)"
->
-  Call History
-</li>
-
-      <li
-  class="menu-item"
-  onclick="showProfile(this)"
->
-  Profile
-</li>
-
-      <li
-  class="menu-item"
-  onclick="showSettings(this)"
->
-  Settings
-</li>
-
-   
-
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">FlirtyFly 💋</div>
+  <nav>
+    <ul id="sidebarMenu">
+      <li class="menu-item active-menu" data-section="discover" onclick="navigate('discover', this)">
+        <span class="ico">🔥</span> Discover
+      </li>
+      <li class="menu-item" data-section="subscriptions" onclick="navigate('subscriptions', this)">
+        <span class="ico">💎</span> Subscriptions
+      </li>
+      <li class="menu-item" data-section="callHistory" onclick="navigate('callHistory', this)">
+        <span class="ico">📞</span> Call History
+      </li>
+      <li class="menu-item" data-section="profile" onclick="navigate('profile', this)">
+        <span class="ico">👤</span> Profile
+      </li>
+      <li class="menu-item" data-section="settings" onclick="navigate('settings', this)">
+        <span class="ico">⚙️</span> Settings
+      </li>
     </ul>
+  </nav>
+  <div class="sidebar-footer">
+    <p>FlirtyFly v2.0</p>
+  </div>
+</aside>
 
-  </aside>
+<!-- MAIN -->
+<main class="main">
 
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- TOPBAR -->
-    <div class="topbar">
-
-      <h2 id="pageTitle">
-  Discover Hosts
-</h2>
-
-      <div class="premium">
-        Premium Active
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
+        <span></span><span></span><span></span>
       </div>
+      <h2 id="pageTitle">Discover Hosts</h2>
+    </div>
+    <div class="badge-premium">✨ Premium Active</div>
+  </div>
 
+  <div class="content-area">
+
+    <!-- DISCOVER -->
+    <div id="sec-discover">
+      <div class="cards" id="hostCards">
+        <div class="loader">Loading hosts...</div>
+      </div>
     </div>
 
     <!-- SUBSCRIPTIONS -->
-    <div
-      class="subscriptions"
-      id="subscriptions"
-      style="display:none;"
-    >
-
-      <div class="sub-top">
-
-        <h2 class="sub-title">
-          Premium Plans
-        </h2>
-
-      </div>
-
+    <div id="sec-subscriptions" style="display:none;">
+      <h2 class="section-heading">Choose a Plan</h2>
       <div class="sub-cards">
-
-        <!-- PLAN 1 -->
+        <!-- Basic Weekly -->
         <div class="sub-card">
-
-          <h3>
-            Basic Weekly
-          </h3>
-
-          <h1>
-            ₹299
-          </h1>
-
-          <p>
-            2 Hours Daily
-          </p>
-
-          <p>
-            Valid For 7 Days
-          </p>
-
-          <button>
-            Buy Now
-          </button>
-
+          <h3>Basic Weekly</h3>
+          <div class="price"><span>₹</span>299</div>
+          <div class="features">
+            <p>⏱ 2 Hours Daily</p>
+            <p>📅 Valid For 7 Days</p>
+            <p>📹 HD Video Calls</p>
+          </div>
+          <button class="btn-buy" onclick="buyPlan('Basic Weekly', 299)">Buy Now</button>
         </div>
-
-        <!-- PLAN 2 -->
-        <div class="sub-card premium-card">
-
-          <span class="best">
-            BEST VALUE
-          </span>
-
-          <h3>
-            Unlimited Weekly
-          </h3>
-
-          <h1>
-            ₹899
-          </h1>
-
-          <p>
-            Unlimited Calls
-          </p>
-
-          <p>
-            Valid For 7 Days
-          </p>
-
-          <button>
-            Buy Now
-          </button>
-
+        <!-- Unlimited Weekly -->
+        <div class="sub-card featured">
+          <div class="badge-best">⭐ BEST VALUE</div>
+          <h3>Unlimited Weekly</h3>
+          <div class="price"><span>₹</span>899</div>
+          <div class="features">
+            <p>♾️ Unlimited Calls</p>
+            <p>📅 Valid For 7 Days</p>
+            <p>🚀 Priority Support</p>
+          </div>
+          <button class="btn-buy" onclick="buyPlan('Unlimited Weekly', 899)">Buy Now</button>
         </div>
-
+        <!-- Monthly -->
+        <div class="sub-card">
+          <h3>Monthly Pro</h3>
+          <div class="price"><span>₹</span>2499</div>
+          <div class="features">
+            <p>♾️ Unlimited Calls</p>
+            <p>📅 Valid For 30 Days</p>
+            <p>🎁 Exclusive Perks</p>
+          </div>
+          <button class="btn-buy" onclick="buyPlan('Monthly Pro', 2499)">Buy Now</button>
+        </div>
       </div>
+    </div>
 
+    <!-- CALL HISTORY -->
+    <div id="sec-callHistory" style="display:none;">
+      <h2 class="section-heading">Call History</h2>
+      <div class="history-list" id="callHistoryList">
+        <div class="loader">Loading history...</div>
+      </div>
     </div>
 
     <!-- PROFILE -->
-<div
-  class="profile-section"
-  id="profileSection"
-  style="display:none;"
->
-
-  <div class="simple-profile">
-
-    <div class="profile-top">
-
-      <div class="small-avatar">
-
-        <span id="avatarLetter">
-          U
-        </span>
-
+    <div id="sec-profile" style="display:none;">
+      <div class="profile-wrap">
+        <div class="profile-card">
+          <div class="profile-header">
+            <div class="avatar-circle" id="avatarCircle">U</div>
+            <h2 id="profileGreeting">Hi, User 👋</h2>
+            <p>Welcome back to FlirtyFly</p>
+          </div>
+          <div class="profile-body">
+            <a href="/edit-profile.html" class="profile-menu-link">
+              <span class="lico">✏️</span> Edit Profile
+            </a>
+            <button class="profile-menu-link" onclick="navigate('subscriptions', document.querySelector('[data-section=subscriptions]'))">
+              <span class="lico">💎</span> My Subscriptions
+            </button>
+            <button class="profile-menu-link" onclick="navigate('callHistory', document.querySelector('[data-section=callHistory]'))">
+              <span class="lico">📞</span> Call History
+            </button>
+            <button class="profile-menu-link danger" onclick="logoutUser()">
+              <span class="lico">🚪</span> Logout
+            </button>
+          </div>
+        </div>
       </div>
-
-      <h2 id="profileGreeting">
-        Hi, User 👋
-      </h2>
-
-      <p>
-        Welcome back to FlirtyFly
-      </p>
-
     </div>
 
-   <div class="profile-menu">
-
-  <a href="/edit-profile.html">
-    Edit Profile
-  </a>
-
- 
-
-  
-
-  <a
-  href="#"
-  onclick="logoutUser()"
->
-  Logout
-</a>
-
-</div>
-
+    <!-- SETTINGS -->
+    <div id="sec-settings" style="display:none;">
+      <h2 class="section-heading">Settings</h2>
+      <div class="settings-wrap">
+        <div class="settings-card">
+          <div class="settings-card-title">Account</div>
+          <div class="setting-row">
+            <div class="s-info">
+              <h3>Membership</h3>
+              <p>Current active plan</p>
+            </div>
+            <span class="status-pill active">Premium</span>
+          </div>
+          <div class="setting-row">
+            <div class="s-info">
+              <h3>Free Trial</h3>
+              <p>One-time trial per account</p>
+            </div>
+            <span class="status-pill active" id="freeTrialStatus">Enabled</span>
+          </div>
+          <div class="setting-row">
+            <div class="s-info">
+              <h3>Account Security</h3>
+              <p>Your account is protected</p>
+            </div>
+            <span class="s-right">🔒</span>
+          </div>
+          <div class="setting-row">
+            <div class="s-info">
+              <h3>Privacy Policy</h3>
+              <p>View our privacy policy</p>
+            </div>
+            <span class="s-right" style="cursor:pointer;" onclick="window.location.href='/privacy.html'">›</span>
+          </div>
+          <div class="setting-row">
+            <div class="s-info">
+              <h3>Terms & Conditions</h3>
+              <p>View terms of service</p>
+            </div>
+            <span class="s-right" style="cursor:pointer;" onclick="window.location.href='/terms.html'">›</span>
+          </div>
+          <button class="btn-logout-full" onclick="logoutUser()">🚪 Logout</button>
+        </div>
+      </div>
     </div>
 
+  </div><!-- /content-area -->
+</main>
+
+<!-- HOST MODAL -->
+<div class="modal-overlay" id="hostModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <img class="modal-img" id="modalImage" src="" alt="">
+    <div class="modal-body">
+      <h2 id="modalName"></h2>
+      <p>Premium Live Video Host</p>
+      <button class="btn-call" onclick="startCall()">📹 Start Video Call</button>
+    </div>
   </div>
-
 </div>
 
-<!-- SETTINGS -->
-
-<div
-  class="settings-section"
-  id="settingsSection"
-  style="display:none;"
->
-
-  <div class="settings-container">
-
-    <div class="settings-card">
-
-      <div class="setting-row">
-
-        <div>
-          <h3>Membership</h3>
-          <p>Premium Plan Active</p>
-        </div>
-
-      </div>
-
-      <div class="setting-row">
-
-        <div>
-          <h3>Free Trial Status</h3>
-          <p>1 Time Trial Enabled</p>
-        </div>
-
-      </div>
-
-      <div class="setting-row">
-
-        <div>
-          <h3>Account Security</h3>
-          <p>Your account is protected</p>
-        </div>
-
-      </div>
-
-      <button
-        class="logout-btn"
-        onclick="logoutUser()"
-      >
-        Logout
-      </button>
-
+<!-- TERMS POPUP -->
+<div class="terms-overlay" id="termsPopup">
+  <div class="terms-box">
+    <h2>📋 Terms & Conditions</h2>
+    <p>By continuing, you agree to our platform policies and community guidelines.</p>
+    <div class="terms-rules">
+      <p>💳 All payments are non-refundable</p>
+      <p>🎁 Free trial valid one time only</p>
+      <p>⚠️ Accounts may be suspended anytime</p>
+      <p>🔄 Service may change anytime</p>
     </div>
-
+    <button class="btn-agree" onclick="acceptTerms()">✅ Agree & Continue</button>
   </div>
-
 </div>
-
-<!-- CALL HISTORY -->
-<div
-  class="call-history-section"
-  id="callHistorySection"
-  style="display:none;"
->
-
-  <div id="callHistoryList"></div>
-
-</div>
-
-    <!-- HOSTS -->
-    <div
-      class="cards"
-      id="hostCards"
-    ></div>
-
-  </main>
 
 <script src="/socket.io/socket.io.js"></script>
-
 <script>
+  /* ── STATE ── */
+  const socket = io();
+  let selectedHost = {};
+  const userMobile = localStorage.getItem("userMobile");
+  const userName   = localStorage.getItem("userName") || "User";
 
-async function checkTermsPopup(){
+  /* ── INIT ── */
+  initProfile();
+  checkTermsPopup();
+  loadHosts();
+  checkFreeTrialStatus();
 
-  const mobile =
-
-    localStorage.getItem(
-      "userMobile"
-    );
-
-  const response =
-
-    await fetch(
-
-      "/login-check/" + mobile
-
-    );
-
-  const data =
-    await response.json();
-
-  if(!data.termsAccepted){
-
-    document.getElementById(
-      "entryPopup"
-    ).style.display = "flex";
-
-  }
-
-}
-
-async function acceptTerms(){
-
-  const mobile =
-
-    localStorage.getItem(
-      "userMobile"
-    );
-
-  await fetch(
-
-    "/accept-terms",
-
-    {
-
-      method:"POST",
-
-      headers:{
-        "Content-Type":
-        "application/json"
-      },
-
-      body:JSON.stringify({
-
-        mobile
-
-      })
-
+  function initProfile() {
+    if (userName) {
+      document.getElementById("profileGreeting").innerText = `Hi, ${userName} 👋`;
+      document.getElementById("avatarCircle").innerText = userName.charAt(0).toUpperCase();
     }
-
-  );
-
-  document.getElementById(
-    "entryPopup"
-  ).style.display = "none";
-
-}
-
-checkTermsPopup();
-
-function openTerms(){
-
-  window.location.href =
-    "/terms.html";
-
-}
-
-function openPrivacy(){
-
-  window.location.href =
-    "/privacy.html";
-
-}
-
-function openRefer(){
-
-  window.location.href =
-    "/refer.html";
-
-}
-
-
-
-const socket = io();
-
-let selectedHost = {};
-
-async function loadHosts(){
-
-  try{
-
-    const response = await fetch(
-      "http://localhost:3000/get-hosts"
-    );
-
-    const hosts = await response.json();
-
-    const hostCards =
-      document.getElementById(
-        "hostCards"
-      );
-
-    hostCards.innerHTML = "";
-
-    hosts.forEach((host) => {
-
-      hostCards.innerHTML += `
-
-        <div class="card">
-
-          <div class="image">
-
-            <img
-              src="/uploads/${host.image}"
-            >
-
-            <span class="${
-              host.status === "Online"
-              ? "online"
-              : "offline"
-            }">
-
-              ${host.status}
-
-            </span>
-
-          </div>
-
-          <div class="content">
-
-            <h3>${host.name}</h3>
-
-            <p>
-              Live Video Call Host
-            </p>
-
-            <button
-              onclick="openProfile(
-  '${host._id}',
-  '${host.name}',
-  '${host.image}'
-)"
-            >
-              Start Call
-            </button>
-
-          </div>
-
-        </div>
-
-      `;
-
-    });
-
-  }catch(error){
-
-    console.log(error);
-
   }
 
-}
+  /* ── TERMS ── */
+  async function checkTermsPopup() {
+    if (!userMobile) return;
+    const res  = await fetch(`/login-check/${userMobile}`);
+    const data = await res.json();
+    if (!data.termsAccepted) document.getElementById("termsPopup").classList.add("show");
+  }
 
-function openProfile(
-  id,
-  name,
-  image
-){
+  async function acceptTerms() {
+    await fetch("/accept-terms", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mobile: userMobile })
+    });
+    document.getElementById("termsPopup").classList.remove("show");
+  }
 
-  selectedHost = {
+  /* ── FREE TRIAL STATUS ── */
+  async function checkFreeTrialStatus() {
+    if (!userMobile) return;
+    const res  = await fetch(`/check-free-trial/${userMobile}`);
+    const data = await res.json();
+    const pill = document.getElementById("freeTrialStatus");
+    if (data.freeTrialUsed) {
+      pill.textContent = "Used";
+      pill.className = "status-pill inactive";
+    }
+  }
 
-    id,
-    name,
-    image
-
+  /* ── NAVIGATION ── */
+  const sections = ["discover","subscriptions","callHistory","profile","settings"];
+  const titles   = {
+    discover: "Discover Hosts",
+    subscriptions: "Subscriptions",
+    callHistory: "Call History",
+    profile: "My Profile",
+    settings: "Settings"
   };
 
-  document.getElementById(
-    "profileModal"
-  ).style.display = "flex";
+  function navigate(section, el) {
+    sections.forEach(s => {
+      document.getElementById(`sec-${s}`).style.display = "none";
+    });
+    document.getElementById(`sec-${section}`).style.display = "block";
+    document.getElementById("pageTitle").innerText = titles[section];
 
-  document.getElementById(
-    "modalName"
-  ).innerText = name;
+    document.querySelectorAll(".menu-item").forEach(i => i.classList.remove("active-menu"));
+    if (el) el.classList.add("active-menu");
 
-  document.getElementById(
-    "modalImage"
-  ).src = `/uploads/${image}`;
+    closeSidebar();
 
-}
-
-function closeModal(){
-
-  document.getElementById(
-    "profileModal"
-  ).style.display = "none";
-
-}
-
-async function startCall(){
-
-  
-
- const userMobile =
-
-  localStorage.getItem(
-    "userMobile"
-  );
-
-const userName =
-
-  localStorage.getItem(
-    "userName"
-  );
-
-    
-
- 
-
-const response =
-
-  await fetch(
-
-    `/check-free-trial/${userMobile}`
-
-  );
-
-const data =
-  await response.json();
-
-if(data.freeTrialUsed){
-
-  alert(
-    "Free Trial Already Used"
-  );
-
-  return;
-
-}
-
-if(data.deviceBlocked){
-
-  alert(
-    "This Device Already Used Free Trial"
-  );
-
-  return;
-
-}
-
- await fetch(
-
-    "/save-call",
-
-    {
-
-      method:"POST",
-
-      headers:{
-        "Content-Type":
-        "application/json"
-      },
-
-      body:JSON.stringify({
-
-        userMobile,
-
-hostId:selectedHost.id,
-
-        hostName:
-        selectedHost.name,
-
-        hostImage:
-        selectedHost.image
-         
-
-
-      })
-
-    }
-
-  );
-
- socket.emit(
-
-  "call-host",
-
-  {
-
-    hostId:
-      selectedHost.id,
-
-    callerName:
-      userName
-
+    if (section === "discover") loadHosts();
+    if (section === "callHistory") loadCallHistory();
   }
 
-);
-
-alert(
-  "Calling Host..."
-);
-
-window.location.href =
-
-`/call.html?role=user`;
-
-}
-
-function showDiscover(element){
-
-  setActiveMenu(element);
-
-  document.getElementById(
-    "hostCards"
-  ).style.display = "grid";
-
-  document.getElementById(
-    "subscriptions"
-  ).style.display = "none";
-
-  document.getElementById(
-    "profileSection"
-  ).style.display = "none";
-
-  document.getElementById(
-    "pageTitle"
-  ).innerText = "Discover Hosts";
-
-document.getElementById(
-  "settingsSection"
-).style.display = "none";
-
-document.getElementById(
-  "callHistorySection"
-).style.display = "none";
-
-  loadHosts();
-
-}
-
-function showSubscriptions(element){
-
-  setActiveMenu(element);
-
-  document.getElementById(
-    "hostCards"
-  ).style.display = "none";
-
-  document.getElementById(
-    "subscriptions"
-  ).style.display = "flex";
-
-  document.getElementById(
-    "profileSection"
-  ).style.display = "none";
-
-  document.getElementById(
-  "pageTitle"
-).innerText = "Subscriptions";
-
-document.getElementById(
-  "settingsSection"
-).style.display = "none";
-
-document.getElementById(
-  "callHistorySection"
-).style.display = "none";
-
-}
-
-function showProfile(element){
-
-  setActiveMenu(element);
-
-  document.getElementById(
-    "hostCards"
-  ).style.display = "none";
-
-  document.getElementById(
-    "subscriptions"
-  ).style.display = "none";
-
-  document.getElementById(
-    "profileSection"
-  ).style.display = "flex";
-
-  document.getElementById(
-    "pageTitle"
-  ).innerText = "My Profile";
-
-document.getElementById(
-  "settingsSection"
-).style.display = "none";
-
-document.getElementById(
-  "callHistorySection"
-).style.display = "none";
-
-}
-
-function showSettings(element){
-
-  setActiveMenu(element);
-
-  document.getElementById(
-    "hostCards"
-  ).style.display = "none";
-
-  document.getElementById(
-    "subscriptions"
-  ).style.display = "none";
-
-  document.getElementById(
-    "profileSection"
-  ).style.display = "none";
-
-  document.getElementById(
-    "settingsSection"
-  ).style.display = "flex";
-
-  document.getElementById(
-    "pageTitle"
-  ).innerText = "Settings";
-
-document.getElementById(
-  "callHistorySection"
-).style.display = "none";
-
-}
-
-async function showCallHistory(element){
-
-  setActiveMenu(element);
-
-  document.getElementById(
-    "hostCards"
-  ).style.display = "none";
-
-  document.getElementById(
-    "subscriptions"
-  ).style.display = "none";
-
-  document.getElementById(
-    "profileSection"
-  ).style.display = "none";
-
-  document.getElementById(
-    "settingsSection"
-  ).style.display = "none";
-
-  document.getElementById(
-    "callHistorySection"
-  ).style.display = "block";
-
-  document.getElementById(
-    "pageTitle"
-  ).innerText = "Call History";
-
-  const mobile =
-
-    localStorage.getItem(
-      "userMobile"
-    );
-
-  const response = await fetch(
-
-    `/call-history/${mobile}`
-
-  );
-
-  const calls =
-    await response.json();
-
-  const historyList =
-
-    document.getElementById(
-      "callHistoryList"
-    );
-
-  historyList.innerHTML = "";
-
-  calls.forEach((call) => {
-
-    historyList.innerHTML += `
-
-      <div class="history-card">
-
-        <img
-          src="/uploads/${call.hostImage}"
-        >
-
-        <div>
-
-          <h3>
-            ${call.hostName}
-          </h3>
-
-
-
-          <p>
-            ${new Date(
-              call.callTime
-            ).toLocaleString()}
-          </p>
-
+  /* ── HAMBURGER ── */
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebarOverlay");
+    const hbg     = document.getElementById("hamburger");
+    sidebar.classList.toggle("open");
+    overlay.classList.toggle("show");
+    hbg.classList.toggle("open");
+  }
+
+  function closeSidebar() {
+    document.getElementById("sidebar").classList.remove("open");
+    document.getElementById("sidebarOverlay").classList.remove("show");
+    document.getElementById("hamburger").classList.remove("open");
+  }
+
+  /* ── LOAD HOSTS ── */
+  async function loadHosts() {
+    const container = document.getElementById("hostCards");
+    container.innerHTML = `<div class="loader">Loading hosts...</div>`;
+    try {
+      const res   = await fetch("/get-hosts");
+      const hosts = await res.json();
+      if (!hosts.length) {
+        container.innerHTML = `<div class="empty-state"><div class="ico-big">😴</div><h3>No hosts online right now</h3><p>Check back soon!</p></div>`;
+        return;
+      }
+      container.innerHTML = hosts.map(h => `
+        <div class="card">
+          <div class="img-wrap">
+            <img src="/uploads/${h.image}" alt="${h.name}" loading="lazy">
+            <span class="status-badge ${h.status === 'Online' ? 'online' : 'offline'}">${h.status}</span>
+          </div>
+          <div class="card-body">
+            <h3>${h.name}</h3>
+            <p>Live Video Call Host</p>
+            <button class="btn-call" onclick="openModal('${h._id}','${h.name}','${h.image}')">📹 Start Call</button>
+          </div>
         </div>
-
-      </div>
-
-    `;
-
-  });
-
-}
-
-function logoutUser(){
-
-  localStorage.removeItem(
-    "userName"
-  );
-
-  localStorage.removeItem(
-    "userMobile"
-  );
-
-  localStorage.removeItem(
-    "userBio"
-  );
-
-  window.location.href =
-    "/login.html";
-
-}
-
-async function saveProfile(){
-
-  const updatedName =
-
-    document.getElementById(
-      "profileName"
-    ).value;
-
-  const updatedBio =
-
-    document.getElementById(
-      "profileBio"
-    ).value;
-
-  const mobile =
-
-    localStorage.getItem(
-      "userMobile"
-    );
-
-  const response = await fetch(
-
-    "/update-profile",
-
-    {
-
-      method:"POST",
-
-      headers:{
-        "Content-Type":
-        "application/json"
-      },
-
-      body:JSON.stringify({
-
-        mobile,
-        name:updatedName,
-        bio:updatedBio
-
-      })
-
+      `).join("");
+    } catch(e) {
+      container.innerHTML = `<div class="empty-state"><div class="ico-big">⚠️</div><h3>Failed to load hosts</h3></div>`;
     }
-
-  );
-
-  const data =
-    await response.json();
-
-  if(data.success){
-
-    localStorage.setItem(
-      "userName",
-      updatedName
-    );
-
-    localStorage.setItem(
-      "userBio",
-      updatedBio
-    );
-
-    
-      document.getElementById(
-  "profileGreeting"
-).innerText =
-
-`Hi, ${updatedName} 👋`;
-
-document.getElementById(
-  "avatarLetter"
-).innerText =
-
-updatedName
-  .charAt(0)
-  .toUpperCase();
-    
-    document.getElementById(
-  "avatarLetter"
-).innerText =
-
-    updatedName
-      .charAt(0)
-      .toUpperCase();
-
-    document.getElementById(
-      "profileName"
-    ).setAttribute(
-      "readonly",
-      true
-    );
-
-    document.getElementById(
-      "profileBio"
-    ).setAttribute(
-      "readonly",
-      true
-    );
-
-    
-
-    document.querySelector(
-      ".profile-card button"
-    ).style.display = "none";
-
-    document.getElementById(
-      "profileName"
-    ).style.border = "none";
-
-    document.getElementById(
-      "profileBio"
-    ).style.border = "none";
-
-    document.getElementById(
-      "profileName"
-    ).style.background =
-      "transparent";
-
-    document.getElementById(
-      "profileBio"
-    ).style.background =
-      "transparent";
-
-    alert(
-      "Profile Updated Successfully"
-    );
-
-  }else{
-
-    alert(
-      "Profile Update Failed"
-    );
-
   }
 
-}
+  /* ── HOST MODAL ── */
+  function openModal(id, name, image) {
+    selectedHost = { id, name, image };
+    document.getElementById("modalName").innerText  = name;
+    document.getElementById("modalImage").src       = `/uploads/${image}`;
+    document.getElementById("hostModal").classList.add("show");
+  }
 
+  function closeModal() {
+    document.getElementById("hostModal").classList.remove("show");
+  }
 
+  /* ── START CALL ── */
+  async function startCall() {
+    const res  = await fetch(`/check-free-trial/${userMobile}`);
+    const data = await res.json();
+    if (data.freeTrialUsed)  { alert("Free Trial Already Used. Please subscribe to continue."); return; }
+    if (data.deviceBlocked)  { alert("This device has already used the free trial."); return; }
 
+    await fetch("/save-call", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userMobile,
+        hostId:    selectedHost.id,
+        hostName:  selectedHost.name,
+        hostImage: selectedHost.image
+      })
+    });
 
+    socket.emit("call-host", { hostId: selectedHost.id, callerName: userName });
+    alert("📞 Calling Host...");
+    window.location.href = "/call.html?role=user";
+  }
 
+  /* ── CALL HISTORY ── */
+  async function loadCallHistory() {
+    const list = document.getElementById("callHistoryList");
+    list.innerHTML = `<div class="loader">Loading history...</div>`;
+    try {
+      const res   = await fetch(`/call-history/${userMobile}`);
+      const calls = await res.json();
+      if (!calls.length) {
+        list.innerHTML = `<div class="empty-state"><div class="ico-big">📭</div><h3>No calls yet</h3><p>Start a call to see your history here.</p></div>`;
+        return;
+      }
+      list.innerHTML = calls.map(c => `
+        <div class="history-card">
+          <img src="/uploads/${c.hostImage}" alt="${c.hostName}">
+          <div class="info">
+            <h3>${c.hostName}</h3>
+            <p>${new Date(c.callTime).toLocaleString()}</p>
+          </div>
+          <span class="tag">📞 Completed</span>
+        </div>
+      `).join("");
+    } catch(e) {
+      list.innerHTML = `<div class="empty-state"><div class="ico-big">⚠️</div><h3>Failed to load history</h3></div>`;
+    }
+  }
 
+  /* ── BUY PLAN ── */
+  async function buyPlan(plan, amount) {
+    try {
+      await fetch("/save-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userMobile, plan, amount })
+      });
+      alert(`✅ ${plan} plan purchased successfully!`);
+    } catch(e) {
+      alert("Payment failed. Please try again.");
+    }
+  }
 
-const savedName =
-  localStorage.getItem(
-    "userName"
-  );
+  /* ── LOGOUT ── */
+  function logoutUser() {
+    ["userName","userMobile","userBio"].forEach(k => localStorage.removeItem(k));
+    window.location.href = "/login.html";
+  }
 
-if(savedName){
-
-  
-    document.getElementById(
-  "profileGreeting"
-).innerText =
-
-`Hi, ${savedName} 👋`;
-
-document.getElementById(
-  "avatarLetter"
-).innerText =
-
-savedName
-  .charAt(0)
-  .toUpperCase();
-  
-
- document.getElementById(
-  "avatarLetter"
-).innerText =
-
-  savedName.charAt(0).toUpperCase();
-
-}
-
-function setActiveMenu(element){
-
-  const items =
-
-    document.querySelectorAll(
-      ".menu-item"
-    );
-
-  items.forEach((item) => {
-
-    item.classList.remove(
-      "active-menu"
-    );
-
+  /* ── CLOSE MODAL ON OUTSIDE CLICK ── */
+  document.getElementById("hostModal").addEventListener("click", function(e) {
+    if (e.target === this) closeModal();
   });
-
-  element.classList.add(
-    "active-menu"
-  );
-
-}
-
-loadHosts();
-
 </script>
-
-<!-- PROFILE MODAL -->
-<div
-  class="modal"
-  id="profileModal"
->
-
-  <div class="modal-box">
-
-    <span
-      class="close"
-      onclick="closeModal()"
-    >
-      ×
-    </span>
-
-    <img id="modalImage">
-
-    <h2 id="modalName"></h2>
-
-    <p>
-      Premium Live Video Host
-    </p>
-
-    <button
-      class="call-btn"
-      onclick="startCall()"
-    >
-      Start Video Call
-    </button>
-
-  </div>
-
-</div>
-
-<div
-  class="entry-popup"
-  id="entryPopup"
->
-
-  <div class="entry-box">
-
-    <h2>
-      Terms & Conditions
-    </h2>
-
-    <p>
-
-      By continuing, you agree to our platform policies and community guidelines.
-
-    </p>
-
-    <div class="entry-rules">
-
-      <p>
-        • All payments are non-refundable
-      </p>
-
-      <p>
-        • Free trial valid one time only
-      </p>
-
-      <p>
-        • Accounts may be suspended anytime
-      </p>
-
-      <p>
-        • Service may change anytime
-      </p>
-
-    </div>
-
-    <button
-      onclick="acceptTerms()"
-    >
-      Agree & Continue
-    </button>
-
-  </div>
-
-</div>
-
 </body>
-
 </html>
