@@ -19,6 +19,20 @@ const Payment = require(
   "./models/Payment"
 );
 
+const Razorpay =
+require("razorpay");
+
+const razorpay =
+new Razorpay({
+
+  key_id:
+  "",
+
+  key_secret:
+  "YOUR_KEY_SECRET"
+
+});
+
 const app = express();
 
 const http = require("http");
