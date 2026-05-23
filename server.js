@@ -1059,3 +1059,146 @@ server.listen(PORT, () => {
   );
 
 });
+
+/* =========================
+   GET ALL USERS
+========================= */
+
+app.get(
+  "/get-users",
+
+  async (req,res)=>{
+
+    try{
+
+      const users =
+
+        await User.find()
+        .sort({_id:-1});
+
+      res.json(users);
+
+    }catch(error){
+
+      console.log(error);
+
+      res.json([]);
+
+    }
+
+  }
+
+);
+
+/* =========================
+   DELETE USER
+========================= */
+
+app.delete(
+  "/delete-user/:id",
+
+  async (req,res)=>{
+
+    try{
+
+      await User.findByIdAndDelete(
+        req.params.id
+      );
+
+      res.send(
+        "User Deleted"
+      );
+
+    }catch(error){
+
+      console.log(error);
+
+      res.send(
+        "Delete Failed"
+      );
+
+    }
+
+  }
+
+);
+
+/* =========================
+   ADMIN STATS
+========================= */
+
+app.get(
+  "/admin-stats",
+
+  async (req,res)=>{
+
+    try{
+
+      const totalUsers =
+        await User.countDocuments();
+
+      const totalHosts =
+        await Host.countDocuments();
+
+      const onlineHosts =
+        await Host.countDocuments({
+          status:"Online"
+        });
+
+      const totalPayments =
+        await Payment.find();
+
+      let revenue = 0;
+
+      totalPayments.forEach((p)=>{
+
+        revenue += p.amount || 0;
+
+      });
+
+      const today = new Date();
+
+      today.setHours(0,0,0,0);
+
+      const todayUsers =
+
+        await User.countDocuments({
+
+          createdAt:{
+            $gte:today
+          }
+
+        });
+
+      res.json({
+
+        totalUsers,
+        totalHosts,
+        onlineHosts,
+        revenue,
+        todayUsers,
+        totalPayments:
+        totalPayments.length
+
+      });
+
+    }catch(error){
+
+      console.log(error);
+
+      res.json({
+
+        totalUsers:0,
+        totalHosts:0,
+        onlineHosts:0,
+        revenue:0,
+        todayUsers:0,
+        totalPayments:0
+
+      });
+
+    }
+
+  }
+
+);
