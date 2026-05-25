@@ -1305,104 +1305,69 @@ app.get(
 
         return res.json({
 
-          success:false,
-
-          callTime:60
+          success:false
 
         });
 
       }
 
-      /* CHECK EXPIRED */
+      /* PREMIUM */
 
-      if(
+      if(user.subscriptionActive){
 
-        user.subscriptionExpiry &&
+        /* BASIC */
 
-        new Date() >
-        user.subscriptionExpiry
+        if(
 
-      ){
+          user.subscription ===
+          "Basic Weekly"
 
-        user.subscriptionActive =
-        false;
+        ){
 
-        user.subscription = "";
+          return res.json({
 
-        await user.save();
+            success:true,
+
+            callTime:7200
+
+          });
+
+        }
+
+        /* UNLIMITED */
+
+        if(
+
+          user.subscription ===
+          "Unlimited Weekly"
+
+          ||
+
+          user.subscription ===
+          "Monthly Pro"
+
+        ){
+
+          return res.json({
+
+            success:true,
+
+            callTime:999999
+
+          });
+
+        }
 
       }
 
       /* FREE USER */
 
-      if(!user.subscriptionActive){
-
-        return res.json({
-
-          success:true,
-
-          premium:false,
-
-          callTime:60
-
-        });
-
-      }
-
-      /* BASIC WEEKLY */
-
-      if(
-        user.subscription ===
-        "Basic Weekly"
-      ){
-
-        return res.json({
-
-          success:true,
-
-          premium:true,
-
-          callTime:
-          7200
-
-        });
-
-      }
-
-      /* UNLIMITED */
-
-      if(
-
-        user.subscription ===
-        "Unlimited Weekly"
-
-        ||
-
-        user.subscription ===
-        "Monthly Pro"
-
-      ){
-
-        return res.json({
-
-          success:true,
-
-          premium:true,
-
-          callTime:
-          999999
-
-        });
-
-      }
-
-      res.json({
+      return res.json({
 
         success:true,
 
-        premium:false,
-
-        callTime:60
+        callTime:
+        user.remainingFreeSeconds
 
       });
 
@@ -1412,9 +1377,7 @@ app.get(
 
       res.json({
 
-        success:false,
-
-        callTime:60
+        success:false
 
       });
 
