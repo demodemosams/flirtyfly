@@ -1,22 +1,24 @@
-const mongoose = require("mongoose");
+const mongoose =
+require("mongoose");
 
-const userSchema = new mongoose.Schema({
+const userSchema =
+new mongoose.Schema({
 
-  name: String,
+  name:String,
 
-  mobile: String,
+  mobile:String,
 
-  password: String,
+  password:String,
 
-termsAccepted:{
+  termsAccepted:{
 
-  type:Boolean,
+    type:Boolean,
 
-  default:false
+    default:false
 
-},
-  
-  bio: {
+  },
+
+  bio:{
 
     type:String,
 
@@ -24,7 +26,7 @@ termsAccepted:{
 
   },
 
-  profileImage: {
+  profileImage:{
 
     type:String,
 
@@ -32,27 +34,73 @@ termsAccepted:{
 
   },
 
-freeTrialUsed:{
+  freeTrialUsed:{
 
-  type:Boolean,
+    type:Boolean,
 
-  default:false
+    default:false
 
-}
+  },
 
-,
+  deviceBlocked:{
 
-deviceBlocked:{
+    type:Boolean,
 
-  type:Boolean,
+    default:false
 
-  default:false
+  },
 
-}
+  /* FREE TIMER */
+
+  remainingFreeSeconds:{
+
+    type:Number,
+
+    default:60
+
+  },
+
+  /* SUBSCRIPTIONS */
+
+  subscription:{
+
+    type:String,
+
+    default:""
+
+  },
+
+  subscriptionActive:{
+
+    type:Boolean,
+
+    default:false
+
+  },
+
+  subscriptionExpiry:{
+
+    type:Date,
+
+    default:null
+
+  },
+
+  createdAt:{
+
+    type:Date,
+
+    default:Date.now
+
+  }
 
 });
 
-module.exports = mongoose.model(
+module.exports =
+mongoose.model(
+
   "User",
+
   userSchema
+
 );
