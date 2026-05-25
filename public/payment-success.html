@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+Payment Success
+</title>
+
+<style>
+
+body{
+
+  margin:0;
+
+  font-family:Arial,sans-serif;
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff416c,
+    #ff4b2b
+  );
+
+  height:100vh;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  color:white;
+
+}
+
+.box{
+
+  background:
+  rgba(255,255,255,0.1);
+
+  backdrop-filter:blur(20px);
+
+  padding:40px;
+
+  border-radius:25px;
+
+  text-align:center;
+
+  width:90%;
+  max-width:450px;
+
+}
+
+h1{
+
+  font-size:40px;
+
+  margin-bottom:15px;
+}
+
+p{
+
+  opacity:0.9;
+
+  margin-bottom:30px;
+}
+
+button{
+
+  border:none;
+
+  padding:15px 25px;
+
+  border-radius:14px;
+
+  background:white;
+
+  color:#ff416c;
+
+  font-weight:bold;
+
+  cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>
+✅ Payment Successful
+</h1>
+
+<p>
+Your premium subscription is now activated.
+</p>
+
+<button onclick="goDashboard()">
+Go To Dashboard
+</button>
+
+</div>
+
+<script>
+
+async function savePayment(){
+
+  const userMobile =
+
+  localStorage.getItem(
+    "userMobile"
+  );
+
+  const userName =
+
+  localStorage.getItem(
+    "userName"
+  );
+
+  const selectedPlan =
+
+  localStorage.getItem(
+    "selectedPlan"
+  );
+
+  const selectedAmount =
+
+  localStorage.getItem(
+    "selectedAmount"
+  );
+
+  /* SAVE PAYMENT */
+
+  await fetch(
+
+    "/save-payment",
+
+    {
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":
+        "application/json"
+      },
+
+      body:JSON.stringify({
+
+        userMobile,
+
+        amount:
+        Number(selectedAmount),
+
+        plan:selectedPlan
+
+      })
+
+    }
+
+  );
+
+  /* ACTIVATE PLAN */
+
+  await fetch(
+
+    "/activate-plan",
+
+    {
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":
+        "application/json"
+      },
+
+      body:JSON.stringify({
+
+        mobile:userMobile,
+
+        plan:selectedPlan
+
+      })
+
+    }
+
+  );
+
+}
+
+savePayment();
+
+function goDashboard(){
+
+  window.location.href =
+  "/user.html";
+
+}
+
+</script>
+
+</body>
+
+</html>
