@@ -37,6 +37,8 @@ subscriptionActive:{
   default:false
 },
 
+  subscriptionExpiry:Date
+  
 });
 
 module.exports = mongoose.model(
