@@ -908,157 +908,16 @@
 
   /* ── BUY PLAN ── */
  /* ───────────────────────────── */
-/* BUY PLAN WITH RAZORPAY */
-/* ───────────────────────────── */
+   async function buyPlan(plan, amount){
 
-async function buyPlan(plan, amount) {
+  alert(
 
-  try {
+    `${plan} Plan Selected - ₹${amount}`
 
-    /* CREATE ORDER */
-
-    const orderResponse =
-
-    await fetch(
-
-      "/create-order",
-
-      {
-
-        method: "POST",
-
-        headers: {
-
-          "Content-Type":
-          "application/json"
-
-        },
-
-        body: JSON.stringify({
-
-          amount
-
-        })
-
-      }
-
-    );
-
-    const order =
-    await orderResponse.json();
-
-    /* RAZORPAY OPTIONS */
-
-    const options = {
-
-      key:
-      "YOUR_RAZORPAY_KEY",
-
-      amount:
-      order.amount,
-
-      currency:
-      "INR",
-
-      name:
-      "FlirtyFly",
-
-      description:
-      plan,
-
-      image:
-      "/logo.png",
-
-      order_id:
-      order.id,
-
-      handler:
-      async function(response) {
-
-        /* SAVE PAYMENT */
-
-        await fetch(
-
-          "/save-payment",
-
-          {
-
-            method:"POST",
-
-            headers:{
-
-              "Content-Type":
-              "application/json"
-
-            },
-
-            body:JSON.stringify({
-
-              userMobile,
-
-              userName,
-
-              amount,
-
-              plan,
-
-              paymentId:
-              response
-              .razorpay_payment_id
-
-            })
-
-          }
-
-        );
-
-        alert(
-          "✅ Subscription Activated"
-        );
-
-      },
-
-      prefill: {
-
-        name:
-        localStorage.getItem(
-          "userName"
-        ),
-
-        contact:
-        localStorage.getItem(
-          "userMobile"
-        )
-
-      },
-
-      theme: {
-
-        color:"#ff4f87"
-
-      }
-
-    };
-
-    /* OPEN RAZORPAY */
-
-    const razorpay =
-
-    new Razorpay(options);
-
-    razorpay.open();
-
-  } catch(error) {
-
-    console.log(error);
-
-    alert(
-      "Payment Failed"
-    );
-
-  }
+  );
 
 }
+ 
 
   /* ── LOGOUT ── */
   function logoutUser() {
