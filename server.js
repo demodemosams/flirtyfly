@@ -800,6 +800,8 @@ app.post(
 
       } = req.body;
 
+      /* SAVE PAYMENT */
+
       const newPayment =
         new Payment({
 
@@ -812,6 +814,81 @@ app.post(
         });
 
       await newPayment.save();
+
+      /* FIND USER */
+
+      const user =
+
+      await User.findOne({
+
+        mobile:userMobile
+
+      });
+
+      if(user){
+
+        let expiryDate =
+        new Date();
+
+        /* BASIC WEEKLY */
+
+        if(
+          plan ===
+          "Basic Weekly"
+        ){
+
+          expiryDate.setDate(
+
+            expiryDate.getDate() + 7
+
+          );
+
+        }
+
+        /* UNLIMITED WEEKLY */
+
+        if(
+          plan ===
+          "Unlimited Weekly"
+        ){
+
+          expiryDate.setDate(
+
+            expiryDate.getDate() + 7
+
+          );
+
+        }
+
+        /* MONTHLY */
+
+        if(
+          plan ===
+          "Monthly Pro"
+        ){
+
+          expiryDate.setDate(
+
+            expiryDate.getDate() + 30
+
+          );
+
+        }
+
+        /* ACTIVATE PLAN */
+
+        user.subscription =
+        plan;
+
+        user.subscriptionActive =
+        true;
+
+        user.subscriptionExpiry =
+        expiryDate;
+
+        await user.save();
+
+      }
 
       res.json({
         success:true
@@ -1205,90 +1282,7 @@ app.get(
  
 );
 
-app.post(
 
-  "/activate-plan",
-
-  async (req,res)=>{
-
-    try{
-
-      const {
-
-        mobile,
-        plan
-
-      } = req.body;
-
-      const user =
-
-      await User.findOne({
-        mobile
-      });
-
-      if(!user){
-
-        return res.json({
-          success:false
-        });
-
-      }
-
-      let expiryDate =
-      new Date();
-
-      /* PLAN DAYS */
-
-      if(plan === "Basic Weekly"){
-
-        expiryDate.setDate(
-          expiryDate.getDate() + 7
-        );
-
-      }
-
-      if(plan === "Unlimited Weekly"){
-
-        expiryDate.setDate(
-          expiryDate.getDate() + 7
-        );
-
-      }
-
-      if(plan === "Monthly Pro"){
-
-        expiryDate.setDate(
-          expiryDate.getDate() + 30
-        );
-
-      }
-
-      user.subscription = plan;
-
-      user.subscriptionActive = true;
-
-      user.subscriptionExpiry =
-      expiryDate;
-
-      await user.save();
-
-      res.json({
-        success:true
-      });
-
-    }catch(error){
-
-      console.log(error);
-
-      res.json({
-        success:false
-      });
-
-    }
-
-  }
-
-);
 
  app.get(
 
