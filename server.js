@@ -1386,3 +1386,53 @@ app.get(
   }
 
 );
+
+
+
+app.post(
+
+  "/update-call-time",
+
+  async (req,res)=>{
+
+    try{
+
+      const {
+
+        mobile,
+        remainingSeconds
+
+      } = req.body;
+
+      const user =
+
+      await User.findOne({
+        mobile
+      });
+
+      if(user){
+
+        user.remainingFreeSeconds =
+        remainingSeconds;
+
+        await user.save();
+
+      }
+
+      res.json({
+        success:true
+      });
+
+    }catch(error){
+
+      console.log(error);
+
+      res.json({
+        success:false
+      });
+
+    }
+
+  }
+
+);
