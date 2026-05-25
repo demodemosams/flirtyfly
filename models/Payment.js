@@ -28,7 +28,14 @@ const paymentSchema = new mongoose.Schema({
 
     default:Date.now
 
-  }
+  } ,
+
+  subscription:String,
+
+subscriptionActive:{
+  type:Boolean,
+  default:false
+},
 
 });
 
