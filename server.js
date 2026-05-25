@@ -1301,11 +1301,15 @@ app.get(
 
       });
 
+      /* USER NOT FOUND */
+
       if(!user){
 
         return res.json({
 
-          success:false
+          success:true,
+
+          callTime:60
 
         });
 
@@ -1314,8 +1318,6 @@ app.get(
       /* PREMIUM */
 
       if(user.subscriptionActive){
-
-        /* BASIC */
 
         if(
 
@@ -1333,8 +1335,6 @@ app.get(
           });
 
         }
-
-        /* UNLIMITED */
 
         if(
 
@@ -1367,7 +1367,7 @@ app.get(
         success:true,
 
         callTime:
-        user.remainingFreeSeconds
+        user.remainingFreeSeconds || 60
 
       });
 
@@ -1377,58 +1377,10 @@ app.get(
 
       res.json({
 
-        success:false
+        success:true,
 
-      });
+        callTime:60
 
-    }
-
-  }
-
-);
-
-
-
-app.post(
-
-  "/update-call-time",
-
-  async (req,res)=>{
-
-    try{
-
-      const {
-
-        mobile,
-        remainingSeconds
-
-      } = req.body;
-
-      const user =
-
-      await User.findOne({
-        mobile
-      });
-
-      if(user){
-
-        user.remainingFreeSeconds =
-        remainingSeconds;
-
-        await user.save();
-
-      }
-
-      res.json({
-        success:true
-      });
-
-    }catch(error){
-
-      console.log(error);
-
-      res.json({
-        success:false
       });
 
     }
