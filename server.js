@@ -1226,15 +1226,51 @@ app.post(
         mobile
       });
 
-      if(user){
+      if(!user){
 
-        user.subscription = plan;
-
-        user.subscriptionActive = true;
-
-        await user.save();
+        return res.json({
+          success:false
+        });
 
       }
+
+      let expiryDate =
+      new Date();
+
+      /* PLAN DAYS */
+
+      if(plan === "Basic Weekly"){
+
+        expiryDate.setDate(
+          expiryDate.getDate() + 7
+        );
+
+      }
+
+      if(plan === "Unlimited Weekly"){
+
+        expiryDate.setDate(
+          expiryDate.getDate() + 7
+        );
+
+      }
+
+      if(plan === "Monthly Pro"){
+
+        expiryDate.setDate(
+          expiryDate.getDate() + 30
+        );
+
+      }
+
+      user.subscription = plan;
+
+      user.subscriptionActive = true;
+
+      user.subscriptionExpiry =
+      expiryDate;
+
+      await user.save();
 
       res.json({
         success:true
