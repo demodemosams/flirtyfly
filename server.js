@@ -1205,6 +1205,53 @@ app.get(
  
 );
 
+app.post(
 
+  "/activate-plan",
+
+  async (req,res)=>{
+
+    try{
+
+      const {
+
+        mobile,
+        plan
+
+      } = req.body;
+
+      const user =
+
+      await User.findOne({
+        mobile
+      });
+
+      if(user){
+
+        user.subscription = plan;
+
+        user.subscriptionActive = true;
+
+        await user.save();
+
+      }
+
+      res.json({
+        success:true
+      });
+
+    }catch(error){
+
+      console.log(error);
+
+      res.json({
+        success:false
+      });
+
+    }
+
+  }
+
+);
 
  
