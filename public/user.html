@@ -608,13 +608,15 @@
       </div>
 
       <button
-        class="btn-buy"
-        onclick="window.location.href='https://razorpay.com/payment-link/plink_StE5rgGODZD30n'"
-      >
-
-        Buy Now
-
-      </button>
+class="btn-buy"
+onclick="selectPlan(
+'Basic Weekly',
+299,
+'https://razorpay.com/payment-link/plink_StE5rgGODZD30n'
+)"
+>
+Buy Now
+</button>
 
     </div>
 
@@ -648,15 +650,18 @@
         </p>
 
       </div>
+ 
 
       <button
-        class="btn-buy"
-        onclick="window.location.href='https://rzp.io/rzp/NK78hWv'"
-      >
-
-        Buy Now
-
-      </button>
+class="btn-buy"
+onclick="selectPlan(
+'Unlimited Weekly',
+899,
+'https://rzp.io/rzp/NK78hWv'
+)"
+>
+Buy Now
+</button>
 
     </div>
 
@@ -687,14 +692,18 @@
 
       </div>
 
-      <button
-        class="btn-buy"
-        onclick="window.location.href='https://rzp.io/rzp/aqdL9Gy'"
-      >
+       
 
-        Buy Now
-
-      </button>
+        <button
+class="btn-buy"
+onclick="selectPlan(
+'Monthly Pro',
+2499,
+'https://rzp.io/rzp/aqdL9Gy'
+)"
+>
+Buy Now
+</button>
 
     </div>
 
@@ -1005,6 +1014,26 @@
     `${plan} Plan Selected - ₹${amount}`
 
   );
+
+}
+
+  function selectPlan(
+plan,
+amount,
+link
+){
+
+  localStorage.setItem(
+    "selectedPlan",
+    plan
+  );
+
+  localStorage.setItem(
+    "selectedAmount",
+    amount
+  );
+
+  window.location.href = link;
 
 }
  
