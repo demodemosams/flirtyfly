@@ -10,7 +10,9 @@
   content="width=device-width, initial-scale=1.0"
 >
 
-<title>Video Call - FlirtyFly</title>
+<title>
+  Video Call - FlirtyFly
+</title>
 
 <style>
 
@@ -33,7 +35,7 @@ body{
   color:white;
 }
 
-/* MAIN VIDEO AREA */
+/* MAIN */
 .video-wrapper{
 
   position:relative;
@@ -75,7 +77,7 @@ body{
 
   border-radius:24px;
 
-  border:3px solid rgba(255,255,255,0.25);
+  border:3px solid rgba(255,255,255,0.2);
 
   background:black;
 
@@ -106,7 +108,8 @@ body{
 
   backdrop-filter:blur(18px);
 
-  border:1px solid rgba(255,255,255,0.08);
+  border:
+  1px solid rgba(255,255,255,0.08);
 
   display:flex;
 
@@ -145,7 +148,8 @@ body{
 
   font-weight:600;
 
-  border:1px solid rgba(255,255,255,0.08);
+  border:
+  1px solid rgba(255,255,255,0.08);
 }
 
 /* CONTROLS */
@@ -165,7 +169,7 @@ body{
   z-index:25;
 }
 
-/* BUTTONS */
+/* BUTTON */
 .control-btn{
 
   width:72px;
@@ -202,7 +206,8 @@ body{
   background:
   rgba(255,255,255,0.12);
 
-  border:1px solid rgba(255,255,255,0.08);
+  border:
+  1px solid rgba(255,255,255,0.08);
 }
 
 /* END CALL */
@@ -253,10 +258,6 @@ body{
     height:62px;
   }
 
-  .call-info h2{
-
-    font-size:19px;
-  }
 }
 
 </style>
@@ -301,7 +302,7 @@ body{
       class="call-timer"
       id="callTimer"
     >
-      01:00
+      00:00
     </div>
 
   </div>
@@ -332,14 +333,16 @@ body{
 
 <script>
 
-/* YOUR ORIGINAL JS */
+/* PARAMS */
+
 const params =
 
-  new URLSearchParams(
-    window.location.search
-  );
+new URLSearchParams(
+  window.location.search
+);
 
-const roomId = "flirty-room";
+const roomId =
+"flirty-room";
 
 const socket = io();
 
@@ -348,15 +351,19 @@ socket.emit(
   roomId
 );
 
+/* VIDEOS */
+
 const localVideo =
-  document.getElementById(
-    "localVideo"
-  );
+
+document.getElementById(
+  "localVideo"
+);
 
 const remoteVideo =
-  document.getElementById(
-    "remoteVideo"
-  );
+
+document.getElementById(
+  "remoteVideo"
+);
 
 let localStream;
 
@@ -364,27 +371,33 @@ let peerConnection;
 
 let timerInterval;
 
+let isMuted = false;
+
+/* RTC */
+
 const configuration = {
 
   iceServers:[
 
     {
+
       urls:
       "stun:stun.l.google.com:19302"
+
     }
 
   ]
 
 };
 
-let isMuted = false;
+/* MUTE */
 
 function toggleMute(){
 
   const audioTrack =
 
-    localStream
-    .getAudioTracks()[0];
+  localStream
+  .getAudioTracks()[0];
 
   if(isMuted){
 
@@ -410,17 +423,19 @@ function toggleMute(){
 
 }
 
+/* END CALL */
+
 function endCall(){
 
   if(localStream){
 
     localStream
-      .getTracks()
-      .forEach((track) => {
+    .getTracks()
+    .forEach((track)=>{
 
-        track.stop();
+      track.stop();
 
-      });
+    });
 
   }
 
@@ -430,7 +445,11 @@ function endCall(){
 
   }
 
-  clearInterval(timerInterval);
+  clearInterval(
+    timerInterval
+  );
+
+  /* HOST */
 
   if(
 
@@ -440,16 +459,19 @@ function endCall(){
   ){
 
     window.location.href =
+
     `/host.html?id=${localStorage.getItem("hostId")}&name=${localStorage.getItem("hostName")}&image=${localStorage.getItem("hostImage")}`;
 
   }else{
 
     window.location.href =
-      "/user.html";
+    "/user.html";
 
   }
 
 }
+
+/* START VIDEO */
 
 async function startVideo(){
 
@@ -457,18 +479,18 @@ async function startVideo(){
 
     const stream =
 
-      await navigator.mediaDevices
-      .getUserMedia({
+    await navigator.mediaDevices
+    .getUserMedia({
 
-        video:true,
-        audio:true
+      video:true,
+      audio:true
 
-      });
+    });
 
     localStream = stream;
 
     localVideo.srcObject =
-      stream;
+    stream;
 
     createPeerConnection();
 
@@ -495,73 +517,79 @@ async function startVideo(){
 
 }
 
+/* CREATE PEER */
+
 function createPeerConnection(){
 
   peerConnection =
 
-    new RTCPeerConnection(
-      configuration
-    );
+  new RTCPeerConnection(
+    configuration
+  );
 
   localStream
-    .getTracks()
-    .forEach((track) => {
+  .getTracks()
+  .forEach((track)=>{
 
-      peerConnection.addTrack(
-        track,
-        localStream
-      );
+    peerConnection.addTrack(
 
-    });
+      track,
+      localStream
+
+    );
+
+  });
 
   peerConnection.ontrack =
 
-    (event) => {
+  (event)=>{
 
-      remoteVideo.srcObject =
+    remoteVideo.srcObject =
 
-        event.streams[0];
+    event.streams[0];
 
-    };
+  };
 
   peerConnection.onicecandidate =
 
-    (event) => {
+  (event)=>{
 
-      if(event.candidate){
+    if(event.candidate){
 
-        socket.emit(
+      socket.emit(
 
-          "ice-candidate",
+        "ice-candidate",
 
-          {
+        {
 
-            roomId,
+          roomId,
 
-            candidate:
-              event.candidate
+          candidate:
+          event.candidate
 
-          }
+        }
 
-        );
+      );
 
-      }
+    }
 
-    };
+  };
 
 }
+
+/* OFFER */
 
 async function createOffer(){
 
   const offer =
 
-    await peerConnection
-      .createOffer();
+  await peerConnection
+  .createOffer();
 
   await peerConnection
-    .setLocalDescription(
-      offer
-    );
+  .setLocalDescription(
+    offer
+  );
 
   socket.emit(
 
@@ -578,11 +606,13 @@ async function createOffer(){
 
 }
 
+/* RECEIVE OFFER */
+
 socket.on(
 
   "offer",
 
-  async (offer) => {
+  async (offer)=>{
 
     if(!peerConnection){
 
@@ -591,23 +621,23 @@ socket.on(
     }
 
     await peerConnection
-      .setRemoteDescription(
+    .setRemoteDescription(
 
-        new RTCSessionDescription(
-          offer
-        )
+      new RTCSessionDescription(
+        offer
+      )
 
-      );
+    );
 
     const answer =
 
-      await peerConnection
-        .createAnswer();
+    await peerConnection
+    .createAnswer();
 
     await peerConnection
-      .setLocalDescription(
-        answer
-      );
+    .setLocalDescription(
+      answer
+    );
 
     socket.emit(
 
@@ -626,41 +656,45 @@ socket.on(
 
 );
 
+/* RECEIVE ANSWER */
+
 socket.on(
 
   "answer",
 
-  async (answer) => {
+  async (answer)=>{
 
     await peerConnection
-      .setRemoteDescription(
+    .setRemoteDescription(
 
-        new RTCSessionDescription(
-          answer
-        )
+      new RTCSessionDescription(
+        answer
+      )
 
-      );
+    );
 
   }
 
 );
 
+/* ICE */
+
 socket.on(
 
   "ice-candidate",
 
-  async (candidate) => {
+  async (candidate)=>{
 
     try{
 
       await peerConnection
-        .addIceCandidate(
+      .addIceCandidate(
 
-          new RTCIceCandidate(
-            candidate
-          )
+        new RTCIceCandidate(
+          candidate
+        )
 
-        );
+      );
 
     }catch(error){
 
@@ -672,7 +706,11 @@ socket.on(
 
 );
 
+/* TIMER */
+
 async function startTimer(){
+
+  /* HOST */
 
   if(
 
@@ -689,87 +727,128 @@ async function startTimer(){
 
   }
 
-  let freeSeconds =
+  try{
 
-  localStorage.getItem(
-    "freeSeconds"
-  ) || 60;
+    const userMobile =
 
-  timerInterval =
-
-  setInterval(() => {
-
-    freeSeconds--;
-
-    localStorage.setItem(
-      "freeSeconds",
-      freeSeconds
+    localStorage.getItem(
+      "userMobile"
     );
 
-    const minutes =
+    /* CHECK ACCESS */
 
-      String(
-        Math.floor(
-          freeSeconds / 60
-        )
-      ).padStart(2,"0");
+    const response = await fetch(
 
-    const seconds =
+      `/check-call-access/${userMobile}`
 
-      String(
-        freeSeconds % 60
-      ).padStart(2,"0");
+    );
 
-    document.getElementById(
-      "callTimer"
-    ).innerText =
+    const data =
+    await response.json();
 
-    `${minutes}:${seconds}`;
-
-    if(freeSeconds <= 0){
-
-      clearInterval(
-        timerInterval
-      );
+    if(!data.success){
 
       alert(
-        "Free Call Ended. Please Subscribe."
-      );
-
-      localStorage.removeItem(
-        "freeSeconds"
+        "Call Access Error"
       );
 
       endCall();
 
+      return;
+
     }
 
-  },1000);
+    let remainingSeconds =
+    data.callTime;
+
+    /* UNLIMITED */
+
+    if(remainingSeconds >= 999999){
+
+      document.getElementById(
+        "callTimer"
+      ).innerText =
+      "Unlimited";
+
+      return;
+
+    }
+
+    updateTimer(
+      remainingSeconds
+    );
+
+    timerInterval =
+
+    setInterval(()=>{
+
+      remainingSeconds--;
+
+      updateTimer(
+        remainingSeconds
+      );
+
+      if(remainingSeconds <= 0){
+
+        clearInterval(
+          timerInterval
+        );
+
+        alert(
+          "Call Time Ended"
+        );
+
+        endCall();
+
+      }
+
+    },1000);
+
+  }catch(error){
+
+    console.log(error);
+
+  }
 
 }
 
-startVideo();
+/* UPDATE TIMER */
 
-if(
+function updateTimer(seconds){
 
-  window.location.search
-  .includes("role=user")
+  const minutes =
 
-){
+  String(
 
-  setTimeout(() => {
+    Math.floor(
+      seconds / 60
+    )
 
-    startTimer();
+  ).padStart(2,"0");
 
-  },2000);
+  const remaining =
 
-}else{
+  String(
+    seconds % 60
+  ).padStart(2,"0");
 
   document.getElementById(
     "callTimer"
-  ).style.display = "none";
+  ).innerText =
+
+  `${minutes}:${remaining}`;
 
 }
+
+/* START */
+
+startVideo();
+
+setTimeout(()=>{
+
+  startTimer();
+
+},2000);
 
 </script>
 
