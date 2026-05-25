@@ -780,29 +780,64 @@ async function startTimer(){
 
     timerInterval =
 
-    setInterval(()=>{
+setInterval(async ()=>{
 
-      remainingSeconds--;
+  remainingSeconds--;
 
-      updateTimer(
+  updateTimer(
+    remainingSeconds
+  );
+
+  /* SAVE REMAINING TIME */
+
+  const userMobile =
+
+  localStorage.getItem(
+    "userMobile"
+  );
+
+  await fetch(
+
+    "/update-call-time",
+
+    {
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":
+        "application/json"
+      },
+
+      body:JSON.stringify({
+
+        mobile:userMobile,
+
         remainingSeconds
-      );
 
-      if(remainingSeconds <= 0){
+      })
 
-        clearInterval(
-          timerInterval
-        );
+    }
 
-        alert(
-          "Call Time Ended"
-        );
+  );
 
-        endCall();
+  /* END */
 
-      }
+  if(remainingSeconds <= 0){
 
-    },1000);
+    clearInterval(
+      timerInterval
+    );
+
+    alert(
+      "Call Time Ended"
+    );
+
+    endCall();
+
+  }
+
+},1000);
 
   }catch(error){
 
