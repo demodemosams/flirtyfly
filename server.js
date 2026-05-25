@@ -1290,4 +1290,142 @@ app.post(
 
 );
 
- 
+ app.get(
+
+  "/check-call-access/:mobile",
+
+  async (req,res)=>{
+
+    try{
+
+      const user =
+
+      await User.findOne({
+
+        mobile:
+        req.params.mobile
+
+      });
+
+      if(!user){
+
+        return res.json({
+
+          success:false,
+
+          callTime:60
+
+        });
+
+      }
+
+      /* CHECK EXPIRED */
+
+      if(
+
+        user.subscriptionExpiry &&
+
+        new Date() >
+        user.subscriptionExpiry
+
+      ){
+
+        user.subscriptionActive =
+        false;
+
+        user.subscription = "";
+
+        await user.save();
+
+      }
+
+      /* FREE USER */
+
+      if(!user.subscriptionActive){
+
+        return res.json({
+
+          success:true,
+
+          premium:false,
+
+          callTime:60
+
+        });
+
+      }
+
+      /* BASIC WEEKLY */
+
+      if(
+        user.subscription ===
+        "Basic Weekly"
+      ){
+
+        return res.json({
+
+          success:true,
+
+          premium:true,
+
+          callTime:
+          7200
+
+        });
+
+      }
+
+      /* UNLIMITED */
+
+      if(
+
+        user.subscription ===
+        "Unlimited Weekly"
+
+        ||
+
+        user.subscription ===
+        "Monthly Pro"
+
+      ){
+
+        return res.json({
+
+          success:true,
+
+          premium:true,
+
+          callTime:
+          999999
+
+        });
+
+      }
+
+      res.json({
+
+        success:true,
+
+        premium:false,
+
+        callTime:60
+
+      });
+
+    }catch(error){
+
+      console.log(error);
+
+      res.json({
+
+        success:false,
+
+        callTime:60
+
+      });
+
+    }
+
+  }
+
+);
