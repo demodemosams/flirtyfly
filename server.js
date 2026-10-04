@@ -31,6 +31,10 @@ const Setting = require(
   "./models/Setting"
 );
 
+const HostApplication = require(
+  "./models/HostApplication"
+);
+
 /* WHAT A HOST EARNED PER MINUTE BEFORE THE RATE BECAME A SETTING;
    STILL USED FOR CALLS THAT HAVE NO RATE STORED ON THEM */
 
@@ -1168,6 +1172,219 @@ app.delete("/delete-plan/:id", async (req, res) => {
     res.json({
       success:false,
       message:"Error deleting plan"
+    });
+
+  }
+
+});
+
+/* HOST APPLICATION (FROM THE LANDING PAGE) */
+
+app.post("/host-apply", async (req, res) => {
+
+  try{
+
+    const clean = (value, max) =>
+      String(value || "").trim().slice(0, max);
+
+    const name = clean(req.body.name, 80);
+
+    const mobile =
+      clean(req.body.mobile, 20).replace(/[^\d+]/g, "");
+
+    const age = Math.floor(Number(req.body.age));
+
+    const city = clean(req.body.city, 80);
+
+    const languages = clean(req.body.languages, 120);
+
+    const about = clean(req.body.about, 1000);
+
+    if(!name || !city || !languages){
+
+      return res.json({
+        success:false,
+        message:"Please fill in your name, city and languages"
+      });
+
+    }
+
+    if(mobile.replace(/\D/g, "").length < 10){
+
+      return res.json({
+        success:false,
+        message:"Enter a valid mobile number"
+      });
+
+    }
+
+    /* HOSTS MUST BE ADULTS */
+
+    if(!age || age < 18 || age > 99 || !req.body.isAdult){
+
+      return res.json({
+        success:false,
+        message:"You must be 18 or older to apply"
+      });
+
+    }
+
+    /* ONE OPEN APPLICATION PER MOBILE NUMBER */
+
+    const open = await HostApplication.findOne({
+      mobile,
+      status:"New"
+    });
+
+    if(open){
+
+      return res.json({
+        success:true,
+        message:"We already have your application and will contact you soon"
+      });
+
+    }
+
+    await HostApplication.create({
+
+      name,
+      mobile,
+      age,
+      city,
+      languages,
+      about
+
+    });
+
+    res.json({
+      success:true,
+      message:"Application received"
+    });
+
+  }catch(error){
+
+    console.log(error);
+
+    res.json({
+      success:false,
+      message:"Something went wrong. Please try again."
+    });
+
+  }
+
+});
+
+/* GET HOST APPLICATIONS (ADMIN) */
+
+app.get("/get-host-applications", async (req, res) => {
+
+  try{
+
+    const applications =
+
+      await HostApplication.find()
+      .sort({appliedAt:-1});
+
+    res.json(applications);
+
+  }catch(error){
+
+    console.log(error);
+
+    res.json([]);
+
+  }
+
+});
+
+/* UPDATE HOST APPLICATION STATUS (ADMIN) */
+
+app.put("/update-host-application/:id", async (req, res) => {
+
+  try{
+
+    const { status } = req.body;
+
+    if(
+      !["New","Approved","Rejected"]
+      .includes(status)
+    ){
+
+      return res.json({
+        success:false,
+        message:"Invalid status"
+      });
+
+    }
+
+    const application =
+
+      await HostApplication.findByIdAndUpdate(
+
+        req.params.id,
+
+        { status }
+
+      );
+
+    if(!application){
+
+      return res.json({
+        success:false,
+        message:"Application not found"
+      });
+
+    }
+
+    res.json({
+      success:true,
+      message:`Application marked ${status}`
+    });
+
+  }catch(error){
+
+    console.log(error);
+
+    res.json({
+      success:false,
+      message:"Error updating application"
+    });
+
+  }
+
+});
+
+/* DELETE HOST APPLICATION (ADMIN) */
+
+app.delete("/delete-host-application/:id", async (req, res) => {
+
+  try{
+
+    const deleted =
+
+      await HostApplication.findByIdAndDelete(
+        req.params.id
+      );
+
+    res.json({
+
+      success:!!deleted,
+
+      message:
+
+      deleted
+      ? "Application deleted"
+      : "Application not found"
+
+    });
+
+  }catch(error){
+
+    console.log(error);
+
+    res.json({
+      success:false,
+      message:"Error deleting application"
     });
 
   }

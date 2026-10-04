@@ -784,6 +784,37 @@ footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px
   .reveal { opacity: 1; transform: none; }
 }
 
+/* ── EARN / HOST APPLICATION ── */
+.section-earn { background: linear-gradient(180deg, var(--bg) 0%, var(--soft) 100%); padding-top: 0; }
+.earn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+.earn-info h2 { font-size: clamp(28px, 3.6vw, 42px); font-weight: 800; letter-spacing: -1.100px; line-height: 1.12; margin-bottom: 16px; }
+.earn-info > p { font-size: 16px; color: var(--muted); line-height: 1.75; margin-bottom: 26px; }
+.earn-points { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.earn-point { background: white; border: 1px solid var(--border); border-radius: 18px; padding: 16px; }
+.earn-point .ep-icon { font-size: 22px; margin-bottom: 8px; }
+.earn-point h4 { font-size: 15px; font-weight: 800; margin-bottom: 3px; }
+.earn-point p { font-size: 13.500px; color: var(--muted); line-height: 1.55; }
+
+.earn-form { background: white; border: 1px solid var(--border); border-radius: 28px; padding: 34px 30px; box-shadow: var(--shadow); }
+.earn-form h3 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px; }
+.earn-form .ef-sub { color: var(--muted); font-size: 14px; margin-bottom: 22px; }
+.earn-form .form-group input, .earn-form .form-group textarea { background: var(--bg); font-size: 16px; }
+.earn-form .form-group input:focus, .earn-form .form-group textarea:focus { background: white; }
+.earn-form .form-group textarea { height: 90px; }
+.ef-check { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; font-weight: 500; color: var(--muted); margin-bottom: 18px; cursor: pointer; line-height: 1.5; }
+.ef-check input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--pink); flex-shrink: 0; }
+.ef-login { text-align: center; font-size: 14px; color: var(--muted); margin-top: 18px; }
+.ef-login a { color: var(--pink); font-weight: 700; text-decoration: none; }
+.btn-submit:disabled { opacity: 0.7; cursor: default; transform: none; }
+
+@media (max-width: 1020px) {
+  .earn-grid { grid-template-columns: 1fr; gap: 36px; }
+}
+@media (max-width: 600px) {
+  .earn-points { grid-template-columns: 1fr; }
+  .earn-form { padding: 26px 20px; }
+}
+
 /* ── POLISH ── */
 
 /* stats sit in one frosted card instead of loose numbers */
@@ -897,6 +928,7 @@ footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px
       <a href="#how">How It Works</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
+      <a href="#earn">Earn</a>
       <a href="#contact">Contact</a>
     </div>
     <div class="nav-btns">
@@ -916,6 +948,7 @@ footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px
   <a href="#how" onclick="closeMenu()">🔍 How It Works</a>
   <a href="#pricing" onclick="closeMenu()">💎 Pricing</a>
   <a href="#faq" onclick="closeMenu()">❓ FAQ</a>
+  <a href="#earn" onclick="closeMenu()">💰 Earn With Us</a>
   <a href="#contact" onclick="closeMenu()">📬 Contact</a>
   <div class="divider"></div>
   <div class="m-btns">
@@ -1244,7 +1277,7 @@ footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px
       </details>
       <details>
         <summary>How can I become a host?</summary>
-        <p>Send us a message through the <a href="#contact">contact form</a> and choose "Host Application" as the subject. Already a host? <a href="/host-login.html">Log in here</a>.</p>
+        <p>Fill in the short <a href="#earn">host application</a> on this page and our team will contact you on your mobile. Already a host? <a href="/host-login.html">Log in here</a>.</p>
       </details>
       <details>
         <summary>I need help with my account. Who do I contact?</summary>
@@ -1264,6 +1297,97 @@ footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px
         <button class="btn-white" onclick="goRegister()">Get Started →</button>
         <button class="btn-white-outline" onclick="goLogin()">Login</button>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- EARN / HOST APPLICATION -->
+<section class="section-earn" id="earn">
+  <div class="wrap">
+    <div class="earn-grid">
+
+      <div class="earn-info reveal">
+        <div class="section-label">💰 Earn With Us</div>
+        <h2>Join Our Team &amp;<br><span class="grad-text">Start Earning</span></h2>
+        <p>Become a FlirtyFly 💋 host and get paid for every minute you spend on a video call. Work from home, choose your own hours, and withdraw your earnings whenever you like.</p>
+
+        <div class="earn-points">
+          <div class="earn-point">
+            <div class="ep-icon">💸</div>
+            <h4>Paid Per Minute</h4>
+            <p>You earn ₹<span data-host-rate>8</span> for every minute you are on a call.</p>
+          </div>
+          <div class="earn-point">
+            <div class="ep-icon">🕒</div>
+            <h4>Your Own Hours</h4>
+            <p>Go online when you are free and offline when you are not.</p>
+          </div>
+          <div class="earn-point">
+            <div class="ep-icon">🏠</div>
+            <h4>Work From Home</h4>
+            <p>All you need is a phone or laptop with a camera and a good connection.</p>
+          </div>
+          <div class="earn-point">
+            <div class="ep-icon">🏦</div>
+            <h4>Easy Withdrawals</h4>
+            <p>Request a payout to your UPI or bank account from your host dashboard.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <form class="earn-form reveal" id="hostApplyForm">
+        <h3>Host Application</h3>
+        <p class="ef-sub">Fill this in and our team will contact you on your mobile.</p>
+
+        <div id="hostApplyFields">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="haName">Full Name</label>
+              <input type="text" id="haName" placeholder="Your name" autocomplete="name" required>
+            </div>
+            <div class="form-group">
+              <label for="haMobile">Mobile Number</label>
+              <input type="tel" id="haMobile" placeholder="10-digit mobile" inputmode="numeric" autocomplete="tel" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="haAge">Age</label>
+              <input type="number" id="haAge" placeholder="18 or above" min="18" max="99" inputmode="numeric" required>
+            </div>
+            <div class="form-group">
+              <label for="haCity">City</label>
+              <input type="text" id="haCity" placeholder="e.g. Bengaluru" autocomplete="address-level2" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="haLanguages">Languages You Speak</label>
+            <input type="text" id="haLanguages" placeholder="e.g. Hindi, English, Kannada" required>
+          </div>
+          <div class="form-group">
+            <label for="haAbout">About You (optional)</label>
+            <textarea id="haAbout" placeholder="Tell us a little about yourself and when you are usually free."></textarea>
+          </div>
+
+          <label class="ef-check">
+            <input type="checkbox" id="haAdult" required>
+            <span>I confirm that I am 18 years of age or older and agree to the <a href="/terms.html" style="color:var(--pink);font-weight:700;">Terms of Service</a>.</span>
+          </label>
+
+          <p class="form-error" id="haError"></p>
+          <button type="submit" class="btn-submit" id="haSubmit">Submit Application</button>
+        </div>
+
+        <div class="form-success" id="haSuccess">
+          <div class="fs-icon">🎉</div>
+          <h3>Application Received!</h3>
+          <p id="haSuccessText">Thank you for applying. Our team will contact you on your mobile soon.</p>
+        </div>
+
+        <p class="ef-login">Already a host? <a href="/host-login.html">Log in here</a></p>
+      </form>
+
     </div>
   </div>
 </section>
@@ -1372,6 +1496,7 @@ footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px
         <h4>Account</h4>
         <a href="/login.html">Login</a>
         <a href="/register.html">Register</a>
+        <a href="#earn">Become a Host</a>
         <a href="/host-login.html">Host Login</a>
       </div>
     </div>
@@ -1428,7 +1553,10 @@ footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px
     /* sign-up bar: after the hero, and out of the way once the footer is reached */
     const pastHero = hero.getBoundingClientRect().bottom < 80;
     const atFooter = footer.getBoundingClientRect().top < window.innerHeight - 40;
-    document.getElementById("stickyCta").classList.toggle("show", pastHero && !atFooter);
+    /* the bar is for users signing up, so it steps aside while the host application is on screen */
+    const earn = document.getElementById("earn").getBoundingClientRect();
+    const atEarn = earn.top < window.innerHeight - 120 && earn.bottom > 120;
+    document.getElementById("stickyCta").classList.toggle("show", pastHero && !atFooter && !atEarn);
   }
 
   window.addEventListener("scroll", onScroll, { passive: true });
@@ -1512,6 +1640,70 @@ footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px
       }).join("");
     })
     .catch(() => {});
+
+  /* "Paid Per Minute" shows the host rate the admin has set */
+  fetch("/get-settings")
+    .then((res) => res.json())
+    .then((settings) => {
+      if (settings && settings.hostRatePerMinute > 0) {
+        document.querySelectorAll("[data-host-rate]").forEach((el) => el.textContent = settings.hostRatePerMinute);
+      }
+    })
+    .catch(() => {});
+
+  /* host application */
+  document.getElementById("hostApplyForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const value = (id) => document.getElementById(id).value.trim();
+    const error = document.getElementById("haError");
+    const button = document.getElementById("haSubmit");
+
+    const fail = (text) => { error.textContent = text; error.style.display = "block"; };
+    error.style.display = "none";
+
+    const application = {
+      name: value("haName"),
+      mobile: value("haMobile"),
+      age: value("haAge"),
+      city: value("haCity"),
+      languages: value("haLanguages"),
+      about: value("haAbout"),
+      isAdult: document.getElementById("haAdult").checked
+    };
+
+    if (!application.name || !application.mobile || !application.age || !application.city || !application.languages) {
+      return fail("Please fill in all the fields.");
+    }
+    if (application.mobile.replace(/\D/g, "").length < 10) return fail("Enter a valid mobile number.");
+    if (Number(application.age) < 18 || !application.isAdult) return fail("You must be 18 or older to apply.");
+
+    button.disabled = true;
+    button.textContent = "Sending...";
+
+    try {
+      const res = await fetch("/host-apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(application)
+      });
+      const result = await res.json();
+
+      if (result.success) {
+        document.getElementById("hostApplyFields").style.display = "none";
+        if (result.message !== "Application received") document.getElementById("haSuccessText").textContent = result.message + ".";
+        document.getElementById("haSuccess").style.display = "block";
+        return;
+      }
+
+      fail(result.message || "Something went wrong. Please try again.");
+    } catch (err) {
+      fail("Could not reach the server. Please try again.");
+    }
+
+    button.disabled = false;
+    button.textContent = "Submit Application";
+  });
 
   /* nav */
   function goLogin()    { window.location.href = "/login.html"; }

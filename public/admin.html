@@ -907,6 +907,12 @@ tr.clickable:hover{
   <span class="menu-count" id="countWithdrawals">0</span>
 </li>
 
+<li class="menu-item" data-section="applications">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3h8l4 4v14H7z"/><path d="M10 12h6M10 16h6"/></svg>
+  Applications
+  <span class="menu-count" id="countApplications">0</span>
+</li>
+
 <li class="menu-item" data-section="settings">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.900 4.900l2.100 2.100M17 17l2.100 2.100M19.100 4.900L17 7M7 17l-2.100 2.100"/></svg>
   Settings
@@ -1305,6 +1311,62 @@ tr.clickable:hover{
 
 </section>
 
+<!-- HOST APPLICATIONS -->
+<section id="applicationsSection" style="display:none;">
+
+<div class="panel">
+
+<div class="panel-head">
+
+<div>
+  <h3>Host Applications</h3>
+  <span class="panel-sub" id="applicationsShown"></span>
+</div>
+
+<div class="toolbar">
+
+<input
+  type="search"
+  id="applicationsSearch"
+  placeholder="Search name, mobile or city"
+>
+
+<select id="applicationsFilter">
+  <option value="all">All applications</option>
+  <option value="New">New</option>
+  <option value="Approved">Approved</option>
+  <option value="Rejected">Rejected</option>
+</select>
+
+</div>
+
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+  <th>Applicant</th>
+  <th>Age</th>
+  <th>City</th>
+  <th>Languages</th>
+  <th>Applied</th>
+  <th>Status</th>
+  <th></th>
+</tr>
+</thead>
+<tbody id="applicationsTable"></tbody>
+</table>
+</div>
+
+<p class="panel-sub" style="margin-top:14px;">
+  Approving an application opens the Create Host form with the name and mobile filled in. The host can log in once you have set their password and photo there.
+</p>
+
+</div>
+
+</section>
+
 <!-- SETTINGS -->
 <section id="settingsSection" style="display:none;">
 
@@ -1537,6 +1599,7 @@ const state = {
   calls:[],
   withdrawals:[],
   plans:[],
+  applications:[],
   settings:{ hostRatePerMinute:8 }
 };
 
@@ -1547,6 +1610,7 @@ const titles = {
   payments:"Payments",
   calls:"Calls",
   withdrawals:"Withdrawals",
+  applications:"Applications",
   settings:"Settings"
 };
 
@@ -1792,15 +1856,18 @@ async function loadAll(silent){
 
   try{
 
-    const [users,hosts,payments,calls,withdrawals,plans,settings] = await Promise.all([
+    const [users,hosts,payments,calls,withdrawals,plans,settings,applications] = await Promise.all([
       fetchList("/get-users"),
       fetchList("/get-all-hosts"),
       fetchList("/get-payments"),
       fetchList("/get-all-calls"),
       fetchList("/get-withdrawals"),
       fetchList("/get-plans?all=1"),
-      fetch("/get-settings").then((r) => r.json())
+      fetch("/get-settings").then((r) => r.json()),
+      fetchList("/get-host-applications")
     ]);
+
+    state.applications = applications;
 
     state.plans = plans;
 
@@ -1846,6 +1913,153 @@ function renderAll(){
   renderCalls();
   renderWithdrawals();
   renderSettings();
+  renderApplications();
+
+}
+
+/* HOST APPLICATIONS */
+function applicationBadge(status){
+
+  const badgeClass = {
+    Approved:"badge-green",
+    Rejected:"badge-red"
+  }[status] || "badge-amber";
+
+  return `<span class="badge ${badgeClass}">${esc(status || "New")}</span>`;
+
+}
+
+function renderApplications(){
+
+  /* ONLY APPLICATIONS STILL WAITING FOR A DECISION */
+  $("countApplications").textContent =
+    state.applications.filter((a) => a.status === "New").length;
+
+  const filter = $("applicationsFilter").value;
+
+  const applications = state.applications.filter((a) =>
+
+    matches($("applicationsSearch").value,a.name,a.mobile,a.city)
+
+    && (filter === "all" || a.status === filter)
+
+  );
+
+  $("applicationsShown").textContent =
+    `Showing ${applications.length} of ${state.applications.length}`;
+
+  $("applicationsTable").innerHTML = applications.length
+    ? applications.map((a) => `
+        <tr>
+          <td>
+            <div class="cell-user">
+              <div>
+                <strong>${esc(a.name)}</strong>
+                <small>${esc(a.mobile)}</small>
+                ${a.about ? `<br><small>${esc(a.about)}</small>` : ""}
+              </div>
+            </div>
+          </td>
+          <td>${esc(a.age)}</td>
+          <td>${esc(a.city)}</td>
+          <td>${esc(a.languages)}</td>
+          <td>${fmtDateTime(a.appliedAt)}</td>
+          <td>${applicationBadge(a.status)}</td>
+          <td>
+            <div class="row-actions">
+              ${a.status === "New" ? `
+                <button class="btn btn-primary btn-small" data-application="Approved" data-id="${esc(a._id)}">Approve</button>
+                <button class="btn btn-small" data-application="Rejected" data-id="${esc(a._id)}">Reject</button>
+              ` : ""}
+              <button class="btn btn-danger" data-delete-application="${esc(a._id)}">Delete</button>
+            </div>
+          </td>
+        </tr>
+      `).join("")
+    : emptyRow(7,"No host applications found");
+
+}
+
+async function decideApplication(id,status){
+
+  const application = state.applications.find((a) => a._id === id);
+
+  if(!application) return;
+
+  try{
+
+    const response = await fetch(
+      `/update-host-application/${encodeURIComponent(id)}`,
+      {
+        method:"PUT",
+        headers:{ "Content-Type":"application/json" },
+        body:JSON.stringify({ status })
+      }
+    );
+
+    const result = await response.json();
+
+    toast(result.message,!result.success);
+
+    /* APPROVED: OPEN CREATE HOST WITH THE APPLICANT'S DETAILS FILLED IN */
+    if(result.success && status === "Approved"){
+
+      const form = $("createHostForm");
+
+      form.reset();
+
+      form.elements.name.value = application.name;
+      form.elements.mobile.value = application.mobile;
+
+      $("createHostModal").classList.add("open");
+
+    }
+
+  }catch(error){
+
+    console.log(error);
+
+    toast("Could not update the application",true);
+
+  }
+
+  loadAll(true);
+
+}
+
+async function deleteApplication(id){
+
+  const application = state.applications.find((a) => a._id === id);
+
+  if(!application) return;
+
+  const confirmed = await askConfirm(
+    "Delete application?",
+    `${application.name}'s application will be permanently removed.`
+  );
+
+  if(!confirmed) return;
+
+  try{
+
+    const response = await fetch(
+      `/delete-host-application/${encodeURIComponent(id)}`,
+      { method:"DELETE" }
+    );
+
+    const result = await response.json();
+
+    toast(result.message,!result.success);
+
+  }catch(error){
+
+    console.log(error);
+
+    toast("Could not delete the application",true);
+
+  }
+
+  loadAll(true);
 
 }
 
@@ -2979,6 +3193,12 @@ document.addEventListener("click",(e) => {
   const deleteBtn = target.closest("[data-delete]");
   if(deleteBtn) return deleteRecord(deleteBtn.dataset.delete,deleteBtn.dataset.id);
 
+  const applicationBtn = target.closest("[data-application]");
+  if(applicationBtn) return decideApplication(applicationBtn.dataset.id,applicationBtn.dataset.application);
+
+  const deleteApplicationBtn = target.closest("[data-delete-application]");
+  if(deleteApplicationBtn) return deleteApplication(deleteApplicationBtn.dataset.deleteApplication);
+
   const deletePlanBtn = target.closest("[data-delete-plan]");
   if(deletePlanBtn) return deletePlan(deletePlanBtn.dataset.deletePlan);
 
@@ -3034,6 +3254,9 @@ $("hostsFilter").addEventListener("change",renderHosts);
 $("paymentsSearch").addEventListener("input",renderPayments);
 
 $("callsSearch").addEventListener("input",renderCalls);
+
+$("applicationsSearch").addEventListener("input",renderApplications);
+$("applicationsFilter").addEventListener("change",renderApplications);
 
 $("withdrawalsSearch").addEventListener("input",renderWithdrawals);
 $("withdrawalsFilter").addEventListener("change",renderWithdrawals);
