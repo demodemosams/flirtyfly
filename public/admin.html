@@ -1696,7 +1696,18 @@ function isSubscribed(user){
 
   const expiry = validDate(user.subscriptionExpiry);
 
-  return !!user.subscriptionActive && !!expiry && expiry > new Date();
+  /* NO EXPIRY DATE = PREMIUM THAT NEVER ENDS (SAME RULE AS THE SERVER) */
+  return !!user.subscriptionActive && (!expiry || expiry > new Date());
+
+}
+
+function planExpiry(user){
+
+  if(!isSubscribed(user)) return "—";
+
+  return validDate(user.subscriptionExpiry)
+    ? fmtDate(user.subscriptionExpiry)
+    : "Never";
 
 }
 
@@ -2489,7 +2500,7 @@ function renderUsers(){
             </div>
           </td>
           <td>${planBadge(u)}</td>
-          <td>${isSubscribed(u) ? fmtDate(u.subscriptionExpiry) : "—"}</td>
+          <td>${planExpiry(u)}</td>
           <td>${fmtDate(u.createdAt)}</td>
           <td class="num">
             <button class="btn btn-danger" data-delete="user" data-id="${esc(u._id)}">
@@ -2783,7 +2794,7 @@ function openUser(id){
 
     <div class="detail-grid">
       ${detailItem("Joined",fmtDate(user.createdAt))}
-      ${detailItem("Plan expires",isSubscribed(user) ? fmtDate(user.subscriptionExpiry) : "—")}
+      ${detailItem("Plan expires",planExpiry(user))}
       ${detailItem("Total spent",money(sumAmount(payments)))}
       ${detailItem("Total calls",calls.length)}
       ${detailItem("Free trial",user.freeTrialUsed ? "Used" : `${Number(user.remainingFreeSeconds) || 0}s left`)}
@@ -3076,7 +3087,7 @@ function exportCsv(kind){
         Name:(u) => u.name,
         Mobile:(u) => u.mobile,
         Plan:(u) => isSubscribed(u) ? u.subscription : "",
-        Expires:(u) => isSubscribed(u) ? fmtDate(u.subscriptionExpiry) : "",
+        Expires:(u) => isSubscribed(u) ? planExpiry(u) : "",
         Joined:(u) => fmtDate(u.createdAt)
       }
     },
