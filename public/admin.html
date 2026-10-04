@@ -1696,18 +1696,17 @@ function isSubscribed(user){
 
   const expiry = validDate(user.subscriptionExpiry);
 
-  /* NO EXPIRY DATE = PREMIUM THAT NEVER ENDS (SAME RULE AS THE SERVER) */
-  return !!user.subscriptionActive && (!expiry || expiry > new Date());
+  /* ONLY PAID PLANS COUNT: A COMPLIMENTARY ACCOUNT (PREMIUM WITH NO EXPIRY DATE,
+     GRANTED BY HAND) IS NOT A SUBSCRIBER AND SHOWS AS A NORMAL FREE USER */
+  return !!user.subscriptionActive && !!expiry && expiry > new Date();
 
 }
 
 function planExpiry(user){
 
-  if(!isSubscribed(user)) return "—";
-
-  return validDate(user.subscriptionExpiry)
+  return isSubscribed(user)
     ? fmtDate(user.subscriptionExpiry)
-    : "Never";
+    : "—";
 
 }
 
@@ -1820,7 +1819,8 @@ function planBadge(user){
     return `<span class="badge badge-pink">${esc(user.subscription || "Subscribed")}</span>`;
   }
 
-  if(user.subscription){
+  /* A PAID PLAN THAT HAS RUN OUT (COMPLIMENTARY ACCOUNTS HAVE NO EXPIRY DATE) */
+  if(user.subscription && validDate(user.subscriptionExpiry)){
     return `<span class="badge badge-red">Expired</span>`;
   }
 
