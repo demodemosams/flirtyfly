@@ -2,846 +2,1297 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Dashboard - FlirtyFly</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#fff7f9">
+  <title>FlirtyFly</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,700;1,800&display=swap" rel="stylesheet">
   <style>
+    /* Phone first: the base styles are the mobile layout, the desktop layout is added at 900px. */
+
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --pink: #ff4f87;
       --orange: #ff7b54;
-      --grad: linear-gradient(135deg, #ff4f87, #ff7b54);
-      --grad-soft: linear-gradient(135deg, #fff0f4, #ffe4ec);
-      --white: #ffffff;
-      --bg: #fdf2f6;
-      --text: #222;
-      --muted: #888;
-      --border: #f0e0e8;
-      --shadow: 0 10px 30px rgba(255,79,135,0.10);
-      --shadow-card: 0 8px 28px rgba(0,0,0,0.07);
+      --grad: linear-gradient(135deg, #ff2d75, #ff7b54);
+      --bg: #fff7f9;
+      --surface: #ffffff;
+      --soft: #fff0f4;
+      --text: #1d1522;
+      --muted: #8a7f8d;
+      --border: #f3e3ea;
+      --green: #16a34a;
+      --red: #e5484d;
+      --shadow: 0 6px 24px rgba(60, 20, 40, 0.06);
+      --shadow-pink: 0 12px 28px rgba(255, 79, 135, 0.28);
       --radius: 22px;
-      --sidebar-w: 265px;
+      --sidebar-w: 248px;
+      --tabbar-h: 66px;
+      --gutter: 16px;
     }
+
+    html { -webkit-text-size-adjust: 100%; }
 
     body {
-      font-family: 'Nunito', sans-serif;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
-      display: flex;
       min-height: 100vh;
-      overflow-x: hidden;
+      min-height: 100dvh;
+      font-size: 15px;
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+      overscroll-behavior-y: none;
     }
 
-    /* ── OVERLAY ── */
-    .overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-      z-index: 90;
-    }
-    .overlay.show { display: block; }
+    button, input { font-family: inherit; font-size: inherit; color: inherit; }
+    button { cursor: pointer; border: none; background: none; touch-action: manipulation; }
+    a { color: inherit; text-decoration: none; }
+    svg { width: 22px; height: 22px; flex-shrink: 0; }
+    em { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 800; }
 
-    /* ── SIDEBAR ── */
-    .sidebar {
-      width: var(--sidebar-w);
-      background: var(--white);
-      padding: 32px 20px;
-      border-right: 1.5px solid var(--border);
-      position: fixed;
-      top: 0; left: 0; bottom: 0;
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.32s cubic-bezier(.4,0,.2,1);
-    }
+    :focus-visible { outline: 2px solid var(--pink); outline-offset: 2px; }
 
-    .sidebar-logo {
-      font-size: 30px;
-      font-weight: 900;
+    .logo {
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
       background: var(--grad);
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 38px;
-      letter-spacing: -1px;
+      -webkit-text-fill-color: transparent;
     }
 
-    .sidebar nav { flex: 1; }
+    /* ── SIDEBAR (desktop only) ── */
+    .sidebar { display: none; }
 
-    .menu-item {
-      list-style: none;
+    /* ── TAB BAR (phone) ── */
+    .tabbar {
       display: flex;
-      align-items: center;
-      gap: 13px;
-      padding: 14px 18px;
-      border-radius: 16px;
-      margin-bottom: 8px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 15px;
-      color: #777;
-      transition: all 0.22s;
-      user-select: none;
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      height: calc(var(--tabbar-h) + env(safe-area-inset-bottom));
+      padding: 0 6px env(safe-area-inset-bottom);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-top: 1px solid var(--border);
+      z-index: 60;
     }
-    .menu-item .ico { font-size: 19px; }
-    .menu-item:hover { background: #fff1f5; color: var(--pink); }
-    .menu-item.active-menu {
-      background: var(--grad);
-      color: white;
-      box-shadow: 0 8px 22px rgba(255,79,135,0.28);
-    }
-
-    .sidebar-footer {
-      padding: 18px;
-      background: #fff6f9;
-      border-radius: 16px;
-      text-align: center;
-    }
-    .sidebar-footer p { font-size: 12px; color: #bbb; }
-
-    /* ── HAMBURGER ── */
-    .hamburger {
-      display: none;
+    .tab {
+      flex: 1;
+      display: flex;
       flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 8px;
-      border-radius: 12px;
-      background: var(--white);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
     }
-    .hamburger span {
-      display: block;
-      width: 22px;
-      height: 2.5px;
-      background: var(--pink);
-      border-radius: 4px;
-      transition: all 0.3s;
+    .tab .ico {
+      width: 48px; height: 30px;
+      border-radius: 50px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.25s, color 0.25s, transform 0.2s;
     }
-    .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+    .tab:active .ico { transform: scale(0.9); }
+    .tab.active { color: var(--pink); }
+    .tab.active .ico { background: var(--grad); color: #fff; box-shadow: 0 6px 16px rgba(255, 79, 135, 0.35); }
 
     /* ── MAIN ── */
-    .main {
-      flex: 1;
-      margin-left: var(--sidebar-w);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+    .main { padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 12px); }
 
-    /* ── TOPBAR ── */
     .topbar {
-      background: var(--white);
-      border-bottom: 1.5px solid var(--border);
-      padding: 18px 28px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       position: sticky;
       top: 0;
       z-index: 50;
+      background: rgba(255, 247, 249, 0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: calc(12px + env(safe-area-inset-top)) var(--gutter) 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
     }
-    .topbar-left { display: flex; align-items: center; gap: 14px; }
-    .topbar h2 { font-size: 22px; font-weight: 900; }
-    .badge-premium {
-      background: var(--grad);
-      color: white;
-      padding: 7px 16px;
-      border-radius: 50px;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-    }
+    .topbar h1 { display: none; }
 
-    /* ── CONTENT ── */
-    .content-area { padding: 28px; flex: 1; }
-
-    /* ── HOST CARDS ── */
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 22px;
-    }
-    .card {
-      background: var(--white);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow-card);
-      transition: transform 0.22s, box-shadow 0.22s;
-    }
-    .card:hover { transform: translateY(-5px); box-shadow: 0 16px 38px rgba(255,79,135,0.14); }
-    .card .img-wrap { position: relative; }
-    .card .img-wrap img { width: 100%; height: 290px; object-fit: cover; display: block; }
-    .status-badge {
-      position: absolute;
-      top: 14px; right: 14px;
-      padding: 6px 13px;
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 38px;
+      padding: 8px 14px;
       border-radius: 50px;
-      font-size: 11px;
-      font-weight: 800;
-      color: white;
-      letter-spacing: 0.5px;
+      font-size: 13px;
+      font-weight: 700;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      white-space: nowrap;
     }
-    .online { background: #00c853; }
-    .offline { background: #ff5252; }
-    .card .card-body { padding: 18px 20px 20px; }
-    .card .card-body h3 { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
-    .card .card-body p { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
-    .btn-call {
-      width: 100%;
-      border: none;
-      padding: 13px;
+    .chip.premium, .chip.upgrade { background: var(--grad); color: #fff; border: none; box-shadow: var(--shadow-pink); }
+    .chip:empty { display: none; }
+
+    .content { padding: 4px var(--gutter) 24px; }
+
+    .section { display: none; animation: fade 0.3s ease; }
+    .section.active { display: block; }
+    @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    /* ── AVATAR ── */
+    .avatar {
+      width: 44px; height: 44px;
       border-radius: 14px;
       background: var(--grad);
-      color: white;
-      font-size: 14px;
+      color: #fff;
       font-weight: 800;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.2s;
-      font-family: 'Nunito', sans-serif;
-    }
-    .btn-call:hover { opacity: 0.88; transform: translateY(-2px); }
-
-    /* ── EMPTY STATE ── */
-    .empty-state {
-      text-align: center;
-      padding: 70px 20px;
-      color: var(--muted);
-    }
-    .empty-state .ico-big { font-size: 54px; margin-bottom: 14px; }
-    .empty-state h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; color: #bbb; }
-
-    /* ── SUBSCRIPTIONS ── */
-    .sub-title { font-size: 24px; font-weight: 900; margin-bottom: 24px; }
-    .sub-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-      gap: 22px;
-    }
-    .sub-card {
-      background: var(--white);
-      padding: 32px 28px;
-      border-radius: var(--radius);
-      text-align: center;
-      box-shadow: var(--shadow-card);
-      position: relative;
-      border: 2px solid transparent;
-      transition: transform 0.22s, box-shadow 0.22s;
-    }
-    .sub-card:hover { transform: translateY(-4px); }
-    .sub-card.featured { border-color: var(--pink); box-shadow: 0 10px 30px rgba(255,79,135,0.18); }
-    .sub-card .badge-best {
-      position: absolute;
-      top: -14px; left: 50%;
-      transform: translateX(-50%);
-      background: var(--grad);
-      color: white;
-      padding: 6px 18px;
-      border-radius: 50px;
-      font-size: 11px;
-      font-weight: 800;
-    }
-    .sub-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 10px; }
-    .sub-card .price { font-size: 46px; font-weight: 900; color: var(--pink); margin-bottom: 6px; }
-    .sub-card .price span { font-size: 20px; }
-    .sub-card .features { margin: 14px 0; }
-    .sub-card .features p { font-size: 14px; color: var(--muted); padding: 6px 0; border-bottom: 1px solid #f5f5f5; }
-    .sub-card .features p:last-child { border-bottom: none; }
-    .sub-card .btn-buy {
-      margin-top: 20px;
-      width: 100%;
-      border: none;
-      padding: 14px;
-      border-radius: 14px;
-      background: var(--grad);
-      color: white;
-      font-weight: 800;
-      font-size: 15px;
-      cursor: pointer;
-      font-family: 'Nunito', sans-serif;
-      transition: opacity 0.2s;
-    }
-    .sub-card .btn-buy:hover { opacity: 0.88; }
-
-    /* ── CALL HISTORY ── */
-    .history-list { display: flex; flex-direction: column; gap: 14px; }
-    .history-card {
-      background: var(--white);
-      border-radius: 18px;
-      padding: 16px 20px;
       display: flex;
       align-items: center;
-      gap: 16px;
-      box-shadow: var(--shadow-card);
-      transition: transform 0.2s;
-    }
-    .history-card:hover { transform: translateX(4px); }
-    .history-card img {
-      width: 64px; height: 64px;
-      border-radius: 14px;
-      object-fit: cover;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
       flex-shrink: 0;
     }
-    .history-card .info h3 { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
-    .history-card .info p { font-size: 12px; color: var(--muted); }
-    .history-card .tag {
-      margin-left: auto;
-      background: #f0f9ff;
-      color: #2a7ced;
-      padding: 6px 14px;
-      border-radius: 50px;
-      font-size: 11px;
-      font-weight: 700;
-    }
+    .avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .avatar.lg { width: 76px; height: 76px; border-radius: 24px; font-size: 30px; }
 
-    /* ── PROFILE ── */
-    .profile-wrap {
-      max-width: 460px;
-    }
-    .profile-card {
-      background: var(--white);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow-card);
-    }
-    .profile-header {
+    /* ── GREETING ── */
+    .greeting { margin: 6px 0 16px; }
+    .greeting h2 { font-size: 24px; font-weight: 800; letter-spacing: -0.6px; line-height: 1.2; }
+    .greeting p { color: var(--muted); font-size: 14px; margin-top: 2px; }
+
+    /* ── HERO ── */
+    .hero {
       background: var(--grad);
-      padding: 36px 28px 24px;
-      text-align: center;
-      color: white;
-    }
-    .avatar-circle {
-      width: 82px; height: 82px;
+      color: #fff;
       border-radius: 24px;
-      background: rgba(255,255,255,0.28);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 34px;
-      font-weight: 900;
-      margin: 0 auto 14px;
-      border: 3px solid rgba(255,255,255,0.5);
+      padding: 22px 20px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-pink);
+      position: relative;
+      overflow: hidden;
     }
-    .profile-header h2 { font-size: 22px; font-weight: 900; }
-    .profile-header p { opacity: 0.85; font-size: 13px; margin-top: 4px; }
-    .profile-body { padding: 22px 24px; }
-    .profile-menu-link {
+    .hero::before, .hero::after { content: ""; position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.14); }
+    .hero::before { width: 200px; height: 200px; right: -60px; top: -90px; }
+    .hero::after { width: 120px; height: 120px; right: 40px; bottom: -70px; }
+    .hero > * { position: relative; z-index: 1; }
+    .hero h2 { font-size: 21px; font-weight: 800; letter-spacing: -0.4px; line-height: 1.2; margin-bottom: 6px; }
+    .hero p { opacity: 0.94; font-size: 14px; }
+    .hero .btn { margin-top: 16px; width: 100%; }
+
+    .meter { margin-top: 16px; }
+    .meter-bar { height: 8px; border-radius: 50px; background: rgba(255, 255, 255, 0.28); overflow: hidden; }
+    .meter-bar i { display: block; height: 100%; border-radius: 50px; background: #fff; transition: width 0.6s ease; }
+    .meter-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; opacity: 0.92; margin-top: 6px; }
+
+    /* ── STATS ── */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px 10px;
+      text-align: center;
+    }
+    .stat b { display: block; font-size: 19px; font-weight: 800; letter-spacing: -0.4px; color: var(--pink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .stat span { font-size: 11.500px; font-weight: 600; color: var(--muted); }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 48px;
+      padding: 12px 22px;
+      border-radius: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: transform 0.15s, filter 0.2s, background 0.2s;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: var(--grad); color: #fff; box-shadow: var(--shadow-pink); }
+    .btn-white { background: #fff; color: var(--pink); }
+    .btn-soft { background: var(--soft); color: var(--text); }
+    .btn-block { width: 100%; }
+    .btn:disabled { opacity: 0.6; cursor: default; }
+
+    /* ── SECTION HEAD ── */
+    .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+    .section-head h2, .block-title { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
+    .section-head span { color: var(--muted); font-size: 13px; font-weight: 600; }
+    .block-title { margin-bottom: 12px; }
+    .block { margin-bottom: 26px; }
+
+    /* ── RECENT HOSTS (swipe row) ── */
+    .recent {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      margin: 0 calc(var(--gutter) * -1);
+      padding: 4px var(--gutter) 6px;
+      scroll-snap-type: x proximity;
+      scrollbar-width: none;
+    }
+    .recent::-webkit-scrollbar { display: none; }
+    .recent button { flex: 0 0 auto; width: 68px; text-align: center; scroll-snap-align: start; }
+    .recent .ring {
+      display: block;
+      width: 66px; height: 66px;
+      border-radius: 50%;
+      padding: 3px;
+      background: #e9dde3;
+      margin: 0 auto 6px;
+      position: relative;
+    }
+    .recent .online .ring { background: var(--grad); }
+    .recent .ring .avatar { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--bg); font-size: 22px; }
+    .recent .online .ring::after {
+      content: "";
+      position: absolute;
+      right: 2px; bottom: 2px;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: #22c55e;
+      border: 3px solid var(--bg);
+    }
+    .recent small { display: block; font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* ── SEARCH ── */
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0 14px;
+      margin-bottom: 14px;
+      color: var(--muted);
+    }
+    .search:focus-within { border-color: var(--pink); box-shadow: 0 0 0 3px rgba(255, 79, 135, 0.12); }
+    .search svg { width: 18px; height: 18px; }
+    /* 16px stops phones zooming in when the field is tapped */
+    .search input { border: none; outline: none; background: none; padding: 14px 0; width: 100%; color: var(--text); font-size: 16px; }
+
+    /* ── HOST CARDS ── */
+    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .card {
+      position: relative;
+      aspect-ratio: 3 / 4.200;
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--grad);
+      box-shadow: var(--shadow);
+      text-align: left;
+      color: #fff;
+      display: block;
+      width: 100%;
+      transition: transform 0.2s, box-shadow 0.25s;
+    }
+    .card:active { transform: scale(0.97); }
+    .card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+    .card .initial {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 64px; font-weight: 800; color: rgba(255, 255, 255, 0.5);
+    }
+    .card::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(20, 8, 16, 0.92) 0%, rgba(20, 8, 16, 0.7) 28%, rgba(20, 8, 16, 0.2) 52%, transparent 70%);
+    }
+    .card .live {
+      position: absolute; top: 10px; left: 10px; z-index: 1;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 10px;
+      border-radius: 50px;
+      font-size: 11px; font-weight: 700;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; animation: pulse 1.800s infinite; flex-shrink: 0; }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
+      100% { box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
+    }
+    .card .meta { position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 1; display: block; }
+    .card .meta strong { display: block; font-size: 17px; font-weight: 800; letter-spacing: -0.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card .meta small { display: none; font-size: 12px; opacity: 0.85; }
+    .card .call-pill {
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+      margin-top: 8px;
+      padding: 9px;
+      border-radius: 12px;
+      font-size: 12.500px; font-weight: 700;
+      background: var(--grad);
+    }
+    .card .call-pill svg { width: 15px; height: 15px; }
+
+    /* offline hosts: greyed photo, grey tag, no call button */
+    .card.offline { background: #b9aeb5; box-shadow: none; }
+    .card.offline img { filter: grayscale(1) brightness(0.8); }
+    .card.offline .dot { background: #c9c2c6; animation: none; }
+    .card.offline .live { background: rgba(60, 50, 56, 0.7); }
+    .card.offline .call-pill { background: rgba(255, 255, 255, 0.18); color: rgba(255, 255, 255, 0.85); }
+
+    .skeleton {
+      aspect-ratio: 3 / 4.200;
+      border-radius: 20px;
+      background: linear-gradient(100deg, #fbe9ef 30%, #fff5f8 50%, #fbe9ef 70%);
+      background-size: 200% 100%;
+      animation: shimmer 1.300s infinite;
+    }
+    .skeleton.row { aspect-ratio: auto; height: 76px; border-radius: 18px; }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 44px 20px;
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      color: var(--muted);
+    }
+    .empty .ico { font-size: 42px; margin-bottom: 8px; }
+    .empty h3 { color: var(--text); font-size: 17px; font-weight: 800; margin-bottom: 4px; }
+    .empty .btn { margin-top: 16px; }
+
+    /* ── STEPS / TIPS ── */
+    .steps { display: grid; gap: 10px; }
+    .step {
       display: flex;
       align-items: center;
       gap: 14px;
-      padding: 15px 18px;
-      border-radius: 14px;
-      color: var(--text);
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 14px;
-      margin-bottom: 10px;
-      background: #fdf5f8;
-      transition: background 0.2s, color 0.2s;
-      cursor: pointer;
-      border: none;
-      width: 100%;
-      text-align: left;
-      font-family: 'Nunito', sans-serif;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px 16px;
     }
-    .profile-menu-link:hover { background: #ffe0ec; color: var(--pink); }
-    .profile-menu-link .lico { font-size: 18px; }
-    .profile-menu-link.danger { color: #e53935; background: #fff0f0; }
-    .profile-menu-link.danger:hover { background: #ffe0e0; }
+    .step .num {
+      width: 40px; height: 40px;
+      border-radius: 13px;
+      background: var(--grad);
+      color: #fff;
+      font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 8px 16px rgba(255, 79, 135, 0.28);
+    }
+    .step .emoji { width: 40px; height: 40px; border-radius: 13px; background: var(--soft); display: flex; align-items: center; justify-content: center; font-size: 19px; flex-shrink: 0; }
+    .step strong { display: block; font-size: 15px; font-weight: 700; }
+    .step small { color: var(--muted); font-size: 13px; line-height: 1.5; display: block; }
 
-    /* ── SETTINGS ── */
-    .settings-wrap { max-width: 520px; }
-    .settings-card {
-      background: var(--white);
-      border-radius: var(--radius);
-      padding: 0;
-      box-shadow: var(--shadow-card);
-      overflow: hidden;
-    }
-    .settings-card-title {
-      padding: 22px 26px 14px;
-      font-size: 16px;
-      font-weight: 900;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-size: 11px;
-    }
-    .setting-row {
+    /* ── PLANS ── */
+    .plans-intro { color: var(--muted); margin: 6px 0 22px; }
+
+    .plans { display: grid; gap: 18px; }
+    .plan {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 24px;
+      padding: 26px 22px 22px;
+      position: relative;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 17px 26px;
-      border-top: 1.5px solid var(--border);
+      flex-direction: column;
+      box-shadow: var(--shadow);
     }
-    .setting-row:first-of-type { border-top: none; }
-    .setting-row .s-info h3 { font-size: 15px; font-weight: 800; margin-bottom: 3px; }
-    .setting-row .s-info p { font-size: 12px; color: var(--muted); }
-    .setting-row .s-right { font-size: 18px; color: #ccc; }
-    .status-pill {
+    /* on phones the best-value plan is shown first */
+    .plan.featured { order: -1; border-color: var(--pink); box-shadow: 0 16px 40px rgba(255, 79, 135, 0.18); }
+    .plan.current { border-color: var(--green); }
+    .plan .tag {
+      position: absolute;
+      top: -12px; left: 22px;
       padding: 5px 14px;
       border-radius: 50px;
-      font-size: 11px;
-      font-weight: 800;
+      font-size: 11px; font-weight: 800;
+      letter-spacing: 0.4px;
+      color: #fff;
+      background: var(--grad);
     }
-    .status-pill.active { background: #e8faf1; color: #00a651; }
-    .status-pill.inactive { background: #fff0f0; color: #e53935; }
-    .btn-logout-full {
-      width: calc(100% - 52px);
-      margin: 20px 26px;
-      border: none;
-      padding: 15px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #ff416c, #ff4b2b);
-      color: white;
-      font-weight: 800;
-      font-size: 15px;
-      cursor: pointer;
-      font-family: 'Nunito', sans-serif;
-      transition: opacity 0.2s;
-    }
-    .btn-logout-full:hover { opacity: 0.88; }
+    .plan.current .tag { background: var(--green); }
+    .plan h3 { font-size: 15px; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+    .plan .price { font-size: 40px; font-weight: 800; letter-spacing: -1.500px; line-height: 1; }
+    .plan .price small { font-size: 14px; font-weight: 600; color: var(--muted); letter-spacing: 0; }
+    .plan ul { list-style: none; margin: 18px 0; flex: 1; }
+    .plan li { display: flex; align-items: center; gap: 10px; padding: 6px 0; font-size: 14.500px; font-weight: 500; }
+    .plan li svg { width: 18px; height: 18px; color: var(--pink); }
+    .note { color: var(--muted); font-size: 12.500px; margin-top: 18px; text-align: center; }
 
-    /* ── SECTION HEADINGS ── */
-    .section-heading {
-      font-size: 22px;
-      font-weight: 900;
-      margin-bottom: 22px;
-    }
-
-    /* ── MODAL ── */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.62);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 20px;
-    }
-    .modal-overlay.show { display: flex; }
-    .modal-box {
-      background: var(--white);
-      border-radius: 28px;
-      width: 100%;
-      max-width: 380px;
-      overflow: hidden;
-      position: relative;
-      animation: popIn 0.28s cubic-bezier(.34,1.56,.64,1);
-    }
-    @keyframes popIn {
-      from { opacity: 0; transform: scale(0.88); }
-      to   { opacity: 1; transform: scale(1); }
-    }
-    .modal-img { width: 100%; height: 340px; object-fit: cover; display: block; }
-    .modal-body { padding: 20px 22px 24px; text-align: center; }
-    .modal-body h2 { font-size: 22px; font-weight: 900; margin-bottom: 4px; }
-    .modal-body p { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
-    .modal-close {
-      position: absolute;
-      top: 13px; right: 16px;
-      width: 34px; height: 34px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.35);
-      color: white;
-      font-size: 20px;
-      display: flex; align-items: center; justify-content: center;
+    /* ── FAQ ── */
+    .faq { display: grid; gap: 10px; }
+    .faq details { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 0 16px; }
+    .faq details[open] { border-color: rgba(255, 79, 135, 0.45); }
+    .faq summary {
+      list-style: none;
       cursor: pointer;
+      padding: 16px 0;
       font-weight: 700;
-      line-height: 1;
-      border: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
     }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after {
+      content: "+";
+      flex-shrink: 0;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--soft);
+      color: var(--pink);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 19px;
+      transition: transform 0.25s;
+    }
+    .faq details[open] summary::after { transform: rotate(45deg); }
+    .faq p { color: var(--muted); font-size: 14px; line-height: 1.7; padding-bottom: 16px; }
 
-    /* ── TERMS POPUP ── */
-    .terms-overlay {
+    /* ── LIST CARDS ── */
+    .list { display: flex; flex-direction: column; gap: 10px; }
+
+    .row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .row .info { min-width: 0; flex: 1; }
+    .row .info strong { display: block; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .row .info small { color: var(--muted); font-size: 12px; }
+    .row .avatar { width: 50px; height: 50px; border-radius: 16px; font-size: 20px; }
+
+    .pill { padding: 5px 12px; border-radius: 50px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .pill.green { background: #e9f9ef; color: var(--green); }
+    .pill.grey { background: #f4eef1; color: var(--muted); }
+    .pill.pink { background: var(--soft); color: var(--pink); }
+    .pill.red { background: #ffeeee; color: var(--red); }
+
+    /* ── PROFILE ── */
+    .profile-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+    }
+    .profile-card > div { min-width: 0; }
+    .profile-card h2 { font-size: 20px; font-weight: 800; letter-spacing: -0.4px; overflow: hidden; text-overflow: ellipsis; }
+    .profile-card p { color: var(--muted); font-size: 13px; }
+    .profile-card .bio { margin-top: 6px; color: var(--text); }
+
+    .member {
+      border-radius: 22px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+    .member.premium { background: var(--grad); color: #fff; border: none; box-shadow: var(--shadow-pink); }
+    .member small { display: block; font-size: 11px; font-weight: 700; letter-spacing: 1px; opacity: 0.75; margin-bottom: 2px; }
+    .member strong { font-size: 17px; font-weight: 800; }
+    .member span { display: block; font-size: 13px; opacity: 0.85; }
+    .member .btn { min-height: 44px; padding: 10px 18px; }
+
+    .group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    .group-item {
+      width: 100%;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      font-weight: 600;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .group-item:last-child { border-bottom: none; }
+    button.group-item:active, a.group-item:active { background: var(--soft); }
+    .group-item .ico {
+      width: 36px; height: 36px;
+      border-radius: 11px;
+      background: var(--soft);
+      color: var(--pink);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .group-item .ico svg { width: 18px; height: 18px; }
+    .group-item .arrow { margin-left: auto; color: #cbbfc6; width: 18px; height: 18px; }
+    .group-item .pill { margin-left: auto; }
+    .group-item small { display: block; color: var(--muted); font-size: 12px; font-weight: 500; }
+    .group-item.danger { color: var(--red); }
+    .group-item.danger .ico { background: #ffeeee; color: var(--red); }
+
+    .version { text-align: center; color: #cbbfc6; font-size: 12px; margin-top: 18px; }
+
+    /* ── MODALS: bottom sheets on phones ── */
+    .overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.62);
+      background: rgba(29, 21, 34, 0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
       display: none;
       justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      padding: 20px;
+      align-items: flex-end;
+      z-index: 1000;
     }
-    .terms-overlay.show { display: flex; }
-    .terms-box {
-      background: var(--white);
-      border-radius: 28px;
+    .overlay.show { display: flex; }
+
+    .sheet {
+      background: var(--surface);
+      border-radius: 28px 28px 0 0;
       width: 100%;
-      max-width: 430px;
-      padding: 34px 30px;
+      max-height: 92dvh;
+      overflow-y: auto;
+      position: relative;
+      padding-bottom: env(safe-area-inset-bottom);
+      animation: slide 0.3s cubic-bezier(.2, .9, .3, 1);
+    }
+    @keyframes slide { from { transform: translateY(100%); } to { transform: none; } }
+
+    .grabber { position: absolute; top: 8px; left: 50%; width: 42px; height: 5px; margin-left: -21px; border-radius: 50px; background: rgba(255, 255, 255, 0.75); z-index: 2; }
+    .dialog .grabber { background: #e6d9df; }
+
+    .sheet-photo { position: relative; aspect-ratio: 1 / 1; max-height: 52dvh; width: 100%; background: var(--grad); overflow: hidden; }
+    .sheet-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
+    .sheet-photo .initial {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 110px; font-weight: 800; color: rgba(255, 255, 255, 0.5);
+    }
+    .sheet-photo::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(20, 8, 16, 0.85), transparent 55%);
+    }
+    .sheet-photo .meta { position: absolute; left: 20px; right: 20px; bottom: 16px; color: #fff; z-index: 1; }
+    .sheet-photo .meta h2 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+    .sheet-photo .meta p { display: flex; align-items: center; gap: 8px; font-size: 13px; opacity: 0.92; }
+
+    .close {
+      position: absolute;
+      top: 14px; right: 14px;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.42);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2;
+    }
+    .close svg { width: 18px; height: 18px; }
+
+    .sheet-body { padding: 18px 20px 22px; }
+    .sheet-body .btn { min-height: 54px; font-size: 16px; }
+    .sheet-body .hint { text-align: center; color: var(--muted); font-size: 13px; margin-top: 12px; }
+    .perks { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .perks span { background: var(--soft); color: var(--text); font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 50px; }
+
+    .dialog { padding: 30px 22px calc(22px + env(safe-area-inset-bottom)); text-align: center; }
+    .dialog .ico { font-size: 46px; margin-bottom: 8px; }
+    .dialog h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 8px; }
+    .dialog > p { color: var(--muted); font-size: 14px; }
+    .dialog ul {
+      list-style: none;
+      text-align: left;
+      background: var(--soft);
+      border-radius: 16px;
+      padding: 6px 18px;
+      margin: 18px 0;
+    }
+    .dialog li { padding: 10px 0; font-size: 14px; font-weight: 500; border-bottom: 1px solid #f7dde6; }
+    .dialog li:last-child { border-bottom: none; }
+    .dialog .btn + .btn { margin-top: 10px; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(var(--tabbar-h) + 18px + env(safe-area-inset-bottom));
+      transform: translate(-50%, 20px);
+      background: var(--text);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 600;
       text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.25s;
+      z-index: 2000;
+      width: max-content;
+      max-width: calc(100vw - 32px);
     }
-    .terms-box h2 { font-size: 22px; font-weight: 900; margin-bottom: 10px; }
-    .terms-box > p { color: var(--muted); line-height: 1.6; font-size: 14px; }
-    .terms-rules { background: #fdf5f8; border-radius: 16px; padding: 18px 20px; margin: 18px 0; text-align: left; }
-    .terms-rules p { font-size: 13px; color: #555; padding: 6px 0; border-bottom: 1px solid #f0e0e8; }
-    .terms-rules p:last-child { border-bottom: none; }
-    .btn-agree {
-      width: 100%; border: none; padding: 15px; border-radius: 16px;
-      background: var(--grad); color: white; font-weight: 800; font-size: 15px;
-      cursor: pointer; font-family: 'Nunito', sans-serif;
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    /* ── SMALL PHONES ── */
+    @media (max-width: 350px) {
+      :root { --gutter: 12px; }
+      .greeting h2 { font-size: 21px; }
+      .stat b { font-size: 16px; }
+      .card .call-pill { font-size: 11.500px; }
+      .member { flex-direction: column; align-items: stretch; }
     }
 
-    /* ── LOADER ── */
-    .loader { text-align: center; padding: 50px; color: var(--muted); font-weight: 700; }
+    /* ── TABLETS ── */
+    @media (min-width: 600px) {
+      :root { --gutter: 24px; }
+      .cards { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+      .steps { grid-template-columns: repeat(3, 1fr); }
+      .step { flex-direction: column; text-align: center; padding: 20px 16px; }
+      .hero .btn { width: auto; }
+      .content { max-width: 760px; margin: 0 auto; }
+      .overlay { align-items: center; padding: 20px; }
+      .sheet { max-width: 420px; border-radius: 28px; padding-bottom: 0; animation: pop 0.3s cubic-bezier(.34, 1.4, .64, 1); }
+      .dialog { padding-bottom: 26px; }
+      .grabber { display: none; }
+      @keyframes pop { from { opacity: 0; transform: scale(0.92) translateY(10px); } to { opacity: 1; transform: none; } }
+    }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 860px) {
+    /* ── DESKTOP ── */
+    @media (min-width: 900px) {
+      .tabbar { display: none; }
+
       .sidebar {
-        transform: translateX(-110%);
-        box-shadow: 4px 0 24px rgba(0,0,0,0.1);
+        width: var(--sidebar-w);
+        background: var(--surface);
+        border-right: 1px solid var(--border);
+        position: fixed;
+        top: 0; left: 0; bottom: 0;
+        padding: 28px 16px 20px;
+        display: flex;
+        flex-direction: column;
+        z-index: 60;
       }
-      .sidebar.open { transform: translateX(0); }
-      .main { margin-left: 0; }
-      .hamburger { display: flex; }
+      .sidebar .logo { font-size: 26px; padding: 0 12px; margin-bottom: 30px; }
+      .nav { list-style: none; flex: 1; }
+      .nav-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 14px;
+        border-radius: 14px;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: var(--muted);
+        transition: background 0.2s, color 0.2s;
+      }
+      .nav-item:hover { background: var(--soft); color: var(--pink); }
+      .nav-item.active { background: var(--grad); color: #fff; box-shadow: var(--shadow-pink); }
+      .sidebar-user { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 16px; background: var(--soft); text-align: left; width: 100%; }
+      .sidebar-user strong { display: block; font-size: 14px; }
+      .sidebar-user small { color: var(--muted); font-size: 12px; }
+
+      .main { margin-left: var(--sidebar-w); padding-bottom: 0; }
+      .topbar { padding: 18px 32px; }
+      .topbar .logo { display: none; }
+      .topbar h1 { display: block; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+      .content { padding: 8px 32px 48px; max-width: 1180px; margin: 0; }
+
+      .greeting h2 { font-size: 28px; }
+      .hero { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 28px; }
+      .hero h2 { font-size: 24px; }
+      .hero .btn { margin-top: 0; }
+      .hero-main { flex: 1; max-width: 560px; }
+      .stats { max-width: 560px; }
+
+      .cards { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 20px; }
+      .card { aspect-ratio: 3 / 4; border-radius: var(--radius); }
+      .card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(255, 79, 135, 0.22); }
+      .card:hover img { transform: scale(1.05); }
+      .card .meta { left: 14px; right: 14px; bottom: 14px; }
+      .card .meta strong { font-size: 19px; }
+      .card .meta small { display: block; }
+      .card .call-pill { background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.28); padding: 10px; font-size: 13px; }
+      .card:hover .call-pill { background: var(--grad); border-color: transparent; }
+      .card.offline:hover { transform: none; box-shadow: none; }
+      .card.offline:hover img { transform: none; }
+      .card.offline:hover .call-pill { background: rgba(255, 255, 255, 0.18); border-color: rgba(255, 255, 255, 0.28); }
+
+      .search { max-width: 320px; }
+      .recent { margin: 0; padding-left: 0; padding-right: 0; }
+      .steps { max-width: 860px; }
+      .plans { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+      .plan.featured { order: 0; }
+      .plan:hover { transform: translateY(-4px); transition: transform 0.25s; }
+      .note { text-align: left; }
+      .faq, .list, .profile { max-width: 720px; }
+      .profile { max-width: 560px; }
+      .btn-primary:hover { filter: brightness(1.06); }
+      .btn-soft:hover { background: #ffe3ec; }
+      button.group-item:hover, a.group-item:hover { background: var(--soft); }
+      .toast { bottom: 28px; }
     }
 
-    @media (max-width: 500px) {
-      .content-area { padding: 18px 14px; }
-      .topbar { padding: 14px 18px; }
-      .topbar h2 { font-size: 18px; }
-      .cards { grid-template-columns: 1fr 1fr; gap: 14px; }
-      .card .img-wrap img { height: 180px; }
-      .sub-cards { grid-template-columns: 1fr; }
-      .profile-wrap, .settings-wrap { max-width: 100%; }
-    }
-    @media (max-width: 380px) {
-      .cards { grid-template-columns: 1fr; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
     }
   </style>
 </head>
 <body>
 
-<!-- OVERLAY (mobile) -->
-<div class="overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
-
-<!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-logo">FlirtyFly 💋</div>
-  <nav>
-    <ul id="sidebarMenu">
-      <li class="menu-item active-menu" data-section="discover" onclick="navigate('discover', this)">
-        <span class="ico">🔥</span> Discover
-      </li>
-      <li class="menu-item" data-section="subscriptions" onclick="navigate('subscriptions', this)">
-        <span class="ico">💎</span> Subscriptions
-      </li>
-      <li class="menu-item" data-section="callHistory" onclick="navigate('callHistory', this)">
-        <span class="ico">📞</span> Call History
-      </li>
-      <li class="menu-item" data-section="profile" onclick="navigate('profile', this)">
-        <span class="ico">👤</span> Profile
-      </li>
-      <li class="menu-item" data-section="settings" onclick="navigate('settings', this)">
-        <span class="ico">⚙️</span> Settings
-      </li>
-    </ul>
-  </nav>
-  <div class="sidebar-footer">
-    <p>FlirtyFly v2.0</p>
-  </div>
+<!-- SIDEBAR (desktop) -->
+<aside class="sidebar">
+  <div class="logo">FlirtyFly</div>
+  <ul class="nav">
+    <li><button class="nav-item active" data-nav="discover">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.500 8.500l-2 5-5 2 2-5z"/></svg>
+      Discover
+    </button></li>
+    <li><button class="nav-item" data-nav="subscriptions">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20"/></svg>
+      Premium
+    </button></li>
+    <li><button class="nav-item" data-nav="callHistory">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      Call History
+    </button></li>
+    <li><button class="nav-item" data-nav="profile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+      Profile
+    </button></li>
+  </ul>
+  <button class="sidebar-user" data-nav="profile">
+    <span class="avatar" data-user-avatar></span>
+    <span>
+      <strong data-user-name></strong>
+      <small data-user-plan>Free</small>
+    </span>
+  </button>
 </aside>
 
 <!-- MAIN -->
 <main class="main">
 
-  <!-- TOPBAR -->
   <div class="topbar">
-    <div class="topbar-left">
-      <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
-        <span></span><span></span><span></span>
-      </div>
-      <h2 id="pageTitle">Discover Hosts</h2>
-    </div>
-    <div class="badge-premium">✨ Premium Active</div>
+    <div class="logo">FlirtyFly</div>
+    <h1 id="pageTitle">Discover</h1>
+    <button class="chip" id="accessChip"></button>
   </div>
 
-  <div class="content-area">
+  <div class="content">
 
     <!-- DISCOVER -->
-    <div id="sec-discover">
-      <div class="cards" id="hostCards">
-        <div class="loader">Loading hosts...</div>
-      </div>
-    </div>
+    <section class="section active" id="sec-discover">
 
-    <!-- SUBSCRIPTIONS -->
-   <div id="sec-subscriptions" style="display:none;">
-
-  <h2 class="section-heading">
-    Choose a Plan
-  </h2>
-
-  <div class="sub-cards">
-
-    <!-- BASIC WEEKLY -->
-    <div class="sub-card">
-
-      <h3>
-        Basic Weekly
-      </h3>
-
-      <div class="price">
-        <span>₹</span>299
+      <div class="greeting">
+        <h2>Hi <span data-user-first></span> 👋</h2>
+        <p>Who do you want to talk to today?</p>
       </div>
 
-      <div class="features">
-
-        <p>
-          ⏱ 2 Hours Daily
-        </p>
-
-        <p>
-          📅 Valid For 7 Days
-        </p>
-
-        <p>
-          📹 HD Video Calls
-        </p>
-
+      <div class="hero" id="hero">
+        <div class="hero-main">
+          <h2 id="heroTitle"></h2>
+          <p id="heroText"></p>
+          <div class="meter" id="freeMeter" style="display:none;">
+            <div class="meter-bar"><i id="freeMeterFill" style="width:100%"></i></div>
+            <div class="meter-label"><span id="freeMeterLeft"></span><span>1:00 free minute</span></div>
+          </div>
+        </div>
+        <button class="btn btn-white" id="heroBtn" data-nav="subscriptions">Go Premium</button>
       </div>
 
-      <button
-class="btn-buy"
-onclick="selectPlan(
-'Basic Weekly',
-299,
-'https://razorpay.com/payment-link/plink_StE5rgGODZD30n'
-)"
->
-Buy Now
-</button>
-
-    </div>
-
-    <!-- UNLIMITED WEEKLY -->
-    <div class="sub-card featured">
-
-      <div class="badge-best">
-        ⭐ BEST VALUE
+      <div class="stats">
+        <div class="stat"><b id="statTime">—</b><span id="statTimeLabel">Free time</span></div>
+        <div class="stat"><b id="statCalls">0</b><span>Calls made</span></div>
+        <div class="stat"><b id="statTalk">0s</b><span>Talk time</span></div>
       </div>
 
-      <h3>
-        Unlimited Weekly
-      </h3>
-
-      <div class="price">
-        <span>₹</span>899
+      <div class="block" id="recentBlock" style="display:none;">
+        <h3 class="block-title">Call again</h3>
+        <div class="recent" id="recentHosts"></div>
       </div>
 
-      <div class="features">
-
-        <p>
-          ♾️ Unlimited Calls
-        </p>
-
-        <p>
-          📅 Valid For 7 Days
-        </p>
-
-        <p>
-          🚀 Priority Support
-        </p>
-
-      </div>
- 
-
-      <button
-class="btn-buy"
-onclick="selectPlan(
-'Unlimited Weekly',
-899,
-'https://rzp.io/rzp/NK78hWv'
-)"
->
-Buy Now
-</button>
-
-    </div>
-
-    <!-- MONTHLY PRO -->
-    <div class="sub-card">
-
-      <h3>
-        Monthly Pro
-      </h3>
-
-      <div class="price">
-        <span>₹</span>2499
+      <div class="block">
+        <div class="section-head">
+          <h2>Hosts</h2>
+          <span id="hostCount"></span>
+        </div>
+        <label class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.300-4.300"/></svg>
+          <input type="search" id="hostSearch" placeholder="Search hosts by name" autocomplete="off" enterkeyhint="search">
+        </label>
+        <div class="cards" id="hostCards"></div>
       </div>
 
-      <div class="features">
-
-        <p>
-          ♾️ Unlimited Calls
-        </p>
-
-        <p>
-          📅 Valid For 30 Days
-        </p>
-
-        <p>
-          🎁 Exclusive Perks
-        </p>
-
+      <div class="block" id="howBlock">
+        <h3 class="block-title">How it works</h3>
+        <div class="steps">
+          <div class="step">
+            <span class="num">1</span>
+            <div><strong>Pick a host</strong><small>Hosts with a green Online tag can take your call right now.</small></div>
+          </div>
+          <div class="step">
+            <span class="num">2</span>
+            <div><strong>Start a video call</strong><small>Tap the card, then "Start video call". Allow your camera and mic.</small></div>
+          </div>
+          <div class="step">
+            <span class="num">3</span>
+            <div><strong>Keep talking with Premium</strong><small>Your first minute is free. Pick a plan to talk for longer.</small></div>
+          </div>
+        </div>
       </div>
 
-       
+      <div class="block">
+        <h3 class="block-title">Tips for a great call</h3>
+        <div class="steps">
+          <div class="step">
+            <span class="emoji">💡</span>
+            <div><strong>Find good light</strong><small>Face a window or a lamp so the host can see you clearly.</small></div>
+          </div>
+          <div class="step">
+            <span class="emoji">📶</span>
+            <div><strong>Use a strong connection</strong><small>Wi-Fi or good 4G keeps the video smooth.</small></div>
+          </div>
+          <div class="step">
+            <span class="emoji">🤝</span>
+            <div><strong>Be kind and respectful</strong><small>Hosts are real people. Treat them the way you'd like to be treated.</small></div>
+          </div>
+        </div>
+      </div>
 
-        <button
-class="btn-buy"
-onclick="selectPlan(
-'Monthly Pro',
-2499,
-'https://rzp.io/rzp/aqdL9Gy'
-)"
->
-Buy Now
-</button>
+    </section>
 
-    </div>
+    <!-- PREMIUM -->
+    <section class="section" id="sec-subscriptions">
 
-  </div>
+      <div class="greeting">
+        <h2>Go <em style="color:var(--pink)">Premium</em></h2>
+        <p class="plans-intro" id="plansIntro" style="margin:2px 0 0;">Pick a plan and keep the conversation going. Your plan starts as soon as the payment goes through.</p>
+      </div>
 
-</div>
+      <div class="plans block" id="planCards"></div>
+
+      <div class="block">
+        <h3 class="block-title">Why go Premium</h3>
+        <div class="steps">
+          <div class="step">
+            <span class="emoji">⏱️</span>
+            <div><strong>No one-minute limit</strong><small>Free accounts get a single minute. Plans give you hours, or no limit at all.</small></div>
+          </div>
+          <div class="step">
+            <span class="emoji">📹</span>
+            <div><strong>HD video calls</strong><small>Clear, low-latency video with every host.</small></div>
+          </div>
+          <div class="step">
+            <span class="emoji">⚡</span>
+            <div><strong>Starts instantly</strong><small>Your plan is active as soon as the payment goes through.</small></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3 class="block-title">Questions</h3>
+        <div class="faq">
+          <details>
+            <summary>How do I pay?</summary>
+            <p>Tap a plan and you'll be taken to a secure Razorpay page. You can pay by UPI, card, net banking or wallet. Come back to the app once the payment is done.</p>
+          </details>
+          <details>
+            <summary>When does my plan start?</summary>
+            <p>As soon as the payment goes through. Each plan is valid for the number of days shown on its card, counted from that moment.</p>
+          </details>
+          <details>
+            <summary>Can I get a refund?</summary>
+            <p>All payments are non-refundable, so use your free minute to try a call first. See the <a href="/terms.html" style="color:var(--pink);font-weight:700;">Terms &amp; Conditions</a> for details.</p>
+          </details>
+        </div>
+      </div>
+
+      <p class="note">Payments are handled securely by Razorpay. All payments are non-refundable.</p>
+
+    </section>
 
     <!-- CALL HISTORY -->
-    <div id="sec-callHistory" style="display:none;">
-      <h2 class="section-heading">Call History</h2>
-      <div class="history-list" id="callHistoryList">
-        <div class="loader">Loading history...</div>
+    <section class="section" id="sec-callHistory">
+
+      <div class="greeting">
+        <h2>Call <em style="color:var(--pink)">History</em></h2>
+        <p>Every call you've made, newest first.</p>
       </div>
-    </div>
+
+      <div class="stats">
+        <div class="stat"><b id="histCalls">0</b><span>Calls made</span></div>
+        <div class="stat"><b id="histConnected">0</b><span>Connected</span></div>
+        <div class="stat"><b id="histTalk">0s</b><span>Talk time</span></div>
+      </div>
+
+      <div class="list" id="callHistoryList"></div>
+    </section>
 
     <!-- PROFILE -->
-    <div id="sec-profile" style="display:none;">
-      <div class="profile-wrap">
+    <section class="section" id="sec-profile">
+      <div class="profile">
+
         <div class="profile-card">
-          <div class="profile-header">
-            <div class="avatar-circle" id="avatarCircle">U</div>
-            <h2 id="profileGreeting">Hi, User 👋</h2>
-            <p>Welcome back to FlirtyFly</p>
-          </div>
-          <div class="profile-body">
-            <a href="/edit-profile.html" class="profile-menu-link">
-              <span class="lico">✏️</span> Edit Profile
-            </a>
-            <button class="profile-menu-link" onclick="navigate('subscriptions', document.querySelector('[data-section=subscriptions]'))">
-              <span class="lico">💎</span> My Subscriptions
-            </button>
-            <button class="profile-menu-link" onclick="navigate('callHistory', document.querySelector('[data-section=callHistory]'))">
-              <span class="lico">📞</span> Call History
-            </button>
-            <button class="profile-menu-link danger" onclick="logoutUser()">
-              <span class="lico">🚪</span> Logout
-            </button>
+          <span class="avatar lg" data-user-avatar></span>
+          <div>
+            <h2 data-user-name></h2>
+            <p id="profileMobile"></p>
+            <p class="bio" id="profileBio"></p>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- SETTINGS -->
-    <div id="sec-settings" style="display:none;">
-      <h2 class="section-heading">Settings</h2>
-      <div class="settings-wrap">
-        <div class="settings-card">
-          <div class="settings-card-title">Account</div>
-          <div class="setting-row">
-            <div class="s-info">
-              <h3>Membership</h3>
-              <p>Current active plan</p>
-            </div>
-            <span class="status-pill active">Premium</span>
+        <div class="member" id="memberCard">
+          <div>
+            <small>MEMBERSHIP</small>
+            <strong id="memberPlan">Free</strong>
+            <span id="memberNote"></span>
           </div>
-          <div class="setting-row">
-            <div class="s-info">
-              <h3>Free Trial</h3>
-              <p>One-time trial per account</p>
-            </div>
-            <span class="status-pill active" id="freeTrialStatus">Enabled</span>
-          </div>
-          <div class="setting-row">
-            <div class="s-info">
-              <h3>Account Security</h3>
-              <p>Your account is protected</p>
-            </div>
-            <span class="s-right">🔒</span>
-          </div>
-          <div class="setting-row">
-            <div class="s-info">
-              <h3>Privacy Policy</h3>
-              <p>View our privacy policy</p>
-            </div>
-            <span class="s-right" style="cursor:pointer;" onclick="window.location.href='/privacy.html'">›</span>
-          </div>
-          <div class="setting-row">
-            <div class="s-info">
-              <h3>Terms & Conditions</h3>
-              <p>View terms of service</p>
-            </div>
-            <span class="s-right" style="cursor:pointer;" onclick="window.location.href='/terms.html'">›</span>
-          </div>
-          <button class="btn-logout-full" onclick="logoutUser()">🚪 Logout</button>
+          <button class="btn btn-primary" id="memberBtn" data-nav="subscriptions">Go Premium</button>
         </div>
-      </div>
-    </div>
 
-  </div><!-- /content-area -->
+        <div class="group">
+          <a class="group-item" href="/edit-profile.html">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></span>
+            Edit profile
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          </a>
+          <button class="group-item" data-nav="callHistory">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+            Call history
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+          <div class="group-item">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v8H4v-8M2 7h20v5H2zM12 20V7M12 7S10 3 7.500 3 5 7 12 7zM12 7s2-4 4.500-4S19 7 12 7z"/></svg></span>
+            Free minute
+            <span class="pill green" id="freeTrialStatus">Available</span>
+          </div>
+        </div>
+
+        <div class="group">
+          <a class="group-item" href="/refer.html">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6M19 8v6M16 11h6"/></svg></span>
+            <span>Refer &amp; Earn<small>Invite friends to FlirtyFly</small></span>
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          </a>
+          <a class="group-item" href="mailto:flirtyfly.support@gmail.com">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 8l9 6 9-6"/></svg></span>
+            <span>Help &amp; Support<small>flirtyfly.support@gmail.com</small></span>
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          </a>
+          <a class="group-item" href="/privacy.html">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/></svg></span>
+            Privacy policy
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          </a>
+          <a class="group-item" href="/terms.html">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v14H7z"/><path d="M10 12h6M10 16h6"/></svg></span>
+            Terms &amp; conditions
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+
+        <div class="group">
+          <button class="group-item danger" onclick="logoutUser()">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/></svg></span>
+            Logout
+          </button>
+        </div>
+
+        <p class="version">FlirtyFly v2.0</p>
+
+      </div>
+    </section>
+
+  </div>
 </main>
 
+<!-- TAB BAR (phone) -->
+<nav class="tabbar">
+  <button class="tab active" data-nav="discover">
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.500 8.500l-2 5-5 2 2-5z"/></svg></span>
+    Discover
+  </button>
+  <button class="tab" data-nav="subscriptions">
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20"/></svg></span>
+    Premium
+  </button>
+  <button class="tab" data-nav="callHistory">
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+    History
+  </button>
+  <button class="tab" data-nav="profile">
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></span>
+    Profile
+  </button>
+</nav>
+
 <!-- HOST MODAL -->
-<div class="modal-overlay" id="hostModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal()">×</button>
-    <img class="modal-img" id="modalImage" src="../uploads/1778175519750.jpeg" alt="">
-    <div class="modal-body">
-      <h2 id="modalName"></h2>
-      <p>Premium Live Video Host</p>
-      <button class="btn-call" onclick="startCall()">📹 Start Video Call</button>
+<div class="overlay" id="hostModal">
+  <div class="sheet">
+    <span class="grabber"></span>
+    <button class="close" onclick="closeModal()" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.500" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="sheet-photo" id="modalPhoto"></div>
+    <div class="sheet-body">
+      <div class="perks">
+        <span>📹 HD video</span>
+        <span>⚡ Connects instantly</span>
+        <span>💬 One-to-one</span>
+      </div>
+      <button class="btn btn-primary btn-block" id="startCallBtn" onclick="startCall()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="3"/><path d="M16 10l6-3v10l-6-3z"/></svg>
+        <span id="startCallLabel">Start video call</span>
+      </button>
+      <p class="hint" id="modalHint"></p>
     </div>
   </div>
 </div>
 
 <!-- TERMS POPUP -->
-<div class="terms-overlay" id="termsPopup">
-  <div class="terms-box">
-    <h2>📋 Terms & Conditions</h2>
+<div class="overlay" id="termsPopup">
+  <div class="sheet dialog">
+    <span class="grabber"></span>
+    <div class="ico">📋</div>
+    <h2>Terms &amp; Conditions</h2>
     <p>By continuing, you agree to our platform policies and community guidelines.</p>
-    <div class="terms-rules">
-      <p>💳 All payments are non-refundable</p>
-      <p>🎁 Free trial valid one time only</p>
-      <p>⚠️ Accounts may be suspended anytime</p>
-      <p>🔄 Service may change anytime</p>
-    </div>
-    <button class="btn-agree" onclick="acceptTerms()">✅ Agree & Continue</button>
+    <ul>
+      <li>💳 All payments are non-refundable</li>
+      <li>🎁 Free trial valid one time only</li>
+      <li>⚠️ Accounts may be suspended anytime</li>
+      <li>🔄 Service may change anytime</li>
+    </ul>
+    <button class="btn btn-primary btn-block" onclick="acceptTerms()">Agree &amp; Continue</button>
   </div>
 </div>
+
+<!-- PAYWALL -->
+<div class="overlay" id="paywallPopup">
+  <div class="sheet dialog">
+    <span class="grabber"></span>
+    <div class="ico">💎</div>
+    <h2>Your credits are over</h2>
+    <p>Your free minute has been used. Go Premium to keep talking with your favourite hosts.</p>
+    <ul>
+      <li>♾️ Unlimited call plans</li>
+      <li>📹 HD video calls</li>
+      <li>🚀 Priority support</li>
+    </ul>
+    <button class="btn btn-primary btn-block" onclick="goPremium()">Go Premium</button>
+    <button class="btn btn-soft btn-block" onclick="closePaywall()">Not now</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
   /* ── STATE ── */
-  const socket = io();
-  let selectedHost = {};
   const userMobile = localStorage.getItem("userMobile");
   const userName   = localStorage.getItem("userName") || "User";
+  const userBio    = localStorage.getItem("userBio") || "";
+  const firstName  = userName.trim().split(/\s+/)[0] || "there";
 
-  /* ── INIT ── */
-  initProfile();
-  checkTermsPopup();
-  loadHosts();
-  checkFreeTrialStatus();
+  /* not logged in */
+  if (!userMobile) window.location.href = "/login.html";
 
+  const FREE_SECONDS = 60;   // matches FREE_CALL_SECONDS on the server
+
+  const socket = io();
+  let selectedHost = {};
+  let hosts = [];
+  let hostsLoaded = false;
+  let calls = [];
+  let plans = [];
+  let access = null;   // from /check-call-access: { premium, creditsOver, callTime, plan, expiry }
+
+  const $ = (id) => document.getElementById(id);
+
+  const sections = ["discover", "subscriptions", "callHistory", "profile"];
+  const titles = {
+    discover: "Discover",
+    subscriptions: "Go Premium",
+    callHistory: "Call History",
+    profile: "Profile"
+  };
+
+  /* ── HELPERS ── */
+  function esc(value) {
+    return String(value ?? "").replace(/[&<>"']/g, (c) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[c]));
+  }
+
+  function initialOf(name) {
+    return esc((name || "?").trim().charAt(0).toUpperCase() || "?");
+  }
+
+  /* photo with the host's initial behind it, shown if the image fails to load */
+  function photo(name, image) {
+    return `
+      <span class="initial">${initialOf(name)}</span>
+      ${image ? `<img src="/uploads/${encodeURIComponent(image)}" alt="" loading="lazy" onerror="this.remove()">` : ""}
+    `;
+  }
+
+  function avatar(name, image) {
+    return `
+      <span class="avatar">
+        ${initialOf(name)}
+        ${image ? `<img src="/uploads/${encodeURIComponent(image)}" alt="" loading="lazy" onerror="this.remove()">` : ""}
+      </span>`;
+  }
+
+  function fmtClock(seconds) {
+    seconds = Math.max(Math.round(Number(seconds) || 0), 0);
+    return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+  }
+
+  function fmtDuration(seconds) {
+    seconds = Math.round(Number(seconds) || 0);
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor(seconds % 3600 / 60);
+    if (hours) return `${hours}h ${minutes}m`;
+    return minutes ? `${minutes}m ${seconds % 60}s` : `${seconds}s`;
+  }
+
+  /* "45 minutes", "2 hours", "1 hour 30 minutes" */
+  function fmtMinutes(minutes) {
+    const hours = Math.floor(minutes / 60);
+    const rest = minutes % 60;
+    if (!hours) return `${minutes} minutes`;
+    return `${hours} hour${hours === 1 ? "" : "s"}${rest ? ` ${rest} minutes` : ""}`;
+  }
+
+  function fmtDate(value) {
+    const date = new Date(value);
+    if (isNaN(date)) return "";
+    return date.toLocaleString("en-IN", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+  }
+
+  function fmtDay(value) {
+    const date = new Date(value);
+    if (isNaN(date)) return "";
+    return date.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+  }
+
+  let toastTimer;
+  function toast(message) {
+    const el = $("toast");
+    el.textContent = message;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove("show"), 3000);
+  }
+
+  /* ── PROFILE ── */
   function initProfile() {
-    if (userName) {
-      document.getElementById("profileGreeting").innerText = `Hi, ${userName} 👋`;
-      document.getElementById("avatarCircle").innerText = userName.charAt(0).toUpperCase();
+    document.querySelectorAll("[data-user-name]").forEach((el) => el.textContent = userName);
+    document.querySelectorAll("[data-user-first]").forEach((el) => el.textContent = firstName);
+    document.querySelectorAll("[data-user-avatar]").forEach((el) => el.textContent = userName.charAt(0).toUpperCase());
+    $("profileMobile").textContent = userMobile || "";
+    $("profileBio").textContent = userBio;
+  }
+
+  /* ── ACCESS: free minute / premium ── */
+  async function loadAccess() {
+    try {
+      const res  = await fetch(`/check-call-access/${encodeURIComponent(userMobile)}`);
+      const data = await res.json();
+      if (data.success) access = data;
+    } catch (e) {
+      console.log(e);
     }
+    renderAccess();
+  }
+
+  function renderAccess() {
+    if (!access) return;
+
+    const chip = $("accessChip");
+    const pill = $("freeTrialStatus");
+    const free = fmtClock(access.callTime);
+    const plan = access.plan || "Premium";
+    const until = access.expiry ? fmtDay(access.expiry) : "";
+
+    document.querySelectorAll("[data-user-plan]").forEach((el) => {
+      el.textContent = access.premium ? plan : "Free";
+    });
+
+    $("freeMeter").style.display = "none";
+
+    if (access.premium) {
+      chip.textContent = "💎 Premium";
+      chip.className = "chip premium";
+      chip.dataset.nav = "profile";
+
+      $("heroTitle").innerHTML = "You're <em>Premium</em>";
+      $("heroText").textContent = `${plan} is active${until ? ` until ${until}` : ""}. Pick a host and start talking.`;
+      $("heroBtn").style.display = "none";
+
+      $("statTime").textContent = access.callTime >= 999999 ? "∞" : fmtDuration(access.callTime);
+      $("statTimeLabel").textContent = access.callTime >= 999999 ? "Unlimited" : "Per call";
+
+      $("memberCard").classList.add("premium");
+      $("memberPlan").textContent = plan;
+      $("memberNote").textContent = until ? `Active until ${until}` : "Active";
+      $("memberBtn").style.display = "none";
+
+      $("plansIntro").textContent = `You're on ${plan}${until ? `, active until ${until}` : ""}.`;
+    } else {
+      chip.dataset.nav = "subscriptions";
+      $("heroBtn").style.display = "";
+      $("memberCard").classList.remove("premium");
+      $("memberPlan").textContent = "Free";
+      $("memberBtn").style.display = "";
+
+      $("statTime").textContent = free;
+      $("statTimeLabel").textContent = "Free time left";
+
+      if (access.creditsOver) {
+        chip.textContent = "💎 Go Premium";
+        chip.className = "chip upgrade";
+        $("heroTitle").innerHTML = "Your free minute is <em>used up</em>";
+        $("heroText").textContent = "Go Premium to keep talking with your favourite hosts, with unlimited call plans.";
+        $("memberNote").textContent = "Free minute used";
+      } else {
+        chip.textContent = `⏱ ${free} free`;
+        chip.className = "chip";
+        $("heroTitle").innerHTML = access.callTime >= FREE_SECONDS
+          ? "Your first minute is <em>free</em>"
+          : "You still have <em>free time</em>";
+        $("heroText").textContent = "Pick a host and say hello. No payment needed for your free minute.";
+        $("memberNote").textContent = `${free} of free call time left`;
+
+        $("freeMeter").style.display = "";
+        $("freeMeterFill").style.width = Math.min(access.callTime / FREE_SECONDS * 100, 100) + "%";
+        $("freeMeterLeft").textContent = `${free} left`;
+      }
+    }
+
+    pill.textContent = access.premium ? "Not needed" : access.creditsOver ? "Used" : `${free} left`;
+    pill.className = "pill " + (access.creditsOver && !access.premium ? "red" : "green");
+
+    renderPlans();
+    renderModalHint();
   }
 
   /* ── TERMS ── */
@@ -849,7 +1300,7 @@ Buy Now
     if (!userMobile) return;
     const res  = await fetch(`/login-check/${userMobile}`);
     const data = await res.json();
-    if (!data.termsAccepted) document.getElementById("termsPopup").classList.add("show");
+    if (!data.termsAccepted) openOverlay("termsPopup");
   }
 
   async function acceptTerms() {
@@ -858,196 +1309,420 @@ Buy Now
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ mobile: userMobile })
     });
-    document.getElementById("termsPopup").classList.remove("show");
+    closeOverlay("termsPopup");
   }
 
-  /* ── FREE TRIAL STATUS ── */
-  async function checkFreeTrialStatus() {
-    if (!userMobile) return;
-    const res  = await fetch(`/check-free-trial/${userMobile}`);
-    const data = await res.json();
-    const pill = document.getElementById("freeTrialStatus");
-    if (data.freeTrialUsed) {
-      pill.textContent = "Used";
-      pill.className = "status-pill inactive";
-    }
+  /* ── OVERLAYS: stop the page behind from scrolling while one is open ── */
+  function openOverlay(id) {
+    $(id).classList.add("show");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeOverlay(id) {
+    $(id).classList.remove("show");
+    if (!document.querySelector(".overlay.show")) document.body.style.overflow = "";
   }
 
   /* ── NAVIGATION ── */
-  const sections = ["discover","subscriptions","callHistory","profile","settings"];
-  const titles   = {
-    discover: "Discover Hosts",
-    subscriptions: "Subscriptions",
-    callHistory: "Call History",
-    profile: "My Profile",
-    settings: "Settings"
-  };
+  function navigate(section) {
+    if (section === "settings") section = "profile";   // old link
+    if (!sections.includes(section)) section = "discover";
 
-  function navigate(section, el) {
-    sections.forEach(s => {
-      document.getElementById(`sec-${s}`).style.display = "none";
+    sections.forEach((s) => $(`sec-${s}`).classList.toggle("active", s === section));
+
+    document.querySelectorAll(".nav-item, .tab").forEach((el) => {
+      el.classList.toggle("active", el.dataset.nav === section);
     });
-    document.getElementById(`sec-${section}`).style.display = "block";
-    document.getElementById("pageTitle").innerText = titles[section];
 
-    document.querySelectorAll(".menu-item").forEach(i => i.classList.remove("active-menu"));
-    if (el) el.classList.add("active-menu");
-
-    closeSidebar();
+    $("pageTitle").textContent = titles[section];
+    history.replaceState(null, "", "#" + section);
+    window.scrollTo(0, 0);
 
     if (section === "discover") loadHosts();
-    if (section === "callHistory") loadCallHistory();
+    if (section === "callHistory") loadCalls();
   }
 
-  /* ── HAMBURGER ── */
-  function toggleSidebar() {
-    const sidebar = document.getElementById("sidebar");
-    const overlay = document.getElementById("sidebarOverlay");
-    const hbg     = document.getElementById("hamburger");
-    sidebar.classList.toggle("open");
-    overlay.classList.toggle("show");
-    hbg.classList.toggle("open");
-  }
+  document.addEventListener("click", (e) => {
+    const nav = e.target.closest("[data-nav]");
+    if (nav) return navigate(nav.dataset.nav);
 
-  function closeSidebar() {
-    document.getElementById("sidebar").classList.remove("open");
-    document.getElementById("sidebarOverlay").classList.remove("show");
-    document.getElementById("hamburger").classList.remove("open");
-  }
+    const planBtn = e.target.closest("[data-plan-id]");
+    if (planBtn) return selectPlan(planBtn.dataset.planId);
+
+    const card = e.target.closest("[data-host]");
+    if (card) return openModal(card.dataset.host, card.dataset.name);
+
+    /* tap on the dark area around a sheet closes it */
+    if (e.target.id === "hostModal") closeModal();
+    if (e.target.id === "paywallPopup") closePaywall();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") { closeModal(); closePaywall(); }
+  });
 
   /* ── LOAD HOSTS ── */
   async function loadHosts() {
-    const container = document.getElementById("hostCards");
-    container.innerHTML = `<div class="loader">Loading hosts...</div>`;
+    const container = $("hostCards");
+    if (!hostsLoaded) container.innerHTML = `<div class="skeleton"></div>`.repeat(4);
     try {
-      const res   = await fetch("/get-hosts");
-      const hosts = await res.json();
-      if (!hosts.length) {
-        container.innerHTML = `<div class="empty-state"><div class="ico-big">😴</div><h3>No hosts online right now</h3><p>Check back soon!</p></div>`;
-        return;
-      }
-      container.innerHTML = hosts.map(h => `
-        <div class="card">
-          <div class="img-wrap">
-            <img src="/uploads/${h.image}" alt="${h.name}" loading="lazy">
-            <span class="status-badge ${h.status === 'Online' ? 'online' : 'offline'}">${h.status}</span>
-          </div>
-          <div class="card-body">
-            <h3>${h.name}</h3>
-            <p>Live Video Call Host</p>
-            <button class="btn-call" onclick="openModal('${h._id}','${h.name}','${h.image}')">📹 Start Call</button>
-          </div>
-        </div>
-      `).join("");
-    } catch(e) {
-      container.innerHTML = `<div class="empty-state"><div class="ico-big">⚠️</div><h3>Failed to load hosts</h3></div>`;
+      const res = await fetch("/get-hosts?all=1");
+      hosts = await res.json();
+      if (!Array.isArray(hosts)) hosts = [];
+      /* online hosts first, offline ones after */
+      hosts.sort((a, b) => isOnline(b) - isOnline(a));
+      hostsLoaded = true;
+      renderHosts();
+      renderRecent();
+    } catch (e) {
+      container.innerHTML = `
+        <div class="empty">
+          <div class="ico">⚠️</div>
+          <h3>Couldn't load hosts</h3>
+          <p>Check your connection and try again.</p>
+          <button class="btn btn-soft" onclick="loadHosts()">Try again</button>
+        </div>`;
     }
   }
 
+  function isOnline(host) {
+    return host.status === "Online";
+  }
+
+  function renderHosts() {
+    const query = $("hostSearch").value.trim().toLowerCase();
+    const shown = hosts.filter((h) => !query || String(h.name || "").toLowerCase().includes(query));
+    const online = hosts.filter(isOnline).length;
+
+    $("hostCount").textContent = `${online} online · ${hosts.length} total`;
+
+    if (!hosts.length) {
+      $("hostCards").innerHTML = `
+        <div class="empty">
+          <div class="ico">😴</div>
+          <h3>No hosts yet</h3>
+          <p>New hosts join all the time. Check back soon.</p>
+          <button class="btn btn-soft" onclick="loadHosts()">Refresh</button>
+        </div>`;
+      return;
+    }
+
+    if (!shown.length) {
+      $("hostCards").innerHTML = `
+        <div class="empty">
+          <div class="ico">🔍</div>
+          <h3>No host called "${esc(query)}"</h3>
+          <p>Try a different name.</p>
+        </div>`;
+      return;
+    }
+
+    $("hostCards").innerHTML = shown.map((h) => isOnline(h) ? `
+      <button class="card" data-host="${esc(h._id)}">
+        ${photo(h.name, h.image)}
+        <span class="live"><span class="dot"></span>Online</span>
+        <span class="meta">
+          <strong>${esc(h.name)}</strong>
+          <small>Live video call host</small>
+          <span class="call-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="3"/><path d="M16 10l6-3v10l-6-3z"/></svg>
+            Video call
+          </span>
+        </span>
+      </button>
+    ` : `
+      <button class="card offline" data-host="${esc(h._id)}" data-name="${esc(h.name)}">
+        ${photo(h.name, h.image)}
+        <span class="live"><span class="dot"></span>Offline</span>
+        <span class="meta">
+          <strong>${esc(h.name)}</strong>
+          <small>Not available right now</small>
+          <span class="call-pill">Offline</span>
+        </span>
+      </button>
+    `).join("");
+  }
+
+  $("hostSearch").addEventListener("input", renderHosts);
+
+  /* ── CALLS: history, stats and the "call again" row ── */
+  async function loadCalls() {
+    const list = $("callHistoryList");
+    if (!calls.length) list.innerHTML = `<div class="skeleton row"></div>`.repeat(3);
+    try {
+      const res  = await fetch(`/call-history/${encodeURIComponent(userMobile)}`);
+      const data = await res.json();
+      calls = Array.isArray(data) ? data : [];
+      renderCalls();
+      renderRecent();
+    } catch (e) {
+      list.innerHTML = `
+        <div class="empty">
+          <div class="ico">⚠️</div>
+          <h3>Couldn't load your history</h3>
+          <button class="btn btn-soft" onclick="loadCalls()">Try again</button>
+        </div>`;
+    }
+  }
+
+  function renderCalls() {
+    const talk = calls.reduce((total, c) => total + (c.duration || 0), 0);
+    const connected = calls.filter((c) => c.duration > 0).length;
+
+    $("statCalls").textContent = calls.length;
+    $("statTalk").textContent = fmtDuration(talk);
+    $("histCalls").textContent = calls.length;
+    $("histConnected").textContent = connected;
+    $("histTalk").textContent = fmtDuration(talk);
+
+    /* the how-it-works guide is only for people who haven't called yet */
+    $("howBlock").style.display = calls.length ? "none" : "";
+
+    if (!calls.length) {
+      $("callHistoryList").innerHTML = `
+        <div class="empty">
+          <div class="ico">📭</div>
+          <h3>No calls yet</h3>
+          <p>Your calls will show up here.</p>
+          <button class="btn btn-primary" data-nav="discover">Find a host</button>
+        </div>`;
+      return;
+    }
+
+    $("callHistoryList").innerHTML = calls.map((c) => `
+      <div class="row">
+        ${avatar(c.hostName, c.hostImage)}
+        <div class="info">
+          <strong>${esc(c.hostName || "Host")}</strong>
+          <small>${fmtDate(c.callTime)}</small>
+        </div>
+        ${c.duration
+          ? `<span class="pill pink">${fmtDuration(c.duration)}</span>`
+          : `<span class="pill grey">Not connected</span>`}
+      </div>
+    `).join("");
+  }
+
+  /* hosts the user has called before, online ones first */
+  function renderRecent() {
+    const seen = new Set();
+    const recent = [];
+
+    calls.forEach((c) => {
+      if (!c.hostId || seen.has(c.hostId)) return;
+      seen.add(c.hostId);
+      recent.push({
+        id: c.hostId,
+        name: c.hostName,
+        image: c.hostImage,
+        online: hosts.some((h) => h._id === c.hostId && isOnline(h))
+      });
+    });
+
+    recent.sort((a, b) => b.online - a.online);
+
+    $("recentBlock").style.display = recent.length ? "" : "none";
+
+    $("recentHosts").innerHTML = recent.slice(0, 12).map((h) => `
+      <button class="${h.online ? "online" : ""}" data-host="${esc(h.id)}" data-name="${esc(h.name)}">
+        <span class="ring">${avatar(h.name, h.image)}</span>
+        <small>${esc(h.name || "Host")}</small>
+      </button>
+    `).join("");
+  }
+
   /* ── HOST MODAL ── */
-  function openModal(id, name, image) {
-    selectedHost = { id, name, image };
-    document.getElementById("modalName").innerText  = name;
-    document.getElementById("modalImage").src       = `/uploads/${image}`;
-    document.getElementById("hostModal").classList.add("show");
+  function openModal(id, name) {
+    const host = hosts.find((h) => h._id === id);
+
+    if (!host || !isOnline(host)) {
+      toast(`${(host && host.name) || name || "This host"} is offline right now`);
+      return;
+    }
+
+    selectedHost = { id: host._id, name: host.name, image: host.image };
+
+    $("modalPhoto").innerHTML = `
+      ${photo(host.name, host.image)}
+      <div class="meta">
+        <h2>${esc(host.name)}</h2>
+        <p><span class="dot"></span>Online now · Live video call host</p>
+      </div>`;
+
+    $("startCallLabel").textContent = "Start video call";
+    renderModalHint();
+    openOverlay("hostModal");
+  }
+
+  function renderModalHint() {
+    if (!access) return;
+    $("modalHint").textContent = access.premium
+      ? `Included in ${access.plan || "your plan"}`
+      : access.creditsOver
+        ? "Your free minute is used. Go Premium to call."
+        : `${fmtClock(access.callTime)} of free call time left`;
   }
 
   function closeModal() {
-    document.getElementById("hostModal").classList.remove("show");
+    closeOverlay("hostModal");
   }
 
   /* ── START CALL ── */
   async function startCall() {
-    const res  = await fetch(`/check-free-trial/${userMobile}`);
-    const data = await res.json();
-    if (data.freeTrialUsed)  { alert("Free Trial Already Used. Please subscribe to continue."); return; }
-    if (data.deviceBlocked)  { alert("This device has already used the free trial."); return; }
+    const button = $("startCallBtn");
+    button.disabled = true;
 
-    await fetch("/save-call", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userMobile,
-        hostId:    selectedHost.id,
-        hostName:  selectedHost.name,
-        hostImage: selectedHost.image
-      })
-    });
-
-    socket.emit("call-host", { hostId: selectedHost.id, callerName: userName });
-    alert("📞 Calling Host...");
-    window.location.href = "/call.html?role=user";
-  }
-   
-
-  /* ── CALL HISTORY ── */
-  async function loadCallHistory() {
-    const list = document.getElementById("callHistoryList");
-    list.innerHTML = `<div class="loader">Loading history...</div>`;
     try {
-      const res   = await fetch(`/call-history/${userMobile}`);
-      const calls = await res.json();
-      if (!calls.length) {
-        list.innerHTML = `<div class="empty-state"><div class="ico-big">📭</div><h3>No calls yet</h3><p>Start a call to see your history here.</p></div>`;
+      /* one free minute per user, then the paywall; subscribers go straight through */
+      const res  = await fetch(`/check-call-access/${encodeURIComponent(userMobile)}`);
+      const data = await res.json();
+
+      if (!data.success) {
+        toast("Please login again to start a call");
+        setTimeout(() => window.location.href = "/login.html", 1200);
         return;
       }
-      list.innerHTML = calls.map(c => `
-        <div class="history-card">
-          <img src="/uploads/${c.hostImage}" alt="${c.hostName}">
-          <div class="info">
-            <h3>${c.hostName}</h3>
-            <p>${new Date(c.callTime).toLocaleString()}</p>
-          </div>
-          <span class="tag">📞 Completed</span>
-        </div>
-      `).join("");
-    } catch(e) {
-      list.innerHTML = `<div class="empty-state"><div class="ico-big">⚠️</div><h3>Failed to load history</h3></div>`;
+
+      access = data;
+      renderAccess();
+
+      if (data.creditsOver) { closeModal(); showPaywall(); return; }
+
+      const saveRes = await fetch("/save-call", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userMobile,
+          hostId:    selectedHost.id,
+          hostName:  selectedHost.name,
+          hostImage: selectedHost.image
+        })
+      });
+      const saved = await saveRes.json();
+
+      /* the call page uses this id to time the call for the host's earnings */
+      localStorage.setItem("currentCallId", saved.callId || "");
+
+      socket.emit("call-host", { hostId: selectedHost.id, callerName: userName, callId: saved.callId });
+
+      $("startCallLabel").textContent = `Calling ${selectedHost.name}...`;
+      window.location.href = "/call.html?role=user";
+    } catch (e) {
+      console.log(e);
+      toast("Couldn't start the call. Try again.");
+    } finally {
+      /* stays disabled while the call page is loading */
+      setTimeout(() => button.disabled = false, 1500);
     }
   }
 
-  /* ── BUY PLAN ── */
- /* ───────────────────────────── */
-   async function buyPlan(plan, amount){
+  /* ── PLANS: set by the admin in the dashboard settings ── */
+  const CHECK = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.500" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>`;
 
-  alert(
+  async function loadPlans() {
+    try {
+      const res  = await fetch("/get-plans");
+      const data = await res.json();
+      plans = Array.isArray(data) ? data : [];
+    } catch (e) {
+      console.log(e);
+    }
+    renderPlans();
+  }
 
-    `${plan} Plan Selected - ₹${amount}`
+  function planLines(plan) {
+    return [
+      plan.callMinutes > 0 ? `Up to ${fmtMinutes(plan.callMinutes)} per call` : "Unlimited calls",
+      `Valid for ${plan.durationDays} day${plan.durationDays === 1 ? "" : "s"}`,
+      ...(plan.features || [])
+    ];
+  }
 
-  );
+  function renderPlans() {
+    if (!plans.length) {
+      $("planCards").innerHTML = `
+        <div class="empty">
+          <div class="ico">💎</div>
+          <h3>No plans available right now</h3>
+          <p>Please check back soon.</p>
+        </div>`;
+      return;
+    }
 
-}
+    $("planCards").innerHTML = plans.map((plan) => {
+      const current = access && access.premium && access.plan === plan.name;
+      const tag = current ? "CURRENT PLAN" : plan.featured ? "BEST VALUE" : "";
 
-  function selectPlan(
-plan,
-amount,
-link
-){
+      return `
+        <div class="plan ${plan.featured ? "featured" : ""} ${current ? "current" : ""}">
+          ${tag ? `<span class="tag">${tag}</span>` : ""}
+          <h3>${esc(plan.name)}</h3>
+          <div class="price">₹${Number(plan.price).toLocaleString("en-IN")} <small>/ ${plan.durationDays} day${plan.durationDays === 1 ? "" : "s"}</small></div>
+          <ul>${planLines(plan).map((line) => `<li>${CHECK}${esc(line)}</li>`).join("")}</ul>
+          <button class="btn ${plan.featured ? "btn-primary" : "btn-soft"} btn-block" data-plan-id="${esc(plan._id)}">
+            ${current ? "Renew" : "Choose"} ${esc(plan.name)}
+          </button>
+        </div>`;
+    }).join("");
+  }
 
-  localStorage.setItem(
-    "selectedPlan",
-    plan
-  );
+  function selectPlan(id) {
+    const plan = plans.find((p) => p._id === id);
+    if (!plan) return;
 
-  localStorage.setItem(
-    "selectedAmount",
-    amount
-  );
+    if (!plan.paymentLink) {
+      toast("This plan can't be bought online yet. Please contact support.");
+      return;
+    }
 
-  window.location.href = link;
+    /* the payment-success page reads these to activate the plan */
+    localStorage.setItem("selectedPlan", plan.name);
+    localStorage.setItem("selectedAmount", plan.price);
+    window.location.href = plan.paymentLink;
+  }
 
-}
- 
+  /* ── PAYWALL ── */
+  function showPaywall() {
+    openOverlay("paywallPopup");
+  }
+
+  function closePaywall() {
+    closeOverlay("paywallPopup");
+  }
+
+  function goPremium() {
+    closePaywall();
+    navigate("subscriptions");
+  }
+
+  /* server refused to ring the host: out of credits */
+  socket.on("credits-over", () => { closeModal(); showPaywall(); });
 
   /* ── LOGOUT ── */
   function logoutUser() {
-    ["userName","userMobile","userBio"].forEach(k => localStorage.removeItem(k));
+    ["userName", "userMobile", "userBio"].forEach((k) => localStorage.removeItem(k));
     window.location.href = "/login.html";
   }
 
-  /* ── CLOSE MODAL ON OUTSIDE CLICK ── */
-  document.getElementById("hostModal").addEventListener("click", function(e) {
-    if (e.target === this) closeModal();
+  /* ── INIT ── */
+  initProfile();
+  checkTermsPopup();
+  loadAccess();
+  loadCalls();
+  loadPlans();
+
+  /* the call page's paywall links here with #subscriptions */
+  navigate(location.hash.slice(1));
+
+  /* keep the online list fresh while it is on screen */
+  setInterval(() => {
+    const browsing = $("sec-discover").classList.contains("active") && !document.querySelector(".overlay.show");
+    if (!document.hidden && browsing) loadHosts();
+  }, 20000);
+
+  /* coming back from a call or a payment: refresh credits and history */
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) { loadAccess(); loadCalls(); }
   });
 </script>
 </body>

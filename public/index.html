@@ -3,90 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="FlirtyFly — premium live video experience with verified, real hosts. Connect, chat, and vibe — anytime, anywhere.">
+<meta name="theme-color" content="#fff7f9">
 <title>FlirtyFly — Find Your Perfect Connection</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,700;1,800&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
   --pink: #ff4f87;
   --orange: #ff7b54;
-  --grad: linear-gradient(135deg, #ff4f87, #ff7b54);
-  --text: #1a1a1a;
-  --muted: #666;
-  --border: rgba(255,79,135,0.15);
+  --grad: linear-gradient(135deg, #ff2d75, #ff7b54);
+  --text: #1d1522;
+  --muted: #6f6473;
+  --border: #f3e3ea;
   --white: #fff;
-  --bg: #fffbfd;
+  --bg: #fff7f9;
+  --soft: #fff0f4;
+  --dark: #1a0a12;
+  --shadow: 0 10px 40px rgba(60, 20, 40, 0.07);
+  --shadow-pink: 0 14px 32px rgba(255, 79, 135, 0.3);
+  --max: 1180px;
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
 
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
   overflow-x: hidden;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
+
+button, input, select, textarea { font-family: inherit; }
+button { cursor: pointer; }
+a { color: inherit; }
+img { display: block; max-width: 100%; }
+:focus-visible { outline: 2px solid var(--pink); outline-offset: 3px; }
+
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+section { padding: 96px 0; }
 
 /* ── NAVBAR ── */
 .navbar {
-  width: 100%;
-  padding: 0 7%;
-  height: 72px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   position: fixed;
-  top: 0;
+  top: 0; left: 0; right: 0;
   z-index: 1000;
-  background: rgba(255,255,255,0.82);
+  background: rgba(255, 247, 249, 0.8);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(255,79,135,0.08);
-  transition: box-shadow 0.3s;
+  border-bottom: 1px solid transparent;
+  transition: box-shadow 0.3s, border-color 0.3s, background 0.3s;
 }
-.navbar.scrolled { box-shadow: 0 4px 24px rgba(255,79,135,0.1); }
+.navbar.scrolled { background: rgba(255, 255, 255, 0.9); border-color: var(--border); box-shadow: 0 4px 24px rgba(255, 79, 135, 0.08); }
+.navbar .wrap { height: 72px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
 
 .logo {
-  font-size: 26px;
-  font-weight: 900;
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -0.7px;
   background: var(--grad);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: -0.5px;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
-.nav-links {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
+.nav-links { display: flex; gap: 4px; align-items: center; }
 .nav-links a {
   text-decoration: none;
   color: var(--muted);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 14px;
-  padding: 8px 16px;
+  padding: 8px 14px;
   border-radius: 50px;
   transition: all 0.2s;
 }
-.nav-links a:hover { background: #fff1f5; color: var(--pink); }
+.nav-links a:hover { background: var(--soft); color: var(--pink); }
 
 .nav-btns { display: flex; gap: 10px; }
+
 .btn-ghost {
   background: transparent;
-  border: 2px solid var(--pink);
+  border: 1.5px solid var(--pink);
   color: var(--pink);
   padding: 9px 22px;
   border-radius: 50px;
   font-size: 14px;
-  font-weight: 800;
-  cursor: pointer;
+  font-weight: 700;
   transition: all 0.2s;
-  font-family: 'Nunito', sans-serif;
 }
 .btn-ghost:hover { background: var(--pink); color: white; }
+
 .btn-solid {
   background: var(--grad);
   border: none;
@@ -94,29 +106,15 @@ body {
   padding: 10px 24px;
   border-radius: 50px;
   font-size: 14px;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 8px 20px rgba(255,79,135,0.3);
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(255, 79, 135, 0.3);
   transition: all 0.2s;
-  font-family: 'Nunito', sans-serif;
 }
-.btn-solid:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(255,79,135,0.38); }
+.btn-solid:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(255, 79, 135, 0.38); }
 
 /* hamburger */
-.hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-  padding: 8px;
-  background: transparent;
-  border: none;
-}
-.hamburger span {
-  display: block; width: 24px; height: 2.5px;
-  background: var(--pink); border-radius: 4px;
-  transition: all 0.3s;
-}
+.hamburger { display: none; flex-direction: column; gap: 5px; padding: 8px; background: transparent; border: none; }
+.hamburger span { display: block; width: 24px; height: 2.5px; background: var(--pink); border-radius: 4px; transition: all 0.3s; }
 .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
 .hamburger.open span:nth-child(2) { opacity: 0; }
 .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
@@ -127,180 +125,180 @@ body {
   position: fixed;
   top: 72px; left: 0; right: 0;
   background: white;
-  padding: 20px 6% 28px;
+  padding: 16px 24px 26px;
   border-bottom: 1px solid var(--border);
   z-index: 999;
   flex-direction: column;
-  gap: 8px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  gap: 4px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
 }
 .mobile-menu.show { display: flex; }
-.mobile-menu a {
-  text-decoration: none;
-  color: var(--text);
-  font-weight: 700;
-  font-size: 16px;
-  padding: 12px 16px;
-  border-radius: 14px;
-  transition: all 0.2s;
-}
-.mobile-menu a:hover { background: #fff1f5; color: var(--pink); }
-.mobile-menu .divider { height: 1px; background: var(--border); margin: 4px 0; }
+.mobile-menu a { text-decoration: none; color: var(--text); font-weight: 600; font-size: 16px; padding: 12px 14px; border-radius: 14px; transition: all 0.2s; }
+.mobile-menu a:hover { background: var(--soft); color: var(--pink); }
+.mobile-menu .divider { height: 1px; background: var(--border); margin: 6px 0; }
 .mobile-menu .m-btns { display: flex; gap: 10px; margin-top: 6px; }
-.mobile-menu .m-btns button { flex: 1; }
+.mobile-menu .m-btns button { flex: 1; padding: 13px; }
 
 /* ── HERO ── */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 120px 6% 80px;
-  position: relative;
-  overflow: hidden;
-}
+.hero { padding: 150px 0 90px; position: relative; overflow: hidden; }
 .hero-bg {
-  position: absolute;
-  inset: 0;
+  position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse 800px 600px at 50% 40%, rgba(255,79,135,0.07) 0%, transparent 70%),
-    radial-gradient(ellipse 400px 300px at 80% 70%, rgba(255,123,84,0.06) 0%, transparent 60%);
+    radial-gradient(ellipse 700px 520px at 18% 30%, rgba(255, 79, 135, 0.1) 0%, transparent 70%),
+    radial-gradient(ellipse 520px 420px at 88% 65%, rgba(255, 123, 84, 0.1) 0%, transparent 65%);
   pointer-events: none;
 }
+.hero .wrap { position: relative; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
+
 .hero-tag {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255,79,135,0.08);
-  border: 1px solid rgba(255,79,135,0.2);
+  background: white;
+  border: 1px solid var(--border);
   color: var(--pink);
-  padding: 8px 20px;
+  padding: 8px 18px;
   border-radius: 50px;
   font-size: 13px;
-  font-weight: 800;
-  margin-bottom: 28px;
-  letter-spacing: 0.5px;
+  font-weight: 700;
+  margin-bottom: 26px;
+  box-shadow: var(--shadow);
 }
-.hero-tag .dot { width: 7px; height: 7px; border-radius: 50%; background: #00c853; box-shadow: 0 0 8px #00c853; }
-.hero h1 {
-  font-size: clamp(38px, 6vw, 72px);
-  font-weight: 900;
-  line-height: 1.08;
-  max-width: 820px;
-  margin-bottom: 22px;
-  letter-spacing: -1.5px;
+.hero-tag .dot, .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; animation: pulse 1.8s infinite; }
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+  100% { box-shadow: 0 0 0 9px rgba(34, 197, 94, 0); }
 }
-.hero h1 span {
+
+.hero h1 { font-size: clamp(40px, 5.6vw, 70px); font-weight: 800; line-height: 1.05; letter-spacing: -2.2px; margin-bottom: 22px; }
+.hero h1 span, .grad-text {
   background: var(--grad);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-.hero p {
-  font-size: clamp(15px, 2vw, 19px);
-  color: var(--muted);
-  max-width: 520px;
-  line-height: 1.6;
-  margin-bottom: 38px;
-}
-.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.hero-copy > p { font-size: clamp(16px, 1.6vw, 19px); color: var(--muted); max-width: 500px; line-height: 1.65; margin-bottom: 34px; }
+
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
 .btn-hero {
   border: none;
-  padding: 16px 36px;
+  padding: 17px 36px;
   border-radius: 60px;
   background: var(--grad);
   color: white;
   font-size: 16px;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 16px 36px rgba(255,79,135,0.32);
+  font-weight: 700;
+  box-shadow: var(--shadow-pink);
   transition: all 0.25s;
-  font-family: 'Nunito', sans-serif;
 }
-.btn-hero:hover { transform: translateY(-3px); box-shadow: 0 22px 44px rgba(255,79,135,0.4); }
+.btn-hero:hover { transform: translateY(-3px); box-shadow: 0 22px 44px rgba(255, 79, 135, 0.4); }
 .btn-hero-outline {
-  border: 2px solid var(--pink);
-  padding: 14px 32px;
+  border: 1.5px solid var(--pink);
+  padding: 15.500px 32px;
   border-radius: 60px;
-  background: transparent;
+  background: white;
   color: var(--pink);
   font-size: 16px;
-  font-weight: 800;
-  cursor: pointer;
+  font-weight: 700;
   transition: all 0.25s;
-  font-family: 'Nunito', sans-serif;
 }
 .btn-hero-outline:hover { background: var(--pink); color: white; }
-.hero-stats {
-  display: flex;
-  gap: 40px;
-  margin-top: 60px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.hero-stat h3 { font-size: 28px; font-weight: 900; color: var(--pink); }
+.hero-copy > .hero-note { margin: 16px 0 0; font-size: 13.500px; font-weight: 500; }
+
+.hero-stats { display: flex; gap: 36px; margin-top: 46px; flex-wrap: wrap; }
+.hero-stat h3 { font-size: 28px; font-weight: 800; letter-spacing: -0.8px; color: var(--pink); }
 .hero-stat p { font-size: 13px; color: var(--muted); font-weight: 600; }
 
-/* ── HOSTS ── */
-.section-hosts {
-  padding: 80px 6%;
+/* hero visual */
+.hero-visual { position: relative; height: 520px; }
+.hv-card {
+  position: absolute;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(60, 20, 40, 0.2);
+  border: 5px solid white;
+  background: var(--soft);
+}
+.hv-card img { width: 100%; height: 100%; object-fit: cover; }
+.hv-main { width: 62%; height: 88%; left: 19%; top: 6%; z-index: 2; }
+.hv-left { width: 40%; height: 54%; left: 0; top: 30%; transform: rotate(-7deg); opacity: 0.95; }
+.hv-right { width: 40%; height: 54%; right: 0; top: 14%; transform: rotate(7deg); opacity: 0.95; }
+.hv-main::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(20, 8, 16, 0.75), transparent 45%); }
+.hv-caption { position: absolute; left: 18px; right: 18px; bottom: 16px; z-index: 1; color: white; }
+.hv-caption strong { display: block; font-size: 22px; font-weight: 800; letter-spacing: -0.4px; }
+.hv-caption span { display: flex; align-items: center; gap: 8px; font-size: 13px; opacity: 0.92; }
+.hv-chip {
+  position: absolute;
+  z-index: 3;
   background: white;
+  border-radius: 16px;
+  padding: 12px 16px;
+  box-shadow: 0 14px 34px rgba(60, 20, 40, 0.16);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: float 5s ease-in-out infinite;
 }
-.section-label {
-  font-size: 12px;
+.hv-chip b { font-size: 18px; font-weight: 800; color: var(--pink); }
+.hv-chip.c1 { left: -6px; top: 8%; }
+.hv-chip.c2 { right: -4px; bottom: 10%; animation-delay: -2.500s; }
+@keyframes float { 50% { transform: translateY(-10px); } }
+
+/* ── SECTION HEADINGS ── */
+.section-label { font-size: 12px; font-weight: 800; color: var(--pink); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+.section-title { font-size: clamp(28px, 3.8vw, 44px); font-weight: 800; letter-spacing: -1.2px; line-height: 1.12; margin-bottom: 12px; }
+.section-sub { font-size: 17px; color: var(--muted); margin-bottom: 48px; max-width: 560px; }
+.center { text-align: center; }
+.center .section-sub { margin-left: auto; margin-right: auto; }
+
+/* ── HOSTS ── */
+.section-hosts { background: white; }
+.hosts-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.hosts-more { text-align: center; margin-top: 40px; }
+.hosts-more p { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 18px; }
+.hosts-more strong {
+  font-size: 30px;
   font-weight: 800;
-  color: var(--pink);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-.section-title {
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 900;
-  letter-spacing: -0.5px;
-  margin-bottom: 10px;
-}
-.section-sub {
-  font-size: 16px;
-  color: var(--muted);
-  margin-bottom: 48px;
-}
-.hosts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 22px;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .host-card {
+  position: relative;
+  aspect-ratio: 3 / 4;
   border-radius: 24px;
   overflow: hidden;
-  background: var(--bg);
-  border: 1px solid var(--border);
   cursor: pointer;
-  transition: all 0.25s;
+  background: var(--soft);
+  box-shadow: var(--shadow);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
-.host-card:hover { transform: translateY(-6px); box-shadow: 0 18px 42px rgba(255,79,135,0.14); border-color: var(--pink); }
-.host-card .hc-img { position: relative; }
-.host-card .hc-img img { width: 100%; height: 280px; object-fit: cover; display: block; }
+.host-card:hover { transform: translateY(-8px); box-shadow: 0 24px 48px rgba(255, 79, 135, 0.22); }
+.host-card .hc-img, .host-card .hc-img img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.host-card .hc-img img { object-fit: cover; transition: transform 0.6s; }
+.host-card:hover .hc-img img { transform: scale(1.06); }
+.host-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(20, 8, 16, 0.88) 0%, rgba(20, 8, 16, 0.3) 40%, transparent 62%); pointer-events: none; }
 .hc-status {
-  position: absolute; top: 12px; right: 12px;
+  position: absolute; top: 12px; left: 12px; z-index: 2;
   padding: 5px 12px;
   border-radius: 50px;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
+  color: white;
+  backdrop-filter: blur(8px);
+}
+.hc-status.online { background: rgba(22, 163, 74, 0.85); }
+.hc-status.offline { background: rgba(0, 0, 0, 0.5); }
+.host-card .hc-body {
+  position: absolute; left: 16px; right: 16px; bottom: 16px; z-index: 2;
+  display: flex; justify-content: space-between; align-items: flex-end;
   color: white;
 }
-.hc-status.online { background: #00c853; }
-.hc-status.offline { background: #ff5252; }
-.host-card .hc-body {
-  padding: 16px 18px 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.host-card .hc-body h3 { font-size: 18px; font-weight: 800; }
-.host-card .hc-body p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.host-card .hc-body h3 { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; }
+.host-card .hc-body p { font-size: 12px; opacity: 0.85; }
 .hc-btn {
   border: none;
   background: var(--grad);
@@ -308,286 +306,298 @@ body {
   padding: 9px 18px;
   border-radius: 50px;
   font-size: 13px;
-  font-weight: 800;
-  cursor: pointer;
-  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
   white-space: nowrap;
 }
 
+/* ── FEATURES ── */
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.feature {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 28px 26px;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+.feature:hover { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(255, 79, 135, 0.12); border-color: rgba(255, 79, 135, 0.4); }
+.feature .f-icon {
+  width: 50px; height: 50px;
+  border-radius: 16px;
+  background: var(--soft);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+.feature h3 { font-size: 17px; font-weight: 800; letter-spacing: -0.2px; margin-bottom: 6px; }
+.feature p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
 /* ── ABOUT ── */
-.section-about {
-  padding: 100px 6%;
-  background: linear-gradient(180deg, #fffbfd 0%, #fff5f8 100%);
-}
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 70px;
-  align-items: center;
-}
-.about-visual {
-  position: relative;
-}
+.section-about { background: white; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
+.about-visual { position: relative; }
 .about-blob {
   width: 100%;
   max-width: 420px;
   aspect-ratio: 1;
   border-radius: 40% 60% 55% 45% / 45% 55% 60% 40%;
-  background: linear-gradient(135deg, rgba(255,79,135,0.12), rgba(255,123,84,0.1));
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: linear-gradient(135deg, rgba(255, 79, 135, 0.14), rgba(255, 123, 84, 0.12));
+  display: flex; align-items: center; justify-content: center;
   margin: auto;
+  animation: morph 12s ease-in-out infinite;
 }
-.about-blob-inner {
-  font-size: 100px;
-  line-height: 1;
-}
+@keyframes morph { 50% { border-radius: 58% 42% 44% 56% / 55% 44% 56% 45%; } }
+.about-blob-inner { font-size: 100px; line-height: 1; }
 .about-float-card {
   position: absolute;
   background: white;
   border-radius: 18px;
   padding: 14px 18px;
-  box-shadow: 0 8px 30px rgba(255,79,135,0.14);
+  box-shadow: 0 12px 34px rgba(255, 79, 135, 0.16);
   border: 1px solid var(--border);
   font-size: 13px;
   font-weight: 700;
 }
-.about-float-card.fc1 { bottom: 30px; left: -10px; }
-.about-float-card.fc2 { top: 40px; right: -10px; }
-.about-float-card .fc-stat { font-size: 20px; font-weight: 900; color: var(--pink); }
-.about-content h2 {
-  font-size: clamp(26px, 3.5vw, 40px);
-  font-weight: 900;
-  letter-spacing: -0.5px;
-  margin-bottom: 16px;
-  line-height: 1.15;
-}
-.about-content p {
-  font-size: 15px;
-  color: var(--muted);
-  line-height: 1.75;
-  margin-bottom: 16px;
-}
-.about-features { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
-.about-feature {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-}
-.af-icon {
-  width: 42px; height: 42px;
-  border-radius: 14px;
-  background: rgba(255,79,135,0.1);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
-  flex-shrink: 0;
-}
-.af-text h4 { font-size: 14px; font-weight: 800; margin-bottom: 2px; }
-.af-text p { font-size: 13px; color: var(--muted); }
+.about-float-card.fc1 { bottom: 30px; left: 0; }
+.about-float-card.fc2 { top: 40px; right: 0; }
+.about-float-card .fc-stat { font-size: 20px; font-weight: 800; color: var(--pink); }
+.about-content h2 { font-size: clamp(28px, 3.6vw, 42px); font-weight: 800; letter-spacing: -1.1px; margin-bottom: 18px; line-height: 1.12; }
+.about-content p { font-size: 15.500px; color: var(--muted); line-height: 1.8; margin-bottom: 16px; }
+.about-content p strong { color: var(--text); }
+.about-features { display: flex; flex-direction: column; gap: 16px; margin-top: 28px; }
+.about-feature { display: flex; align-items: flex-start; gap: 14px; }
+.af-icon { width: 44px; height: 44px; border-radius: 14px; background: var(--soft); display: flex; align-items: center; justify-content: center; font-size: 19px; flex-shrink: 0; }
+.af-text h4 { font-size: 15px; font-weight: 800; margin-bottom: 2px; }
+.af-text p { font-size: 13.500px; color: var(--muted); margin: 0; line-height: 1.6; }
 
 /* ── HOW IT WORKS ── */
-.section-how {
-  padding: 90px 6%;
-  background: white;
-  text-align: center;
-}
-.steps-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 30px;
-  margin-top: 50px;
+.steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; position: relative; }
+.steps-grid::before {
+  content: "";
+  position: absolute;
+  top: 57px; left: 12%; right: 12%;
+  border-top: 2px dashed rgba(255, 79, 135, 0.3);
 }
 .step-card {
+  position: relative;
   padding: 32px 22px;
   border-radius: 24px;
-  background: var(--bg);
+  background: white;
   border: 1px solid var(--border);
   text-align: center;
   transition: all 0.25s;
 }
-.step-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(255,79,135,0.1); }
+.step-card:hover { transform: translateY(-5px); box-shadow: 0 16px 36px rgba(255, 79, 135, 0.12); }
 .step-num {
-  width: 50px; height: 50px;
-  border-radius: 16px;
+  width: 52px; height: 52px;
+  border-radius: 17px;
   background: var(--grad);
   color: white;
-  font-size: 18px;
-  font-weight: 900;
+  font-size: 19px;
+  font-weight: 800;
   display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 16px;
-  box-shadow: 0 8px 18px rgba(255,79,135,0.3);
+  margin: 0 auto 18px;
+  box-shadow: 0 10px 20px rgba(255, 79, 135, 0.32);
 }
-.step-card h3 { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
-.step-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.step-card h3 { font-size: 17px; font-weight: 800; margin-bottom: 8px; }
+.step-card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
 
-/* ── CONTACT ── */
-.section-contact {
-  padding: 100px 6%;
-  background: linear-gradient(180deg, #fff5f8 0%, #fffbfd 100%);
-}
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.3fr;
-  gap: 60px;
-  align-items: start;
-}
-.contact-info h2 {
-  font-size: clamp(26px, 3.5vw, 40px);
-  font-weight: 900;
-  letter-spacing: -0.5px;
-  margin-bottom: 14px;
-}
-.contact-info > p {
-  font-size: 15px;
-  color: var(--muted);
-  line-height: 1.7;
-  margin-bottom: 36px;
-}
-.contact-cards { display: flex; flex-direction: column; gap: 16px; }
-.contact-card {
+/* ── PRICING ── */
+.section-pricing { background: white; }
+.free-banner {
+  max-width: 760px;
+  margin: 0 auto 44px;
+  background: var(--soft);
+  border: 1px dashed rgba(255, 79, 135, 0.45);
+  border-radius: 20px;
+  padding: 16px 22px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-weight: 600;
+  text-align: left;
+}
+.free-banner span { font-size: 24px; }
+.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; text-align: left; }
+.plan {
+  position: relative;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 26px;
+  padding: 32px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.plan:hover { transform: translateY(-6px); box-shadow: 0 22px 46px rgba(255, 79, 135, 0.14); }
+.plan.featured { background: var(--dark); color: white; border-color: var(--dark); box-shadow: 0 26px 56px rgba(26, 10, 18, 0.3); }
+.plan .tag {
+  position: absolute; top: -13px; left: 28px;
+  background: var(--grad);
+  color: white;
+  padding: 5px 14px;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+}
+.plan h3 { font-size: 16px; font-weight: 700; color: var(--muted); margin-bottom: 10px; }
+.plan.featured h3 { color: rgba(255, 255, 255, 0.65); }
+.plan .price { font-size: 46px; font-weight: 800; letter-spacing: -1.8px; line-height: 1; }
+.plan .price small { font-size: 14px; font-weight: 600; letter-spacing: 0; color: var(--muted); }
+.plan.featured .price small { color: rgba(255, 255, 255, 0.6); }
+.plan ul { list-style: none; margin: 24px 0 28px; flex: 1; }
+.plan li { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 15px; font-weight: 500; }
+.plan li::before { content: "✓"; color: var(--pink); font-weight: 800; }
+.plan button { width: 100%; padding: 15px; border-radius: 16px; font-size: 15px; font-weight: 700; transition: all 0.2s; }
+.plan .btn-plan { background: white; border: 1.5px solid var(--border); color: var(--text); }
+.plan .btn-plan:hover { border-color: var(--pink); color: var(--pink); }
+.plan .btn-plan-solid { background: var(--grad); border: none; color: white; box-shadow: var(--shadow-pink); }
+.plan .btn-plan-solid:hover { filter: brightness(1.08); }
+.plans-note { margin-top: 26px; font-size: 13px; color: var(--muted); }
+
+/* ── FAQ ── */
+.faq { max-width: 780px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+.faq details { background: white; border: 1px solid var(--border); border-radius: 20px; padding: 0 24px; transition: border-color 0.2s, box-shadow 0.2s; }
+.faq details[open] { border-color: rgba(255, 79, 135, 0.45); box-shadow: 0 12px 30px rgba(255, 79, 135, 0.08); }
+.faq summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 20px 0;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: 16px;
-  background: white;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+";
+  flex-shrink: 0;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--soft);
+  color: var(--pink);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  font-weight: 600;
+  transition: transform 0.25s;
+}
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details p { color: var(--muted); font-size: 15px; line-height: 1.75; padding-bottom: 22px; }
+.faq details a { color: var(--pink); font-weight: 700; }
+
+/* ── CTA ── */
+.section-cta { padding: 0 0 96px; }
+.cta {
+  background: var(--grad);
+  border-radius: 36px;
+  padding: 64px 32px;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(255, 79, 135, 0.32);
+}
+.cta::before, .cta::after { content: ""; position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.13); }
+.cta::before { width: 320px; height: 320px; left: -110px; top: -150px; }
+.cta::after { width: 260px; height: 260px; right: -80px; bottom: -130px; }
+.cta > * { position: relative; z-index: 1; }
+.cta h2 { font-size: clamp(28px, 4vw, 46px); font-weight: 800; letter-spacing: -1.3px; line-height: 1.1; margin-bottom: 14px; }
+.cta p { font-size: 17px; opacity: 0.94; max-width: 520px; margin: 0 auto 30px; }
+.cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-white { border: none; background: white; color: var(--pink); padding: 16px 36px; border-radius: 60px; font-size: 16px; font-weight: 700; transition: all 0.25s; }
+.btn-white:hover { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18); }
+.btn-white-outline { background: transparent; border: 1.5px solid rgba(255, 255, 255, 0.75); color: white; padding: 14.500px 32px; border-radius: 60px; font-size: 16px; font-weight: 700; transition: all 0.25s; }
+.btn-white-outline:hover { background: rgba(255, 255, 255, 0.16); }
+
+/* ── CONTACT ── */
+.section-contact { background: white; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: 60px; align-items: start; }
+.contact-info h2 { font-size: clamp(28px, 3.6vw, 42px); font-weight: 800; letter-spacing: -1.1px; line-height: 1.12; margin-bottom: 14px; }
+.contact-info > p { font-size: 16px; color: var(--muted); line-height: 1.7; margin-bottom: 34px; }
+.contact-cards { display: flex; flex-direction: column; gap: 14px; }
+.contact-card {
+  display: flex; align-items: center; gap: 16px;
+  background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 18px;
   padding: 16px 20px;
   transition: all 0.2s;
 }
-.contact-card:hover { border-color: var(--pink); box-shadow: 0 6px 20px rgba(255,79,135,0.1); }
-.cc-icon {
-  width: 46px; height: 46px;
-  border-radius: 14px;
-  background: rgba(255,79,135,0.1);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
-}
-.cc-text h4 { font-size: 14px; font-weight: 800; margin-bottom: 2px; }
-.cc-text p { font-size: 13px; color: var(--muted); }
-.contact-form {
-  background: white;
-  border-radius: 28px;
-  padding: 36px 32px;
-  border: 1px solid var(--border);
-  box-shadow: 0 10px 40px rgba(255,79,135,0.06);
-}
+.contact-card:hover { border-color: var(--pink); box-shadow: 0 8px 22px rgba(255, 79, 135, 0.1); }
+.cc-icon { width: 46px; height: 46px; border-radius: 14px; background: var(--soft); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.cc-text h4 { font-size: 15px; font-weight: 800; margin-bottom: 2px; }
+.cc-text p { font-size: 14px; color: var(--muted); word-break: break-word; }
+.contact-form { background: var(--bg); border-radius: 28px; padding: 36px 32px; border: 1px solid var(--border); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .form-group { margin-bottom: 18px; }
-.form-group label {
-  display: block;
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--text);
-  margin-bottom: 7px;
-}
+.form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 7px; }
 .form-group input,
 .form-group select,
 .form-group textarea {
   width: 100%;
-  padding: 12px 16px;
-  border: 1.5px solid #f0dce5;
+  padding: 13px 16px;
+  border: 1.5px solid var(--border);
   border-radius: 14px;
-  font-size: 14px;
-  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
   color: var(--text);
-  background: #fdf8fa;
+  background: white;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
   resize: none;
 }
 .form-group input:focus,
 .form-group select:focus,
-.form-group textarea:focus {
-  border-color: var(--pink);
-  box-shadow: 0 0 0 3px rgba(255,79,135,0.1);
-  background: white;
-}
+.form-group textarea:focus { border-color: var(--pink); box-shadow: 0 0 0 3px rgba(255, 79, 135, 0.12); }
 .form-group textarea { height: 110px; }
+.form-error { display: none; color: #e5484d; font-size: 13px; font-weight: 600; margin-bottom: 14px; }
 .btn-submit {
   width: 100%;
   border: none;
-  padding: 15px;
+  padding: 16px;
   border-radius: 16px;
   background: var(--grad);
   color: white;
   font-size: 16px;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 10px 26px rgba(255,79,135,0.3);
+  font-weight: 700;
+  box-shadow: 0 10px 26px rgba(255, 79, 135, 0.3);
   transition: all 0.2s;
-  font-family: 'Nunito', sans-serif;
 }
-.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(255,79,135,0.38); }
-.form-success {
-  display: none;
-  text-align: center;
-  padding: 30px 0 10px;
-}
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(255, 79, 135, 0.38); }
+.form-success { display: none; text-align: center; padding: 30px 0 10px; }
 .form-success .fs-icon { font-size: 46px; margin-bottom: 12px; }
-.form-success h3 { font-size: 20px; font-weight: 900; margin-bottom: 6px; }
+.form-success h3 { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
 .form-success p { color: var(--muted); font-size: 14px; }
 
 /* ── FOOTER ── */
-footer {
-  background: #1a0a12;
-  color: rgba(255,255,255,0.6);
-  padding: 60px 6% 30px;
-}
-.footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 40px;
-  padding-bottom: 40px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
+footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px 0 30px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
 .footer-brand .fl-logo {
   font-size: 26px;
-  font-weight: 900;
+  font-weight: 800;
+  letter-spacing: -0.7px;
   background: var(--grad);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-bottom: 12px;
 }
-.footer-brand p { font-size: 13px; line-height: 1.7; max-width: 220px; }
+.footer-brand p { font-size: 14px; line-height: 1.7; max-width: 260px; }
 .footer-col h4 { font-size: 13px; font-weight: 800; color: white; margin-bottom: 16px; letter-spacing: 0.5px; }
-.footer-col a {
-  display: block;
-  font-size: 13px;
-  color: rgba(255,255,255,0.5);
-  text-decoration: none;
-  margin-bottom: 10px;
-  transition: color 0.2s;
-}
+.footer-col a { display: block; font-size: 14px; color: rgba(255, 255, 255, 0.55); text-decoration: none; margin-bottom: 10px; transition: color 0.2s; }
 .footer-col a:hover { color: var(--pink); }
-.footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 24px;
-  font-size: 12px;
-  flex-wrap: wrap;
-  gap: 10px;
-}
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; font-size: 13px; flex-wrap: wrap; gap: 10px; }
 .footer-social { display: flex; gap: 12px; }
-.social-btn {
-  width: 36px; height: 36px;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.06);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.2s;
-  text-decoration: none;
-}
-.social-btn:hover { background: rgba(255,79,135,0.3); }
+.social-btn { width: 38px; height: 38px; border-radius: 12px; background: rgba(255, 255, 255, 0.06); display: flex; align-items: center; justify-content: center; font-size: 16px; transition: background 0.2s; text-decoration: none; }
+.social-btn:hover { background: rgba(255, 79, 135, 0.3); }
 
 /* ── MODAL ── */
 .modal-overlay {
   position: fixed; inset: 0;
-  background: rgba(0,0,0,0.65);
+  background: rgba(29, 21, 34, 0.6);
+  backdrop-filter: blur(6px);
   display: none; justify-content: center; align-items: center;
   z-index: 2000; padding: 20px;
 }
@@ -598,50 +608,165 @@ footer {
   overflow: hidden;
   width: 100%; max-width: 380px;
   position: relative;
-  animation: popUp 0.28s cubic-bezier(.34,1.56,.64,1);
+  animation: popUp 0.28s cubic-bezier(.34, 1.56, .64, 1);
 }
-@keyframes popUp {
-  from { opacity: 0; transform: scale(0.88); }
-  to   { opacity: 1; transform: scale(1); }
-}
-.modal-box img { width: 100%; height: 340px; object-fit: cover; display: block; }
+@keyframes popUp { from { opacity: 0; transform: scale(0.88); } to { opacity: 1; transform: scale(1); } }
+.modal-box img { width: 100%; height: 340px; object-fit: cover; }
 .modal-body { padding: 20px 22px 24px; text-align: center; }
-.modal-body h2 { font-size: 24px; font-weight: 900; margin-bottom: 4px; }
+.modal-body h2 { font-size: 24px; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 4px; }
 .modal-body p { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
 .modal-close {
   position: absolute; top: 13px; right: 14px;
-  width: 34px; height: 34px; border-radius: 50%;
-  background: rgba(0,0,0,0.35); color: white;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4); color: white;
   font-size: 18px; font-weight: 700;
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; border: none;
+  border: none;
 }
-.btn-modal {
-  width: 100%; border: none; padding: 14px;
-  border-radius: 16px; background: var(--grad);
-  color: white; font-size: 15px; font-weight: 800;
-  cursor: pointer; font-family: 'Nunito', sans-serif;
+.btn-modal { width: 100%; border: none; padding: 15px; border-radius: 16px; background: var(--grad); color: white; font-size: 15px; font-weight: 700; box-shadow: var(--shadow-pink); }
+
+/* ── GLAM TOUCHES ── */
+::selection { background: var(--pink); color: white; }
+
+/* the gradient words are set in an italic serif */
+.hero h1 span, .grad-text {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: -1px;
+  padding-right: 0.1em;
 }
 
+/* soft colour glows drifting behind the hero */
+.glow { position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none; animation: drift 14s ease-in-out infinite; }
+.glow.g1 { width: 460px; height: 460px; background: #ff7aa8; left: -160px; top: 60px; opacity: 0.4; }
+.glow.g2 { width: 420px; height: 420px; background: #ffb08f; right: -140px; bottom: -80px; opacity: 0.45; animation-delay: -7s; }
+.glow.g3 { width: 320px; height: 320px; background: #e2a6ff; right: 28%; top: -110px; opacity: 0.35; animation-delay: -3s; }
+@keyframes drift { 50% { transform: translate(40px, -30px) scale(1.12); } }
+
+.section-label {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 50px;
+  background: var(--soft);
+  border: 1px solid rgba(255, 79, 135, 0.22);
+  letter-spacing: 1.500px;
+}
+
+.hero-stat h3 {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* light sweep across the main button */
+.btn-hero { position: relative; overflow: hidden; }
+.btn-hero::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -60%;
+  width: 40%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transform: skewX(-20deg);
+  animation: shine 3.400s infinite;
+}
+@keyframes shine { 0%, 60% { left: -60%; } 100% { left: 130%; } }
+
+/* hero photo stack */
+.hv-main { box-shadow: 0 30px 80px rgba(255, 45, 117, 0.38); }
+.hv-live {
+  position: absolute;
+  top: 14px; left: 14px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 50px;
+  background: #ff2d55;
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+.hv-live i { width: 6px; height: 6px; border-radius: 50%; background: white; animation: blink 1.200s infinite; }
+@keyframes blink { 50% { opacity: 0.2; } }
+
+.heart { position: absolute; z-index: 3; bottom: 16%; font-size: 22px; opacity: 0; animation: rise 6s ease-in infinite; pointer-events: none; }
+.heart.h1 { left: 14%; }
+.heart.h2 { left: 52%; animation-delay: -2s; font-size: 16px; }
+.heart.h3 { left: 82%; animation-delay: -4s; font-size: 26px; }
+@keyframes rise {
+  0% { opacity: 0; transform: translateY(0) scale(0.6); }
+  15% { opacity: 0.9; }
+  100% { opacity: 0; transform: translateY(-240px) scale(1.2) rotate(18deg); }
+}
+
+/* scrolling strip under the hero */
+.marquee { background: var(--grad); overflow: hidden; padding: 16px 0; }
+.marquee-track { display: flex; width: max-content; animation: slide 30s linear infinite; }
+.marquee-track span { padding: 0 26px; font-size: 13px; font-weight: 700; letter-spacing: 2.500px; text-transform: uppercase; color: white; white-space: nowrap; }
+.marquee-track span::after { content: "✦"; margin-left: 52px; opacity: 0.7; }
+@keyframes slide { to { transform: translateX(-50%); } }
+
+/* hover glows */
+.host-card:hover { box-shadow: 0 0 0 3px var(--pink), 0 26px 56px rgba(255, 45, 117, 0.32); }
+.about-blob { background: radial-gradient(circle at 35% 30%, rgba(255, 45, 117, 0.3), rgba(255, 123, 84, 0.14) 60%, transparent 76%); }
+.plan.featured { background: linear-gradient(160deg, #2a0f1f, #1a0a12); border-color: transparent; box-shadow: 0 0 0 2px rgba(255, 79, 135, 0.55), 0 30px 64px rgba(255, 45, 117, 0.3); }
+
+/* ── SCROLL REVEAL ── */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
 /* ── RESPONSIVE ── */
-@media (max-width: 900px) {
+@media (max-width: 1020px) {
   .nav-links, .nav-btns { display: none; }
   .hamburger { display: flex; }
+  .hero { padding: 120px 0 70px; }
+  .hero .wrap { grid-template-columns: 1fr; gap: 50px; text-align: center; }
+  .hero-copy > p { margin-left: auto; margin-right: auto; }
+  .hero-actions, .hero-stats { justify-content: center; }
+  .hero-visual { height: 440px; max-width: 460px; width: 100%; margin: 0 auto; }
+  .hosts-grid { grid-template-columns: repeat(2, 1fr); }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .steps-grid { grid-template-columns: repeat(2, 1fr); }
+  .steps-grid::before { display: none; }
   .about-grid { grid-template-columns: 1fr; gap: 40px; }
   .about-visual { display: none; }
   .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  .plans { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 600px) {
-  .hero-stats { gap: 24px; }
-  .form-row { grid-template-columns: 1fr; }
+  section { padding: 68px 0; }
+  .section-cta { padding: 0 0 68px; }
+  .wrap { padding: 0 18px; }
+  .hero-stats { gap: 22px 28px; margin-top: 36px; }
+  .hero-stat h3 { font-size: 24px; }
+  .hero-visual { height: 360px; }
+  .hv-chip { padding: 9px 12px; font-size: 12px; }
+  .hosts-grid { gap: 12px; }
+  .host-card .hc-body { left: 12px; right: 12px; bottom: 12px; }
+  .host-card .hc-body h3 { font-size: 16px; }
+  .host-card .hc-body p { display: none; }
+  .hc-btn { padding: 7px 14px; font-size: 12px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .section-sub { margin-bottom: 34px; }
+  .form-row { grid-template-columns: 1fr; gap: 0; }
+  .contact-form { padding: 26px 20px; }
+  .cta { padding: 46px 22px; border-radius: 28px; }
   .footer-grid { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
-  .steps-grid { grid-template-columns: 1fr 1fr; }
 }
-@media (max-width: 400px) {
+@media (max-width: 420px) {
   .steps-grid { grid-template-columns: 1fr; }
-  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions, .cta-actions { flex-direction: column; align-items: stretch; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1; transform: none; }
 }
 </style>
 </head>
@@ -649,20 +774,24 @@ footer {
 
 <!-- NAVBAR -->
 <header class="navbar" id="navbar">
-  <div class="logo">FlirtyFly 💋</div>
-  <div class="nav-links">
-    <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#how">How It Works</a>
-    <a href="#contact">Contact</a>
+  <div class="wrap">
+    <a class="logo" href="#home">FlirtyFly 💋</a>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#how">How It Works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-btns">
+      <button class="btn-ghost" onclick="goLogin()">Login</button>
+      <button class="btn-solid" onclick="goRegister()">Get Started →</button>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
-  <div class="nav-btns">
-    <button class="btn-ghost" onclick="goLogin()">Login</button>
-    <button class="btn-solid" onclick="goRegister()">Get Started →</button>
-  </div>
-  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
-    <span></span><span></span><span></span>
-  </button>
 </header>
 
 <!-- MOBILE MENU -->
@@ -670,6 +799,8 @@ footer {
   <a href="#home" onclick="closeMenu()">🏠 Home</a>
   <a href="#about" onclick="closeMenu()">✨ About</a>
   <a href="#how" onclick="closeMenu()">🔍 How It Works</a>
+  <a href="#pricing" onclick="closeMenu()">💎 Pricing</a>
+  <a href="#faq" onclick="closeMenu()">❓ FAQ</a>
   <a href="#contact" onclick="closeMenu()">📬 Contact</a>
   <div class="divider"></div>
   <div class="m-btns">
@@ -681,68 +812,152 @@ footer {
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-bg"></div>
-  <div class="hero-tag">
-    <span class="dot"></span>
-    500+ Hosts Online Now
-  </div>
-  <h1>Find Your<br><span>Perfect Connection</span></h1>
-  <p>Premium live video experience with verified, real hosts. Connect, chat, and vibe — anytime, anywhere.</p>
-  <div class="hero-actions">
-    <button class="btn-hero" onclick="goRegister()">Start Exploring 🔥</button>
-    <button class="btn-hero-outline" onclick="document.getElementById('hosts').scrollIntoView({behavior:'smooth'})">Meet Hosts</button>
-  </div>
-  <div class="hero-stats">
-    <div class="hero-stat"><h3>50K+</h3><p>Happy Users</p></div>
-    <div class="hero-stat"><h3>500+</h3><p>Verified Hosts</p></div>
-    <div class="hero-stat"><h3>4.9★</h3><p>User Rating</p></div>
-    <div class="hero-stat"><h3>24/7</h3><p>Always Online</p></div>
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
+  <div class="glow g3"></div>
+  <div class="wrap">
+
+    <div class="hero-copy">
+      <div class="hero-tag">
+        <span class="dot"></span>
+        500+ Hosts Online Now
+      </div>
+      <h1>Find Your<br><span>Perfect Connection</span></h1>
+      <p>Premium live video experience with verified, real hosts. Connect, chat, and vibe — anytime, anywhere.</p>
+      <div class="hero-actions">
+        <button class="btn-hero" onclick="goRegister()">Start Exploring 🔥</button>
+        <button class="btn-hero-outline" onclick="document.getElementById('hosts').scrollIntoView({behavior:'smooth'})">Meet Hosts</button>
+      </div>
+      <p class="hero-note">🎁 Your first minute is free · No downloads required</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><h3>50K+</h3><p>Happy Users</p></div>
+        <div class="hero-stat"><h3>500+</h3><p>Verified Hosts</p></div>
+        <div class="hero-stat"><h3>4.9★</h3><p>User Rating</p></div>
+        <div class="hero-stat"><h3>24/7</h3><p>Always Online</p></div>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hv-card hv-left"><img src="/images/host-2.jpg" style="object-position:center 22%" alt=""></div>
+      <div class="hv-card hv-right"><img src="/images/host-3.jpg" style="object-position:center 35%" alt=""></div>
+      <div class="hv-card hv-main">
+        <img src="/images/host-1.jpg" style="object-position:center 25%" alt="">
+        <span class="hv-live"><i></i>LIVE</span>
+        <div class="hv-caption">
+          <strong>Riya</strong>
+          <span><span class="live-dot"></span>Online · Live Video Host</span>
+        </div>
+      </div>
+      <span class="heart h1">❤️</span>
+      <span class="heart h2">💗</span>
+      <span class="heart h3">💖</span>
+      <div class="hv-chip c1">🎁 <span>First minute<br><b>Free</b></span></div>
+      <div class="hv-chip c2">📹 <span>Instant<br><b>HD Calls</b></span></div>
+    </div>
+
   </div>
 </section>
 
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track"><span>Live Video</span><span>Verified Hosts</span><span>First Minute Free</span><span>Instant HD Calls</span><span>No Downloads</span><span>Real Hosts, Real Vibes</span><span>Always Online</span><span aria-hidden="true">Live Video</span><span aria-hidden="true">Verified Hosts</span><span aria-hidden="true">First Minute Free</span><span aria-hidden="true">Instant HD Calls</span><span aria-hidden="true">No Downloads</span><span aria-hidden="true">Real Hosts, Real Vibes</span><span aria-hidden="true">Always Online</span></div>
+</div>
+
 <!-- HOSTS -->
 <section class="section-hosts" id="hosts">
-  <div class="section-label">🔥 Featured</div>
-  <h2 class="section-title">Online Hosts</h2>
-  <p class="section-sub">Connect instantly with verified live hosts</p>
-  <div class="hosts-grid">
-    <div class="host-card" onclick="openModal('Riya','https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800')">
-      <div class="hc-img">
-        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800" alt="Riya">
-        <span class="hc-status online">● Online</span>
-      </div>
-      <div class="hc-body">
-        <div><h3>Riya</h3><p>Live Video Host</p></div>
-        <button class="hc-btn">Call</button>
-      </div>
+  <div class="wrap">
+    <div class="reveal">
+      <div class="section-label">🔥 Featured</div>
+      <h2 class="section-title">Online Girls</h2>
+      <p class="section-sub">Connect instantly with verified live hosts</p>
     </div>
-    <div class="host-card" onclick="openModal('Ananya','https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?q=80&w=800')">
-      <div class="hc-img">
-        <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?q=80&w=800" alt="Ananya">
+    <div class="hosts-grid reveal">
+      <div class="host-card" onclick="openModal('Riya','/images/host-1.jpg')">
+        <div class="hc-img">
+          <img src="/images/host-1.jpg" style="object-position:center 25%" alt="Riya" loading="lazy">
+        </div>
         <span class="hc-status online">● Online</span>
+        <div class="hc-body">
+          <div><h3>Riya</h3><p>Live Video Host</p></div>
+          <button class="hc-btn">Call</button>
+        </div>
       </div>
-      <div class="hc-body">
-        <div><h3>Ananya</h3><p>Live Video Host</p></div>
-        <button class="hc-btn">Call</button>
-      </div>
-    </div>
-    <div class="host-card" onclick="openModal('Priya','https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800')">
-      <div class="hc-img">
-        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800" alt="Priya">
+      <div class="host-card" onclick="openModal('Ananya','/images/host-2.jpg')">
+        <div class="hc-img">
+          <img src="/images/host-2.jpg" style="object-position:center 22%" alt="Ananya" loading="lazy">
+        </div>
         <span class="hc-status online">● Online</span>
+        <div class="hc-body">
+          <div><h3>Ananya</h3><p>Live Video Host</p></div>
+          <button class="hc-btn">Call</button>
+        </div>
       </div>
-      <div class="hc-body">
-        <div><h3>Priya</h3><p>Live Video Host</p></div>
-        <button class="hc-btn">Call</button>
+      <div class="host-card" onclick="openModal('Priya','/images/host-3.jpg')">
+        <div class="hc-img">
+          <img src="/images/host-3.jpg" style="object-position:center 35%" alt="Priya" loading="lazy">
+        </div>
+        <span class="hc-status online">● Online</span>
+        <div class="hc-body">
+          <div><h3>Priya</h3><p>Live Video Host</p></div>
+          <button class="hc-btn">Call</button>
+        </div>
       </div>
-    </div>
-    <div class="host-card" onclick="openModal('Kavya','https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800')">
-      <div class="hc-img">
-        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800" alt="Kavya">
+      <div class="host-card" onclick="openModal('Kavya','/images/host-4.jpg')">
+        <div class="hc-img">
+          <img src="/images/host-4.jpg" style="object-position:center 15%" alt="Kavya" loading="lazy">
+        </div>
         <span class="hc-status offline">● Offline</span>
+        <div class="hc-body">
+          <div><h3>Kavya</h3><p>Live Video Host</p></div>
+          <button class="hc-btn" style="background:rgba(255,255,255,0.25);">Soon</button>
+        </div>
       </div>
-      <div class="hc-body">
-        <div><h3>Kavya</h3><p>Live Video Host</p></div>
-        <button class="hc-btn" style="background:#ccc;box-shadow:none;">Soon</button>
+    </div>
+    <div class="hosts-more reveal">
+      <p>There are <strong>300+</strong> more girls online</p>
+      <button class="btn-hero" onclick="goRegister()">See Them All →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section-features" id="features">
+  <div class="wrap">
+    <div class="center reveal">
+      <div class="section-label">💖 Why FlirtyFly</div>
+      <h2 class="section-title">Everything You Need<br>For A <span class="grad-text">Great Conversation</span></h2>
+      <p class="section-sub">Built to make every call feel easy, private and genuine.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature reveal">
+        <div class="f-icon">🎁</div>
+        <h3>First Minute Free</h3>
+        <p>Every new account gets one free minute of live video. Try it before you decide to subscribe.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="f-icon">🌐</div>
+        <h3>No Downloads</h3>
+        <p>FlirtyFly runs right in your browser. Open the site, pick a host and you're on a call.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="f-icon">📹</div>
+        <h3>Instant HD Video</h3>
+        <p>Clear, low-latency video calls powered by WebRTC technology.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="f-icon">🟢</div>
+        <h3>See Who's Online</h3>
+        <p>The host list shows who is online right now, so you never wait around for someone who's away.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="f-icon">💎</div>
+        <h3>Simple Plans</h3>
+        <p>Weekly and monthly plans with clear prices. Pick the one that suits how much you like to talk.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="f-icon">📱</div>
+        <h3>Works On Any Device</h3>
+        <p>Phone, tablet or laptop — the experience is designed to feel right on every screen.</p>
       </div>
     </div>
   </div>
@@ -750,45 +965,47 @@ footer {
 
 <!-- ABOUT -->
 <section class="section-about" id="about">
-  <div class="about-grid">
-    <div class="about-visual">
-      <div class="about-blob">
-        <div class="about-blob-inner">💕</div>
-      </div>
-      <div class="about-float-card fc1">
-        <div class="fc-stat">50K+</div>
-        <div>Happy Users</div>
-      </div>
-      <div class="about-float-card fc2">
-        <div class="fc-stat">4.9 ★</div>
-        <div>App Rating</div>
-      </div>
-    </div>
-    <div class="about-content">
-      <div class="section-label">✨ About Us</div>
-      <h2>India's Most Trusted<br>Live Video Platform</h2>
-      <p>FlirtyFly was founded with one mission — to create <strong>real, meaningful connections</strong> between people through live video. We're not just another app. We're a safe, premium space where every conversation feels genuine.</p>
-      <p>Our hosts are verified, trained, and passionate about making your experience unforgettable. Whether you're looking for fun, companionship, or just someone to talk to — FlirtyFly is your place.</p>
-      <div class="about-features">
-        <div class="about-feature">
-          <div class="af-icon">🛡️</div>
-          <div class="af-text">
-            <h4>100% Verified Hosts</h4>
-            <p>Every host goes through a strict verification process before joining our platform.</p>
-          </div>
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <div class="about-blob">
+          <div class="about-blob-inner">💕</div>
         </div>
-        <div class="about-feature">
-          <div class="af-icon">🔒</div>
-          <div class="af-text">
-            <h4>Secure & Private</h4>
-            <p>Your data and calls are encrypted end-to-end. Your privacy is our top priority.</p>
-          </div>
+        <div class="about-float-card fc1">
+          <div class="fc-stat">50K+</div>
+          <div>Happy Users</div>
         </div>
-        <div class="about-feature">
-          <div class="af-icon">⚡</div>
-          <div class="af-text">
-            <h4>Instant HD Calls</h4>
-            <p>Crystal clear video quality with ultra-low latency — powered by WebRTC technology.</p>
+        <div class="about-float-card fc2">
+          <div class="fc-stat">4.9 ★</div>
+          <div>App Rating</div>
+        </div>
+      </div>
+      <div class="about-content reveal">
+        <div class="section-label">✨ About Us</div>
+        <h2>India's Most Trusted<br>Live Video Platform</h2>
+        <p>FlirtyFly was founded with one mission — to create <strong>real, meaningful connections</strong> between people through live video. We're not just another app. We're a safe, premium space where every conversation feels genuine.</p>
+        <p>Our hosts are verified, trained, and passionate about making your experience unforgettable. Whether you're looking for fun, companionship, or just someone to talk to — FlirtyFly is your place.</p>
+        <div class="about-features">
+          <div class="about-feature">
+            <div class="af-icon">🛡️</div>
+            <div class="af-text">
+              <h4>100% Verified Hosts</h4>
+              <p>Every host goes through a strict verification process before joining our platform.</p>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="af-icon">🔒</div>
+            <div class="af-text">
+              <h4>Secure & Private</h4>
+              <p>Your data and calls are encrypted end-to-end. Your privacy is our top priority.</p>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="af-icon">⚡</div>
+            <div class="af-text">
+              <h4>Instant HD Calls</h4>
+              <p>Crystal clear video quality with ultra-low latency — powered by WebRTC technology.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -798,101 +1015,215 @@ footer {
 
 <!-- HOW IT WORKS -->
 <section class="section-how" id="how">
-  <div class="section-label">🔍 Simple Process</div>
-  <h2 class="section-title">How It Works</h2>
-  <p class="section-sub">Get started in minutes — it's super easy</p>
-  <div class="steps-grid">
-    <div class="step-card">
-      <div class="step-num">1</div>
-      <h3>Create Account</h3>
-      <p>Sign up for free in under 60 seconds. No credit card needed to get started.</p>
+  <div class="wrap center">
+    <div class="reveal">
+      <div class="section-label">🔍 Simple Process</div>
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-sub">Get started in minutes — it's super easy</p>
     </div>
-    <div class="step-card">
-      <div class="step-num">2</div>
-      <h3>Browse Hosts</h3>
-      <p>Explore hundreds of verified hosts and find the one that vibes with you.</p>
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <div class="step-num">1</div>
+        <h3>Create Account</h3>
+        <p>Sign up for free in under 60 seconds. No credit card needed to get started.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">2</div>
+        <h3>Browse Hosts</h3>
+        <p>Explore hundreds of verified hosts and find the one that vibes with you.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">3</div>
+        <h3>Start a Call</h3>
+        <p>Tap "Start Call" and connect instantly in HD video — no downloads required.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">4</div>
+        <h3>Enjoy & Subscribe</h3>
+        <p>Love the experience? Upgrade to Premium for unlimited calls and exclusive perks.</p>
+      </div>
     </div>
-    <div class="step-card">
-      <div class="step-num">3</div>
-      <h3>Start a Call</h3>
-      <p>Tap "Start Call" and connect instantly in HD video — no downloads required.</p>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section-pricing" id="pricing">
+  <div class="wrap center">
+    <div class="reveal">
+      <div class="section-label">💎 Pricing</div>
+      <h2 class="section-title">Simple Plans, No Surprises</h2>
+      <p class="section-sub">Start with a free minute. Upgrade only if you love it.</p>
     </div>
-    <div class="step-card">
-      <div class="step-num">4</div>
-      <h3>Enjoy & Subscribe</h3>
-      <p>Love the experience? Upgrade to Premium for unlimited calls and exclusive perks.</p>
+
+    <div class="free-banner reveal">
+      <span>🎁</span>
+      <div>Every new account gets <strong>1 free minute</strong> of live video — no payment details needed.</div>
+    </div>
+
+    <div class="plans" id="planCards">
+      <div class="plan reveal">
+        <h3>Basic Weekly</h3>
+        <div class="price">₹299 <small>/ week</small></div>
+        <ul>
+          <li>2 Hours Daily</li>
+          <li>Valid For 7 Days</li>
+          <li>HD Video Calls</li>
+        </ul>
+        <button class="btn-plan" onclick="goRegister()">Get Basic</button>
+      </div>
+      <div class="plan featured reveal">
+        <span class="tag">⭐ BEST VALUE</span>
+        <h3>Unlimited Weekly</h3>
+        <div class="price">₹899 <small>/ week</small></div>
+        <ul>
+          <li>Unlimited Calls</li>
+          <li>Valid For 7 Days</li>
+          <li>Priority Support</li>
+        </ul>
+        <button class="btn-plan-solid" onclick="goRegister()">Get Unlimited</button>
+      </div>
+      <div class="plan reveal">
+        <h3>Monthly Pro</h3>
+        <div class="price">₹2499 <small>/ month</small></div>
+        <ul>
+          <li>Unlimited Calls</li>
+          <li>Valid For 30 Days</li>
+          <li>Exclusive Perks</li>
+        </ul>
+        <button class="btn-plan" onclick="goRegister()">Get Monthly</button>
+      </div>
+    </div>
+
+    <p class="plans-note">Create a free account first, then choose a plan inside the app. All payments are non-refundable.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section-faq" id="faq">
+  <div class="wrap">
+    <div class="center reveal">
+      <div class="section-label">❓ FAQ</div>
+      <h2 class="section-title">Questions, Answered</h2>
+      <p class="section-sub">The things people ask us most before they start.</p>
+    </div>
+    <div class="faq reveal">
+      <details open>
+        <summary>Is FlirtyFly free to try?</summary>
+        <p>Yes. Creating an account is free, and every new account gets one free minute of live video. The free minute is valid one time only. After that you'll need a plan to keep calling.</p>
+      </details>
+      <details>
+        <summary>Do I need to install an app?</summary>
+        <p>No. FlirtyFly works in your browser on phone, tablet and laptop. You'll just be asked to allow your camera and microphone when a call starts.</p>
+      </details>
+      <details>
+        <summary>How do I start a call?</summary>
+        <p>Sign up, open the Discover page, tap a host who is online and press "Start video call". The host gets your call straight away.</p>
+      </details>
+      <details>
+        <summary>Which plans are available?</summary>
+        <p>We offer weekly and monthly plans, including unlimited-call options. The current plans and prices are listed under <a href="#pricing">Pricing</a>.</p>
+      </details>
+      <details>
+        <summary>Can I get a refund?</summary>
+        <p>All payments are non-refundable, so please use your free minute to try the experience first. The full details are in our <a href="/terms.html">Terms of Service</a>.</p>
+      </details>
+      <details>
+        <summary>How can I become a host?</summary>
+        <p>Send us a message through the <a href="#contact">contact form</a> and choose "Host Application" as the subject. Already a host? <a href="/host-login.html">Log in here</a>.</p>
+      </details>
+      <details>
+        <summary>I need help with my account. Who do I contact?</summary>
+        <p>Email flirtyfly.support@gmail.com or use the <a href="#contact">contact form</a> below. Our support team responds within 24 hours.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section-cta">
+  <div class="wrap">
+    <div class="cta reveal">
+      <h2>Ready To Find Your<br>Perfect Connection?</h2>
+      <p>Sign up for free in under 60 seconds and say hello with your first minute on us.</p>
+      <div class="cta-actions">
+        <button class="btn-white" onclick="goRegister()">Get Started →</button>
+        <button class="btn-white-outline" onclick="goLogin()">Login</button>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section class="section-contact" id="contact">
-  <div class="contact-grid">
-    <div class="contact-info">
-      <div class="section-label">📬 Get In Touch</div>
-      <h2>We're Here<br>To Help You</h2>
-      <p>Have a question, feedback, or just want to say hello? Our support team responds within 24 hours.</p>
-      <div class="contact-cards">
-        <div class="contact-card">
-          <div class="cc-icon">📧</div>
-          <div class="cc-text">
-            <h4>Email Support</h4>
-            <p>flirtyfly.support@gmail.com</p>
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <div class="section-label">📬 Get In Touch</div>
+        <h2>We're Here<br>To Help You</h2>
+        <p>Have a question, feedback, or just want to say hello? Our support team responds within 24 hours.</p>
+        <div class="contact-cards">
+          <div class="contact-card">
+            <div class="cc-icon">📧</div>
+            <div class="cc-text">
+              <h4>Email Support</h4>
+              <p>flirtyfly.support@gmail.com</p>
+            </div>
           </div>
-        </div>
-        <div class="contact-card">
-          <div class="cc-icon">💬</div>
-          <div class="cc-text">
-            <h4>Live Chat</h4>
-            <p>Available Mon–Sat, 10am–10pm</p>
+          <div class="contact-card">
+            <div class="cc-icon">💬</div>
+            <div class="cc-text">
+              <h4>Live Chat</h4>
+              <p>Available Mon–Sat, 10am–10pm</p>
+            </div>
           </div>
-        </div>
-        <div class="contact-card">
-          <div class="cc-icon">📍</div>
-          <div class="cc-text">
-            <h4>Office</h4>
-            <p>Bengaluru, Karnataka, India</p>
+          <div class="contact-card">
+            <div class="cc-icon">📍</div>
+            <div class="cc-text">
+              <h4>Office</h4>
+              <p>Bengaluru, Karnataka, India</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="contact-form" id="contactForm">
-      <div class="form-row">
-        <div class="form-group">
-          <label>First Name</label>
-          <input type="text" id="firstName" placeholder="Riya">
+      <div class="contact-form reveal" id="contactForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" placeholder="Riya">
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" placeholder="Sharma">
+          </div>
         </div>
         <div class="form-group">
-          <label>Last Name</label>
-          <input type="text" id="lastName" placeholder="Sharma">
+          <label for="emailField">Email Address</label>
+          <input type="email" id="emailField" placeholder="you@email.com">
         </div>
-      </div>
-      <div class="form-group">
-        <label>Email Address</label>
-        <input type="email" id="emailField" placeholder="you@email.com">
-      </div>
-      <div class="form-group">
-        <label>Subject</label>
-        <select id="subjectField">
-          <option value="">Select a topic...</option>
-          <option>General Enquiry</option>
-          <option>Technical Support</option>
-          <option>Billing / Payments</option>
-          <option>Host Application</option>
-          <option>Report an Issue</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Message</label>
-        <textarea id="msgField" placeholder="Tell us how we can help you..."></textarea>
-      </div>
-      <button class="btn-submit" onclick="submitForm()">Send Message 💌</button>
+        <div class="form-group">
+          <label for="subjectField">Subject</label>
+          <select id="subjectField">
+            <option value="">Select a topic...</option>
+            <option>General Enquiry</option>
+            <option>Technical Support</option>
+            <option>Billing / Payments</option>
+            <option>Host Application</option>
+            <option>Report an Issue</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="msgField">Message</label>
+          <textarea id="msgField" placeholder="Tell us how we can help you..."></textarea>
+        </div>
+        <p class="form-error" id="formError">Please fill in all required fields.</p>
+        <button class="btn-submit" onclick="submitForm()">Send Message 💌</button>
 
-      <div class="form-success" id="formSuccess">
-        <div class="fs-icon">🎉</div>
-        <h3>Message Sent!</h3>
-        <p>Thanks for reaching out! We'll get back to you within 24 hours.</p>
+        <div class="form-success" id="formSuccess">
+          <div class="fs-icon">🎉</div>
+          <h3>Message Sent!</h3>
+          <p>Thanks for reaching out! We'll get back to you within 24 hours.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -900,37 +1231,42 @@ footer {
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <div class="fl-logo">FlirtyFly 💋</div>
-      <p>India's most trusted premium live video connection platform. Real hosts, real vibes.</p>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="fl-logo">FlirtyFly 💋</div>
+        <p>India's most trusted premium live video connection platform. Real hosts, real vibes.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <a href="#home">Home</a>
+        <a href="#about">About Us</a>
+        <a href="#how">How It Works</a>
+        <a href="#hosts">Browse Hosts</a>
+        <a href="#pricing">Pricing</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#contact">Contact Us</a>
+        <a href="#faq">FAQ</a>
+        <a href="/terms.html">Terms of Service</a>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/refer.html">Refer & Earn</a>
+      </div>
+      <div class="footer-col">
+        <h4>Account</h4>
+        <a href="/login.html">Login</a>
+        <a href="/register.html">Register</a>
+        <a href="/host-login.html">Host Login</a>
+      </div>
     </div>
-    <div class="footer-col">
-      <h4>Platform</h4>
-      <a href="#home">Home</a>
-      <a href="#about">About Us</a>
-      <a href="#how">How It Works</a>
-      <a href="#hosts">Browse Hosts</a>
-    </div>
-    <div class="footer-col">
-      <h4>Support</h4>
-      <a href="#contact">Contact Us</a>
-      <a href="/terms.html">Terms of Service</a>
-      <a href="/privacy.html">Privacy Policy</a>
-      <a href="/refer.html">Refer & Earn</a>
-    </div>
-    <div class="footer-col">
-      <h4>Account</h4>
-      <a href="/login.html" onclick="goLogin()">Login</a>
-      <a href="/register.html" onclick="goRegister()">Register</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2026 FlirtyFly. All rights reserved.</span>
-    <div class="footer-social">
-      <a class="social-btn" href="#" title="Instagram">📸</a>
-      <a class="social-btn" href="#" title="Twitter">🐦</a>
-      <a class="social-btn" href="#" title="WhatsApp">💬</a>
+    <div class="footer-bottom">
+      <span>© 2026 FlirtyFly. All rights reserved.</span>
+      <div class="footer-social">
+        <a class="social-btn" href="#" title="Instagram">📸</a>
+        <a class="social-btn" href="#" title="Twitter">🐦</a>
+        <a class="social-btn" href="#" title="WhatsApp">💬</a>
+      </div>
     </div>
   </div>
 </footer>
@@ -938,7 +1274,7 @@ footer {
 <!-- MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal-box">
-    <button class="modal-close" onclick="closeModal()">×</button>
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">×</button>
     <img id="modalImg" src="" alt="">
     <div class="modal-body">
       <h2 id="modalName"></h2>
@@ -978,18 +1314,60 @@ footer {
   document.getElementById("modal").addEventListener("click", function(e) {
     if (e.target === this) closeModal();
   });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") { closeModal(); closeMenu(); }
+  });
 
   /* contact form */
   function submitForm() {
     const name  = document.getElementById("firstName").value.trim();
     const email = document.getElementById("emailField").value.trim();
     const msg   = document.getElementById("msgField").value.trim();
-    if (!name || !email || !msg) { alert("Please fill in all required fields."); return; }
+    const error = document.getElementById("formError");
+    if (!name || !email || !msg) { error.style.display = "block"; return; }
+    error.style.display = "none";
 
-    const fields = document.querySelectorAll("#contactForm input, #contactForm select, #contactForm textarea, #contactForm .btn-submit");
+    const fields = document.querySelectorAll("#contactForm .form-row, #contactForm .form-group, #contactForm .btn-submit");
     fields.forEach(el => el.style.display = "none");
     document.getElementById("formSuccess").style.display = "block";
   }
+
+  /* pricing: show the plans the admin has set; the cards in the page are the fallback */
+  function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  function minutesText(minutes) {
+    const hours = Math.floor(minutes / 60);
+    const rest = minutes % 60;
+    if (!hours) return minutes + " minutes";
+    return hours + (hours === 1 ? " hour" : " hours") + (rest ? " " + rest + " minutes" : "");
+  }
+
+  fetch("/get-plans")
+    .then((res) => res.json())
+    .then((plans) => {
+      if (!Array.isArray(plans) || !plans.length) return;
+
+      document.getElementById("planCards").innerHTML = plans.map((plan) => {
+        const days = plan.durationDays + (plan.durationDays === 1 ? " day" : " days");
+        const lines = [
+          plan.callMinutes > 0 ? "Up to " + minutesText(plan.callMinutes) + " per call" : "Unlimited Calls",
+          "Valid For " + days,
+          ...(plan.features || [])
+        ];
+
+        return `
+          <div class="plan ${plan.featured ? "featured" : ""} reveal in">
+            ${plan.featured ? '<span class="tag">⭐ BEST VALUE</span>' : ""}
+            <h3>${escapeHtml(plan.name)}</h3>
+            <div class="price">₹${Number(plan.price).toLocaleString("en-IN")} <small>/ ${days}</small></div>
+            <ul>${lines.map((line) => "<li>" + escapeHtml(line) + "</li>").join("")}</ul>
+            <button class="${plan.featured ? "btn-plan-solid" : "btn-plan"}" onclick="goRegister()">Get ${escapeHtml(plan.name)}</button>
+          </div>`;
+      }).join("");
+    })
+    .catch(() => {});
 
   /* nav */
   function goLogin()    { window.location.href = "/login.html"; }
@@ -998,13 +1376,38 @@ footer {
   /* smooth scroll for all anchor links */
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener("click", e => {
-      const target = document.querySelector(a.getAttribute("href"));
+      const href = a.getAttribute("href");
+      const target = href.length > 1 && document.querySelector(href);
       if (target) {
         e.preventDefault();
         target.scrollIntoView({ behavior: "smooth" });
       }
     });
   });
+
+  /* reveal sections as they scroll into view */
+  /* checked directly on scroll rather than with IntersectionObserver, which can
+     stay silent in a background tab and leave whole sections invisible */
+  let pending = [...document.querySelectorAll(".reveal")];
+  function revealVisible() {
+    const limit = window.innerHeight * 0.92;
+    pending = pending.filter((el) => {
+      if (el.getBoundingClientRect().top > limit) return true;
+      el.classList.add("in");
+      return false;
+    });
+    if (!pending.length) {
+      window.removeEventListener("scroll", revealVisible);
+      window.removeEventListener("resize", revealVisible);
+      clearInterval(revealTimer);
+    }
+  }
+  window.addEventListener("scroll", revealVisible, { passive: true });
+  window.addEventListener("resize", revealVisible);
+  window.addEventListener("load", revealVisible);
+  /* safety net for when the browser throttles scroll events */
+  const revealTimer = setInterval(revealVisible, 400);
+  revealVisible();
 </script>
 </body>
 </html>
