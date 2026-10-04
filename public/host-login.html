@@ -7,618 +7,241 @@
 
 <meta
   name="viewport"
-  content="width=device-width, initial-scale=1.0"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
 >
 
-<title>Host Login - FlirtyFly</title>
+<meta name="theme-color" content="#ff2d75">
 
-<style>
+<title>Host Login — FlirtyFly</title>
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
-body{
+<link
+  href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,700;1,800&display=swap"
+  rel="stylesheet"
+>
 
-  min-height:100vh;
-
-  font-family:Segoe UI,sans-serif;
-
-  background:
-  linear-gradient(
-    135deg,
-    #0f172a,
-    #111827,
-    #1e293b
-  );
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  padding:30px;
-
-  overflow:hidden;
-
-  color:white;
-}
-
-/* GLOW EFFECTS */
-body::before{
-
-  content:"";
-
-  position:absolute;
-
-  width:420px;
-  height:420px;
-
-  background:
-  rgba(255,64,129,0.15);
-
-  border-radius:50%;
-
-  top:-160px;
-  right:-120px;
-
-  filter:blur(90px);
-}
-
-body::after{
-
-  content:"";
-
-  position:absolute;
-
-  width:350px;
-  height:350px;
-
-  background:
-  rgba(99,102,241,0.14);
-
-  border-radius:50%;
-
-  bottom:-120px;
-  left:-90px;
-
-  filter:blur(80px);
-}
-
-/* MAIN */
-.container{
-
-  position:relative;
-
-  z-index:2;
-
-  width:100%;
-  max-width:1180px;
-
-  min-height:700px;
-
-  background:
-  rgba(255,255,255,0.08);
-
-  backdrop-filter:blur(22px);
-
-  border:1px solid rgba(255,255,255,0.08);
-
-  border-radius:38px;
-
-  overflow:hidden;
-
-  display:grid;
-
-  grid-template-columns:1fr 1fr;
-
-  box-shadow:
-  0 30px 70px rgba(0,0,0,0.35);
-}
-
-/* LEFT */
-.left{
-
-  position:relative;
-
-  padding:80px;
-
-  display:flex;
-
-  flex-direction:column;
-
-  justify-content:center;
-
-  background:
-  linear-gradient(
-    135deg,
-    rgba(255,64,129,0.9),
-    rgba(255,107,107,0.85)
-  );
-
-  overflow:hidden;
-}
-
-/* DECORATIONS */
-.left::before{
-
-  content:"";
-
-  position:absolute;
-
-  width:320px;
-  height:320px;
-
-  border-radius:50%;
-
-  background:
-  rgba(255,255,255,0.08);
-
-  top:-120px;
-  right:-100px;
-}
-
-.left::after{
-
-  content:"";
-
-  position:absolute;
-
-  width:250px;
-  height:250px;
-
-  border-radius:50%;
-
-  background:
-  rgba(255,255,255,0.06);
-
-  bottom:-90px;
-  left:-70px;
-}
-
-.left-content{
-
-  position:relative;
-
-  z-index:2;
-}
-
-.host-tag{
-
-  display:inline-block;
-
-  padding:10px 20px;
-
-  border-radius:50px;
-
-  background:
-  rgba(255,255,255,0.14);
-
-  border:1px solid rgba(255,255,255,0.12);
-
-  margin-bottom:28px;
-
-  font-size:14px;
-
-  font-weight:600;
-
-  letter-spacing:1px;
-}
-
-.left h1{
-
-  font-size:60px;
-
-  line-height:1.1;
-
-  margin-bottom:22px;
-}
-
-.left p{
-
-  font-size:19px;
-
-  line-height:1.8;
-
-  max-width:460px;
-
-  opacity:0.94;
-}
-
-/* BADGE */
-.host-badge{
-
-  margin-top:40px;
-
-  width:max-content;
-
-  padding:16px 24px;
-
-  border-radius:22px;
-
-  background:
-  rgba(255,255,255,0.12);
-
-  border:1px solid rgba(255,255,255,0.08);
-
-  font-size:15px;
-
-  font-weight:600;
-
-  backdrop-filter:blur(8px);
-}
-
-/* RIGHT */
-.right{
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  padding:50px;
-}
-
-/* LOGIN BOX */
-.login-box{
-
-  width:100%;
-  max-width:420px;
-}
-
-/* ICON */
-.login-icon{
-
-  width:85px;
-  height:85px;
-
-  border-radius:24px;
-
-  margin:0 auto 24px;
-
-  background:
-  linear-gradient(
-    135deg,
-    #ff4081,
-    #ff6b6b
-  );
-
-  display:flex;
-
-  justify-content:center;
-  align-items:center;
-
-  font-size:36px;
-
-  box-shadow:
-  0 18px 40px rgba(255,64,129,0.35);
-}
-
-.login-box h2{
-
-  text-align:center;
-
-  font-size:40px;
-
-  margin-bottom:10px;
-}
-
-.sub-text{
-
-  text-align:center;
-
-  color:#cbd5e1;
-
-  margin-bottom:35px;
-
-  font-size:15px;
-}
-
-/* FORM GROUP */
-.form-group{
-
-  margin-bottom:22px;
-}
-
-.form-group label{
-
-  display:block;
-
-  margin-bottom:10px;
-
-  font-size:14px;
-
-  font-weight:600;
-
-  color:#f8fafc;
-}
-
-/* INPUT */
-.form-group input{
-
-  width:100%;
-
-  padding:18px 20px;
-
-  border:none;
-
-  border-radius:18px;
-
-  background:
-  rgba(255,255,255,0.08);
-
-  border:1px solid rgba(255,255,255,0.08);
-
-  color:white;
-
-  font-size:15px;
-
-  outline:none;
-
-  transition:0.3s;
-}
-
-.form-group input::placeholder{
-
-  color:#94a3b8;
-}
-
-.form-group input:focus{
-
-  border:1px solid rgba(255,64,129,0.4);
-
-  box-shadow:
-  0 0 0 4px rgba(255,64,129,0.15);
-}
-
-/* BUTTON */
-button{
-
-  width:100%;
-
-  padding:18px;
-
-  border:none;
-
-  border-radius:20px;
-
-  background:
-  linear-gradient(
-    135deg,
-    #ff4081,
-    #ff6b6b
-  );
-
-  color:white;
-
-  font-size:17px;
-
-  font-weight:600;
-
-  cursor:pointer;
-
-  transition:0.3s;
-
-  box-shadow:
-  0 18px 35px rgba(255,64,129,0.3);
-}
-
-button:hover{
-
-  transform:translateY(-4px);
-
-  box-shadow:
-  0 24px 40px rgba(255,64,129,0.42);
-}
-
-/* SWITCH */
-.switch-page{
-
-  margin-top:25px;
-
-  text-align:center;
-
-  color:#cbd5e1;
-
-  font-size:15px;
-}
-
-.switch-page a{
-
-  color:#ff6b9a;
-
-  text-decoration:none;
-
-  font-weight:700;
-}
-
-.switch-page a:hover{
-
-  text-decoration:underline;
-}
-
-/* MOBILE */
-@media(max-width:950px){
-
-  .container{
-
-    grid-template-columns:1fr;
-  }
-
-  .left{
-
-    padding:60px 35px;
-  }
-
-  .left h1{
-
-    font-size:48px;
-  }
-
-  .right{
-
-    padding:45px 25px 55px;
-  }
-}
-
-@media(max-width:550px){
-
-  body{
-    padding:15px;
-  }
-
-  .container{
-
-    border-radius:28px;
-  }
-
-  .left{
-
-    padding:50px 25px;
-  }
-
-  .left h1{
-
-    font-size:40px;
-  }
-
-  .login-box h2{
-
-    font-size:32px;
-  }
-
-  .login-icon{
-
-    width:72px;
-    height:72px;
-
-    font-size:30px;
-  }
-}
-
-</style>
+<link rel="stylesheet" href="/auth.css">
 
 </head>
 
-<body>
+<body class="dark">
 
-<div class="container">
+<div class="auth">
 
   <!-- LEFT -->
-  <div class="left">
+  <aside class="auth-side">
 
-    <div class="left-content">
+    <a class="brand" href="/">FlirtyFly</a>
 
-      <div class="host-tag">
-
+    <div>
+      <span class="tag">
         LIVE HOST PANEL
+      </span>
+    </div>
 
-      </div>
+    <h1>
+      🎥 Host <em>Login</em>
+    </h1>
 
-      <h1>
-        🎥 Host Login
-      </h1>
+    <p>
+      Login to manage your live sessions, connect with users and control your premium FlirtyFly hosting dashboard.
+    </p>
 
-      <p>
-        Login to manage your live sessions, connect with users and control your premium FlirtyFly hosting dashboard.
-      </p>
+    <div class="side-extra">
 
-      <div class="host-badge">
-
+      <div class="badge">
         ⭐ Trusted Live Host Panel
-
       </div>
 
     </div>
 
-  </div>
+  </aside>
 
   <!-- RIGHT -->
-  <div class="right">
+  <main class="auth-main">
 
     <form
-      class="login-box"
+      class="auth-card"
+      id="hostLoginForm"
       action="/host-login"
       method="POST"
     >
 
-      <div class="login-icon">
-
+      <div class="card-icon">
         🎬
-
       </div>
 
       <h2>
         Host Access
       </h2>
 
-      <p class="sub-text">
-
+      <p class="sub">
         Enter your host credentials to continue
-
       </p>
 
       <!-- MOBILE -->
-      <div class="form-group">
+      <div class="field">
 
-        <label>
+        <label for="mobile">
           Mobile Number
         </label>
 
-        <input
-          type="tel"
-          name="mobile"
-          placeholder="Enter mobile number"
-          required
-        >
+        <div class="control">
+
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+
+          <input
+            type="tel"
+            name="mobile"
+            id="mobile"
+            placeholder="Enter mobile number"
+            inputmode="numeric"
+            autocomplete="tel"
+            required
+          >
+
+        </div>
 
       </div>
 
       <!-- PASSWORD -->
-      <div class="form-group">
+      <div class="field">
 
-        <label>
+        <label for="password">
           Password
         </label>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter password"
-          required
-        >
+        <div class="control has-toggle">
+
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Enter password"
+            autocomplete="current-password"
+            required
+          >
+
+          <button type="button" class="toggle-password" aria-label="Show password">
+            <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.600-7 10-7 10 7 10 7-3.600 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.600 5.200A10.900 10.900 0 0 1 12 5c6.400 0 10 7 10 7a17 17 0 0 1-3.300 4.200"/><path d="M6.300 6.300A17.200 17.200 0 0 0 2 12s3.600 7 10 7a10.700 10.700 0 0 0 4.300-.900"/><path d="M9.900 9.900a3 3 0 0 0 4.200 4.200"/></svg>
+          </button>
+
+        </div>
 
       </div>
 
+      <p class="form-message" id="formMessage" role="alert"></p>
+
       <!-- BUTTON -->
-      <button type="submit">
-
+      <button type="submit" class="submit" id="submitBtn">
         Login
-
       </button>
 
       <!-- SWITCH -->
-      <p class="switch-page">
+      <p class="switch">
 
         Want to become a host?
 
-        <a href="/host-register.html">
-
+        <a href="/#contact">
           Apply Now
-
         </a>
 
       </p>
 
     </form>
 
-  </div>
+  </main>
 
 </div>
+
+<script src="/auth.js"></script>
+
+<script>
+
+/* SUBMIT IN THE BACKGROUND SO A WRONG PASSWORD SHOWS A MESSAGE HERE
+   INSTEAD OF A BLANK PAGE; THE SERVER REDIRECTS TO THE DASHBOARD ON SUCCESS */
+
+document.getElementById(
+  "hostLoginForm"
+).addEventListener("submit",
+
+async function(e){
+
+  e.preventDefault();
+
+  clearMessage();
+
+  const button =
+    document.getElementById("submitBtn");
+
+  setBusy(button, "Logging in...");
+
+  try{
+
+    const response = await fetch(
+
+      "/host-login",
+
+      {
+
+        method:"POST",
+
+        headers:{
+          "Content-Type":
+          "application/x-www-form-urlencoded"
+        },
+
+        body:new URLSearchParams({
+
+          mobile:
+          document.getElementById(
+            "mobile"
+          ).value.trim(),
+
+          password:
+          document.getElementById(
+            "password"
+          ).value
+
+        })
+
+      }
+
+    );
+
+    if(response.redirected){
+
+      window.location.href =
+        response.url;
+
+      return;
+
+    }
+
+    showMessage(
+      await response.text()
+      || "Invalid Host Credentials"
+    );
+
+  }catch(error){
+
+    console.log(error);
+
+    showMessage(
+      "Could not reach the server. Please try again."
+    );
+
+  }
+
+  setBusy(button);
+
+});
+
+</script>
 
 </body>
 

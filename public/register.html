@@ -2,460 +2,75 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <title>Register - FlirtyFly</title>
+<meta charset="UTF-8">
 
-  <style>
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+<meta name="theme-color" content="#ff2d75">
 
-body{
+<title>Create Account — FlirtyFly</title>
 
-  font-family:Segoe UI,sans-serif;
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
-  min-height:100vh;
+<link
+  href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,700;1,800&display=swap"
+  rel="stylesheet"
+>
 
-  background:
-  linear-gradient(
-    135deg,
-    #ffdde1,
-    #ee9ca7
-  );
+<link rel="stylesheet" href="/auth.css">
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  padding:3px;
-}
-
-/* MAIN CARD */
-.container{
-
-  width:90%;
-  max-width:1200px;
-
-  min-height:720px;
-
-  background:white;
-
-  border-radius:35px;
-
-  overflow:hidden;
-
-  display:grid;
-
-  grid-template-columns:1.1fr 0.9fr;
-
-  box-shadow:
-  0 25px 60px rgba(0,0,0,0.15);
-}
-
-/* LEFT SIDE */
-.left{
-
-  position:relative;
-
-  background:
-  linear-gradient(
-    135deg,
-    rgba(255,65,108,0.95),
-    rgba(255,75,43,0.92)
-  );
-
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-
-  padding:80px;
-
-  color:white;
-
-  overflow:hidden;
-}
-
-/* CIRCLE DESIGN */
-.left::before{
-
-  content:"";
-
-  position:absolute;
-
-  width:350px;
-  height:350px;
-
-  border-radius:50%;
-
-  background:
-  rgba(255,255,255,0.08);
-
-  top:-120px;
-  right:-80px;
-}
-
-.left::after{
-
-  content:"";
-
-  position:absolute;
-
-  width:250px;
-  height:250px;
-
-  border-radius:50%;
-
-  background:
-  rgba(255,255,255,0.08);
-
-  bottom:-100px;
-  left:-80px;
-}
-
-.brand{
-
-  position:relative;
-  z-index:2;
-}
-
-.brand h1{
-
-  font-size:65px;
-
-  line-height:1.1;
-
-  margin-bottom:25px;
-}
-
-.brand p{
-
-  font-size:19px;
-
-  line-height:1.9;
-
-  max-width:470px;
-
-  opacity:0.95;
-}
-
-/* FEATURES */
-.features{
-
-  position:relative;
-  z-index:2;
-
-  margin-top:50px;
-}
-
-.feature{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:15px;
-
-  margin-bottom:22px;
-
-  font-size:16px;
-}
-
-.feature-icon{
-
-  width:45px;
-  height:45px;
-
-  border-radius:12px;
-
-  background:
-  rgba(255,255,255,0.15);
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  font-size:18px;
-}
-
-/* RIGHT SIDE */
-.right{
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  padding:50px;
-}
-
-/* FORM BOX */
-.register-box{
-
-  width:100%;
-  max-width:420px;
-}
-
-.register-box h2{
-
-  font-size:40px;
-
-  color:#ff416c;
-
-  margin-bottom:10px;
-
-  text-align:center;
-}
-
-.register-box .sub{
-
-  text-align:center;
-
-  color:#777;
-
-  margin-bottom:35px;
-
-  font-size:15px;
-}
-
-/* INPUT GROUP */
-.input-group{
-
-  margin-bottom:20px;
-}
-
-.input-group label{
-
-  display:block;
-
-  margin-bottom:8px;
-
-  font-size:14px;
-
-  color:#444;
-
-  font-weight:600;
-}
-
-.input-group input{
-
-  width:100%;
-
-  padding:17px 18px;
-
-  border:none;
-
-  border-radius:16px;
-
-  background:#f5f5f7;
-
-  font-size:15px;
-
-  outline:none;
-
-  transition:0.3s;
-}
-
-.input-group input:focus{
-
-  background:white;
-
-  box-shadow:
-  0 0 0 3px rgba(255,65,108,0.15);
-}
-
-/* TERMS */
-.terms-check{
-
-  display:flex;
-
-  align-items:flex-start;
-
-  gap:10px;
-
-  margin:20px 0;
-
-  color:#555;
-
-  font-size:14px;
-
-  line-height:1.5;
-}
-
-.terms-check input{
-
-  margin-top:5px;
-
-  accent-color:#ff416c;
-}
-
-.terms-check a{
-
-  color:#ff416c;
-
-  text-decoration:none;
-
-  font-weight:600;
-}
-
-/* BUTTON */
-.register-box button{
-
-  width:100%;
-
-  padding:18px;
-
-  border:none;
-
-  border-radius:18px;
-
-  background:
-  linear-gradient(
-    135deg,
-    #ff416c,
-    #ff4b2b
-  );
-
-  color:white;
-
-  font-size:17px;
-
-  font-weight:600;
-
-  cursor:pointer;
-
-  transition:0.3s;
-
-  box-shadow:
-  0 15px 30px rgba(255,65,108,0.25);
-}
-
-.register-box button:hover{
-
-  transform:translateY(-3px);
-
-  box-shadow:
-  0 20px 35px rgba(255,65,108,0.35);
-}
-
-/* LOGIN */
-.login-text{
-
-  text-align:center;
-
-  margin-top:25px;
-
-  color:#666;
-}
-
-.login-text a{
-
-  color:#ff416c;
-
-  text-decoration:none;
-
-  font-weight:700;
-}
-
-/* MOBILE */
-@media(max-width:950px){
-
-  .container{
-
-    grid-template-columns:1fr;
-  }
-
-  .left{
-
-    padding:60px 35px;
-  }
-
-  .brand h1{
-
-    font-size:48px;
-  }
-
-  .right{
-
-    padding:40px 25px 50px;
-  }
-}
-
-@media(max-width:550px){
-
-  body{
-    padding:15px;
-  }
-
-  .container{
-
-    border-radius:25px;
-  }
-
-  .left{
-
-    padding:50px 25px;
-  }
-
-  .brand h1{
-
-    font-size:40px;
-  }
-
-  .register-box h2{
-
-    font-size:32px;
-  }
-}
-
-  </style>
 </head>
 
 <body>
 
-  <div class="container">
+  <div class="auth">
 
     <!-- LEFT -->
-    <div class="left">
+    <aside class="auth-side">
 
-      <div class="brand">
+      <a class="brand" href="/">FlirtyFly</a>
 
-        <h1>FlirtyFly</h1>
+      <h1>
+        Find Your <em>Perfect Connection</em>
+      </h1>
 
-        <p>
-          Create your premium account and enjoy smooth, secure and exclusive live connections with people worldwide.
-        </p>
+      <p>
+        Create your premium account and enjoy smooth, secure and exclusive live connections with people worldwide.
+      </p>
+
+      <div class="side-extra">
+
+        <div class="features">
+
+          <div class="feature">
+            <div class="feature-icon">✓</div>
+            <span>Fast & Secure Registration</span>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">❤</div>
+            <span>Premium Live Experiences</span>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">⚡</div>
+            <span>Instant Access Anywhere</span>
+          </div>
+
+        </div>
 
       </div>
 
-      <div class="features">
-
-        <div class="feature">
-          <div class="feature-icon">✓</div>
-          <span>Fast & Secure Registration</span>
-        </div>
-
-        <div class="feature">
-          <div class="feature-icon">❤</div>
-          <span>Premium Live Experiences</span>
-        </div>
-
-        <div class="feature">
-          <div class="feature-icon">⚡</div>
-          <span>Instant Access Anywhere</span>
-        </div>
-
-      </div>
-
-    </div>
+    </aside>
 
     <!-- RIGHT -->
-    <div class="right">
+    <main class="auth-main">
 
-      <form class="register-box">
+      <form class="auth-card register-box">
 
         <h2>Create Account</h2>
 
@@ -463,59 +78,102 @@ body{
           Join thousands of users on FlirtyFly
         </p>
 
-        <div class="input-group">
+        <div class="field">
 
-          <label>Full Name</label>
+          <label for="name">Full Name</label>
 
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter your full name"
-            required
-          >
+          <div class="control">
 
-        </div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
 
-        <div class="input-group">
+            <input
+              type="text"
+              name="name"
+              id="name"
+              placeholder="Enter your full name"
+              autocomplete="name"
+              required
+            >
 
-          <label>Mobile Number</label>
-
-          <input
-            type="tel"
-            name="mobile"
-            placeholder="Enter mobile number"
-            required
-          >
+          </div>
 
         </div>
 
-        <div class="input-group">
+        <div class="field">
 
-          <label>Password</label>
+          <label for="mobile">Mobile Number</label>
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Create password"
-            required
-          >
+          <div class="control">
 
-        </div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
 
-        <div class="input-group">
+            <input
+              type="tel"
+              name="mobile"
+              id="mobile"
+              placeholder="Enter mobile number"
+              inputmode="numeric"
+              autocomplete="tel"
+              required
+            >
 
-          <label>Confirm Password</label>
-
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm password"
-            required
-          >
+          </div>
 
         </div>
 
-        <div class="terms-check">
+        <div class="field">
+
+          <label for="password">Password</label>
+
+          <div class="control has-toggle">
+
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Create password"
+              autocomplete="new-password"
+              required
+            >
+
+            <button type="button" class="toggle-password" aria-label="Show password">
+              <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.600-7 10-7 10 7 10 7-3.600 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.600 5.200A10.900 10.900 0 0 1 12 5c6.400 0 10 7 10 7a17 17 0 0 1-3.300 4.200"/><path d="M6.300 6.300A17.200 17.200 0 0 0 2 12s3.600 7 10 7a10.700 10.700 0 0 0 4.300-.900"/><path d="M9.900 9.900a3 3 0 0 0 4.200 4.200"/></svg>
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="field">
+
+          <label for="confirmPassword">Confirm Password</label>
+
+          <div class="control has-toggle">
+
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+
+            <input
+              type="password"
+              name="confirmPassword"
+              id="confirmPassword"
+              placeholder="Confirm password"
+              autocomplete="new-password"
+              required
+            >
+
+            <button type="button" class="toggle-password" aria-label="Show password">
+              <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.600-7 10-7 10 7 10 7-3.600 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.600 5.200A10.900 10.900 0 0 1 12 5c6.400 0 10 7 10 7a17 17 0 0 1-3.300 4.200"/><path d="M6.300 6.300A17.200 17.200 0 0 0 2 12s3.600 7 10 7a10.700 10.700 0 0 0 4.300-.900"/><path d="M9.900 9.900a3 3 0 0 0 4.200 4.200"/></svg>
+            </button>
+
+          </div>
+
+        </div>
+
+        <label class="check terms" for="termsCheck">
 
           <input
             type="checkbox"
@@ -524,22 +182,22 @@ body{
             required
           >
 
-          <label for="termsCheck">
-
+          <span>
             I agree to the
             <a href="/terms.html">
               Terms & Conditions
             </a>
+          </span>
 
-          </label>
+        </label>
 
-        </div>
+        <p class="form-message" id="formMessage" role="alert"></p>
 
-        <button type="submit">
+        <button type="submit" class="submit" id="submitBtn">
           Create Account
         </button>
 
-        <p class="login-text">
+        <p class="switch">
 
           Already have an account?
 
@@ -551,9 +209,11 @@ body{
 
       </form>
 
-    </div>
+    </main>
 
   </div>
+
+<script src="/auth.js"></script>
 
 <script>
 
@@ -565,15 +225,20 @@ async function(e){
 
   e.preventDefault();
 
+  clearMessage();
+
+  const button =
+    document.getElementById("submitBtn");
+
   const name =
     document.querySelector(
       'input[name="name"]'
-    ).value;
+    ).value.trim();
 
   const mobile =
     document.querySelector(
       'input[name="mobile"]'
-    ).value;
+    ).value.trim();
 
   const password =
     document.querySelector(
@@ -592,50 +257,84 @@ async function(e){
 
   if(password !== confirmPassword){
 
-    alert("Passwords do not match");
+    showMessage("Passwords do not match");
 
     return;
   }
 
-  const response = await fetch(
+  setBusy(button, "Creating account...");
 
-    "/register",
+  try{
 
-    {
+    const response = await fetch(
 
-      method:"POST",
+      "/register",
 
-      headers:{
-        "Content-Type":
-        "application/json"
-      },
+      {
 
-      body:JSON.stringify({
+        method:"POST",
 
-        name,
-        mobile,
-        password,
-        termsAccepted
+        headers:{
+          "Content-Type":
+          "application/json"
+        },
 
-      })
+        body:JSON.stringify({
+
+          name,
+          mobile,
+          password,
+          termsAccepted
+
+        })
+
+      }
+
+    );
+
+    const data =
+      await response.text();
+
+    if(
+      data ===
+      "Registration Successful"
+    ){
+
+      showMessage(
+        "Registration Successful. Taking you to login...",
+        true
+      );
+
+      setTimeout(()=>{
+
+        window.location.href =
+          "/login.html";
+
+      },1200);
+
+      return;
 
     }
 
-  );
+    showMessage(
 
-  const data =
-    await response.text();
+      data === "Error"
+      ? "Something went wrong. Please try again."
+      : data
 
-  alert(data);
+    );
 
-  if(
-    data ===
-    "Registration Successful"
-  ){
+  }catch(error){
 
-    window.location.href =
-      "/login.html";
+    console.log(error);
+
+    showMessage(
+      "Could not reach the server. Please try again."
+    );
+
   }
+
+  setBusy(button);
 
 });
 

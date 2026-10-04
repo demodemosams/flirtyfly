@@ -3,501 +3,124 @@
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
 
-  <title>Login - FlirtyFly</title>
+<meta name="theme-color" content="#ff2d75">
 
-<style>
+<title>Login — FlirtyFly</title>
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
-body{
+<link
+  href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,700;1,800&display=swap"
+  rel="stylesheet"
+>
 
-  font-family:Segoe UI,sans-serif;
-
-  min-height:100vh;
-
-  background:
-  linear-gradient(
-    135deg,
-    #ffdce3,
-    #f5a5b0
-  );
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  padding:30px;
-}
-
-/* MAIN CARD */
-.container{
-
-  width:100%;
-  max-width:1180px;
-
-  min-height:700px;
-
-  background:white;
-
-  border-radius:35px;
-
-  overflow:hidden;
-
-  display:grid;
-
-  grid-template-columns:1fr 1fr;
-
-  box-shadow:
-  0 25px 60px rgba(0,0,0,0.15);
-}
-
-/* LEFT */
-.left{
-
-  position:relative;
-
-  background:
-  linear-gradient(
-    135deg,
-    #ff416c,
-    #ff4b2b
-  );
-
-  color:white;
-
-  display:flex;
-
-  flex-direction:column;
-
-  justify-content:center;
-
-  padding:80px;
-
-  overflow:hidden;
-}
-
-/* DESIGN CIRCLES */
-.left::before{
-
-  content:"";
-
-  position:absolute;
-
-  width:320px;
-  height:320px;
-
-  background:
-  rgba(255,255,255,0.08);
-
-  border-radius:50%;
-
-  top:-120px;
-  right:-100px;
-}
-
-.left::after{
-
-  content:"";
-
-  position:absolute;
-
-  width:240px;
-  height:240px;
-
-  background:
-  rgba(255,255,255,0.08);
-
-  border-radius:50%;
-
-  bottom:-80px;
-  left:-80px;
-}
-
-.left-content{
-
-  position:relative;
-
-  z-index:2;
-}
-
-.left h1{
-
-  font-size:62px;
-
-  line-height:1.1;
-
-  margin-bottom:22px;
-}
-
-.left p{
-
-  font-size:19px;
-
-  line-height:1.9;
-
-  max-width:460px;
-
-  opacity:0.95;
-}
-
-/* BADGE */
-.host-badge{
-
-  margin-top:40px;
-
-  display:inline-flex;
-
-  align-items:center;
-
-  gap:12px;
-
-  width:max-content;
-
-  padding:15px 24px;
-
-  background:
-  rgba(255,255,255,0.12);
-
-  border:1px solid rgba(255,255,255,0.18);
-
-  border-radius:50px;
-
-  backdrop-filter:blur(8px);
-
-  font-size:15px;
-
-  font-weight:600;
-}
-
-/* RIGHT */
-.right{
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  padding:50px;
-}
-
-/* LOGIN BOX */
-.login-box{
-
-  width:100%;
-  max-width:420px;
-}
-
-.login-box h2{
-
-  text-align:center;
-
-  font-size:42px;
-
-  color:#ff416c;
-
-  margin-bottom:10px;
-}
-
-.sub-text{
-
-  text-align:center;
-
-  color:#777;
-
-  margin-bottom:35px;
-
-  font-size:15px;
-}
-
-/* INPUT GROUP */
-.input-group{
-
-  margin-bottom:22px;
-}
-
-.input-group label{
-
-  display:block;
-
-  margin-bottom:8px;
-
-  font-size:14px;
-
-  font-weight:600;
-
-  color:#444;
-}
-
-.input-group input{
-
-  width:100%;
-
-  padding:18px;
-
-  border:none;
-
-  border-radius:16px;
-
-  background:#f5f5f7;
-
-  font-size:15px;
-
-  outline:none;
-
-  transition:0.3s;
-}
-
-.input-group input:focus{
-
-  background:white;
-
-  box-shadow:
-  0 0 0 3px rgba(255,65,108,0.15);
-}
-
-/* OPTIONS */
-.form-options{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-
-  margin-bottom:28px;
-
-  font-size:14px;
-}
-
-.remember{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:8px;
-
-  color:#555;
-}
-
-.remember input{
-
-  accent-color:#ff416c;
-}
-
-.forgot{
-
-  color:#ff416c;
-
-  text-decoration:none;
-
-  font-weight:600;
-}
-
-/* BUTTON */
-.login-box button{
-
-  width:100%;
-
-  padding:18px;
-
-  border:none;
-
-  border-radius:18px;
-
-  background:
-  linear-gradient(
-    135deg,
-    #ff416c,
-    #ff4b2b
-  );
-
-  color:white;
-
-  font-size:17px;
-
-  font-weight:600;
-
-  cursor:pointer;
-
-  transition:0.3s;
-
-  box-shadow:
-  0 15px 30px rgba(255,65,108,0.25);
-}
-
-.login-box button:hover{
-
-  transform:translateY(-3px);
-
-  box-shadow:
-  0 20px 35px rgba(255,65,108,0.35);
-}
-
-/* SWITCH */
-.switch-page{
-
-  margin-top:25px;
-
-  text-align:center;
-
-  color:#666;
-
-  font-size:15px;
-}
-
-.switch-page a{
-
-  color:#ff416c;
-
-  text-decoration:none;
-
-  font-weight:700;
-}
-
-/* MOBILE */
-@media(max-width:950px){
-
-  .container{
-
-    grid-template-columns:1fr;
-  }
-
-  .left{
-
-    padding:60px 35px;
-  }
-
-  .left h1{
-
-    font-size:48px;
-  }
-
-  .right{
-
-    padding:45px 25px 55px;
-  }
-}
-
-@media(max-width:550px){
-
-  body{
-    padding:15px;
-  }
-
-  .container{
-
-    border-radius:25px;
-  }
-
-  .left{
-
-    padding:50px 25px;
-  }
-
-  .left h1{
-
-    font-size:40px;
-  }
-
-  .login-box h2{
-
-    font-size:34px;
-  }
-}
-
-</style>
+<link rel="stylesheet" href="/auth.css">
 
 </head>
 
 <body>
 
-<div class="container">
+<div class="auth">
 
   <!-- LEFT -->
-  <div class="left">
+  <aside class="auth-side">
 
-    <div class="left-content">
+    <a class="brand" href="/">FlirtyFly</a>
 
-      <h1>
-        Welcome Back
-      </h1>
+    <h1>
+      Welcome <em>Back</em>
+    </h1>
 
-      <p>
-        Login and continue your premium FlirtyFly experience with secure access and exclusive live connections.
-      </p>
+    <p>
+      Login and continue your premium FlirtyFly experience with secure access and exclusive live connections.
+    </p>
 
-      <div class="host-badge">
+    <div class="side-extra">
 
+      <div class="badge">
         ✨ Trusted by thousands of users
-
       </div>
 
     </div>
 
-  </div>
+  </aside>
 
   <!-- RIGHT -->
-  <div class="right">
+  <main class="auth-main">
 
     <form
-      class="login-box"
+      class="auth-card"
       id="loginForm"
     >
 
       <h2>Login</h2>
 
-      <p class="sub-text">
+      <p class="sub">
         Access your FlirtyFly account
       </p>
 
-      <div class="input-group">
+      <div class="field">
 
-        <label>
+        <label for="mobile">
           Mobile Number
         </label>
 
-        <input
-          type="tel"
-          name="mobile"
-          id="mobile"
-          placeholder="Enter mobile number"
-          required
-        >
+        <div class="control">
+
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+
+          <input
+            type="tel"
+            name="mobile"
+            id="mobile"
+            placeholder="Enter mobile number"
+            inputmode="numeric"
+            autocomplete="tel"
+            required
+          >
+
+        </div>
 
       </div>
 
-      <div class="input-group">
+      <div class="field">
 
-        <label>
+        <label for="password">
           Password
         </label>
 
-        <input
-          type="password"
-          name="password"
-          id="password"
-          placeholder="Enter password"
-          required
-        >
+        <div class="control has-toggle">
+
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Enter password"
+            autocomplete="current-password"
+            required
+          >
+
+          <button type="button" class="toggle-password" aria-label="Show password">
+            <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.600-7 10-7 10 7 10 7-3.600 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.600 5.200A10.900 10.900 0 0 1 12 5c6.400 0 10 7 10 7a17 17 0 0 1-3.300 4.200"/><path d="M6.300 6.300A17.200 17.200 0 0 0 2 12s3.600 7 10 7a10.700 10.700 0 0 0 4.300-.900"/><path d="M9.900 9.900a3 3 0 0 0 4.200 4.200"/></svg>
+          </button>
+
+        </div>
 
       </div>
 
-      <div class="form-options">
+      <div class="row-between">
 
-        <label class="remember">
+        <label class="check">
 
           <input type="checkbox">
 
@@ -505,38 +128,35 @@ body{
 
         </label>
 
-        <a
-          href="#"
-          class="forgot"
-        >
+        <a href="mailto:flirtyfly.support@gmail.com?subject=Password%20reset">
           Forgot Password?
         </a>
 
       </div>
 
-      <button type="submit">
+      <p class="form-message" id="formMessage" role="alert"></p>
 
+      <button type="submit" class="submit" id="submitBtn">
         Login
-
       </button>
 
-      <p class="switch-page">
+      <p class="switch">
 
         Don't have an account?
 
         <a href="/register.html">
-
           Register
-
         </a>
 
       </p>
 
     </form>
 
-  </div>
+  </main>
 
 </div>
+
+<script src="/auth.js"></script>
 
 <script>
 
@@ -548,71 +168,92 @@ async function(e){
 
   e.preventDefault();
 
+  clearMessage();
+
+  const button =
+    document.getElementById("submitBtn");
+
   const mobile =
     document.getElementById(
       "mobile"
-    ).value;
+    ).value.trim();
 
   const password =
     document.getElementById(
       "password"
     ).value;
 
-  const response = await fetch(
+  setBusy(button, "Logging in...");
 
-    "/login",
+  try{
 
-    {
+    const response = await fetch(
 
-      method:"POST",
+      "/login",
 
-      headers:{
-        "Content-Type":
-        "application/json"
-      },
+      {
 
-      body:JSON.stringify({
+        method:"POST",
 
-        mobile,
-        password
+        headers:{
+          "Content-Type":
+          "application/json"
+        },
 
-      })
+        body:JSON.stringify({
+
+          mobile,
+          password
+
+        })
+
+      }
+
+    );
+
+    const data =
+      await response.json();
+
+    if(data.success){
+
+      localStorage.setItem(
+
+        "userName",
+
+        data.user.name
+
+      );
+
+      localStorage.setItem(
+
+        "userMobile",
+
+        data.user.mobile
+
+      );
+
+      window.location.href =
+      "/user.html";
+
+      return;
 
     }
 
-  );
-
-  const data =
-    await response.json();
-
-  if(data.success){
-
-    localStorage.setItem(
-
-      "userName",
-
-      data.user.name
-
-    );
-
-    localStorage.setItem(
-
-      "userMobile",
-
-      data.user.mobile
-
-    );
-
-    window.location.href =
-    "/user.html";
-
-  }else{
-
-    alert(
+    showMessage(
       "Invalid Mobile or Password"
     );
 
+  }catch(error){
+
+    console.log(error);
+
+    showMessage(
+      "Could not reach the server. Please try again."
+    );
+
   }
+
+  setBusy(button);
 
 });
 

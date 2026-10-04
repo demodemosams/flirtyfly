@@ -6,6 +6,11 @@
 <meta name="description" content="FlirtyFly — premium live video experience with verified, real hosts. Connect, chat, and vibe — anytime, anywhere.">
 <meta name="theme-color" content="#fff7f9">
 <title>FlirtyFly — Find Your Perfect Connection</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="FlirtyFly — Find Your Perfect Connection">
+<meta property="og:description" content="Premium live video experience with verified, real hosts. Connect, chat, and vibe — anytime, anywhere.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💋</text></svg>">
+<link rel="preload" as="image" href="/images/host-1.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,700;1,800&display=swap" rel="stylesheet">
 <style>
@@ -727,7 +732,17 @@ footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px
   .hero .wrap { grid-template-columns: 1fr; gap: 50px; text-align: center; }
   .hero-copy > p { margin-left: auto; margin-right: auto; }
   .hero-actions, .hero-stats { justify-content: center; }
-  .hero-visual { height: 440px; max-width: 460px; width: 100%; margin: 0 auto; }
+  /* on phones and tablets the photos come first, then the headline and buttons */
+  .hero-visual { height: 440px; max-width: 460px; width: 100%; margin: 0 auto; order: -1; }
+  .hero { padding-top: 100px; }
+  .hero .wrap { gap: 44px; }
+  /* keep the chips clear of the LIVE badge and the name on the narrower photo */
+  .hv-live { left: auto; right: 14px; }
+  .hv-caption { text-align: left; }
+  .hv-caption { left: 14px; right: 10px; }
+  .hv-caption span { white-space: nowrap; font-size: 11.500px; gap: 6px; }
+  .hv-caption .live-dot { flex-shrink: 0; }
+  .hv-chip.c2 { bottom: -18px; }
   .hosts-grid { grid-template-columns: repeat(2, 1fr); }
   .features-grid { grid-template-columns: repeat(2, 1fr); }
   .steps-grid { grid-template-columns: repeat(2, 1fr); }
@@ -767,6 +782,106 @@ footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .reveal { opacity: 1; transform: none; }
+}
+
+/* ── POLISH ── */
+
+/* stats sit in one frosted card instead of loose numbers */
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: 0;
+  width: fit-content;
+  margin-top: 44px;
+  padding: 18px 6px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+}
+.hero-stat { padding: 0 24px; text-align: center; border-right: 1px solid var(--border); }
+.hero-stat:last-child { border-right: none; }
+
+/* LIVE badge on the right, clear of the "First minute Free" chip */
+.hv-live { left: auto; right: 14px; }
+
+/* nav link for the section on screen */
+.nav-links a.active { background: var(--soft); color: var(--pink); }
+
+/* host cards: the Call button lifts with the card */
+.hc-btn { transition: transform 0.25s, box-shadow 0.25s; }
+.host-card:hover .hc-btn { transform: scale(1.06); box-shadow: 0 8px 18px rgba(255, 45, 117, 0.4); }
+
+/* feature icons pick up the brand gradient on hover */
+.feature .f-icon { transition: transform 0.25s, background 0.25s; }
+.feature:hover .f-icon { transform: scale(1.08) rotate(-4deg); background: linear-gradient(135deg, rgba(255, 45, 117, 0.2), rgba(255, 123, 84, 0.2)); }
+
+.step-num { transition: transform 0.25s; }
+.step-card:hover .step-num { transform: translateY(-3px) scale(1.06); }
+
+.faq summary { transition: color 0.2s; }
+.faq summary:hover { color: var(--pink); }
+
+.contact-card .cc-icon { transition: transform 0.25s; }
+.contact-card:hover .cc-icon { transform: scale(1.08); }
+
+.footer-col a { width: fit-content; }
+.footer-col a:hover { transform: translateX(3px); }
+.footer-col a { transition: color 0.2s, transform 0.2s; }
+
+/* phone-only bar that keeps the sign-up button in reach while scrolling */
+.sticky-cta {
+  position: fixed;
+  left: 12px; right: 12px;
+  bottom: calc(12px + env(safe-area-inset-bottom));
+  z-index: 900;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 10px 10px 18px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(60, 20, 40, 0.18);
+  transform: translateY(140%);
+  transition: transform 0.35s cubic-bezier(.2, .9, .3, 1);
+}
+.sticky-cta.show { transform: none; }
+.sticky-cta strong { display: block; font-size: 14px; font-weight: 800; letter-spacing: -0.2px; }
+.sticky-cta span { font-size: 12px; color: var(--muted); }
+.sticky-cta .btn-solid { padding: 12px 18px; white-space: nowrap; flex-shrink: 0; }
+
+@media (max-width: 1020px) {
+  .hero-stats { margin-left: auto; margin-right: auto; }
+  .sticky-cta { display: flex; }
+  /* room for the bar so it never covers the last line of the footer */
+  footer { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+}
+
+@media (max-width: 600px) {
+  /* two by two, so "24/7" no longer drops onto a line of its own */
+  .hero-stats { grid-template-columns: 1fr 1fr; width: 100%; padding: 4px; gap: 0; }
+  .hero-stat { padding: 14px 8px; border-right: none; }
+  .hero-stat:nth-child(odd) { border-right: 1px solid var(--border); }
+  .hero-stat:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
+
+  /* lighter background effects on phones */
+  .glow { filter: blur(60px); animation: none; }
+  .glow.g3 { display: none; }
+
+  .sticky-cta { padding-left: 14px; }
+  .sticky-cta strong { font-size: 13px; white-space: nowrap; }
+  .sticky-cta span { font-size: 11.500px; }
+  .sticky-cta .btn-solid { padding: 11px 14px; font-size: 13px; }
+
+  .hosts-more p { font-size: 17px; }
+  .hosts-more strong { font-size: 26px; }
+  .hosts-more .btn-hero { width: 100%; }
 }
 </style>
 </head>
@@ -868,7 +983,7 @@ footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px
   <div class="wrap">
     <div class="reveal">
       <div class="section-label">🔥 Featured</div>
-      <h2 class="section-title">Online Girls</h2>
+      <h2 class="section-title">Online <span class="grad-text">Girls</span></h2>
       <p class="section-sub">Connect instantly with verified live hosts</p>
     </div>
     <div class="hosts-grid reveal">
@@ -982,7 +1097,7 @@ footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px
       </div>
       <div class="about-content reveal">
         <div class="section-label">✨ About Us</div>
-        <h2>India's Most Trusted<br>Live Video Platform</h2>
+        <h2>India's Most Trusted<br><span class="grad-text">Live Video Platform</span></h2>
         <p>FlirtyFly was founded with one mission — to create <strong>real, meaningful connections</strong> between people through live video. We're not just another app. We're a safe, premium space where every conversation feels genuine.</p>
         <p>Our hosts are verified, trained, and passionate about making your experience unforgettable. Whether you're looking for fun, companionship, or just someone to talk to — FlirtyFly is your place.</p>
         <div class="about-features">
@@ -1018,7 +1133,7 @@ footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px
   <div class="wrap center">
     <div class="reveal">
       <div class="section-label">🔍 Simple Process</div>
-      <h2 class="section-title">How It Works</h2>
+      <h2 class="section-title">How It <span class="grad-text">Works</span></h2>
       <p class="section-sub">Get started in minutes — it's super easy</p>
     </div>
     <div class="steps-grid">
@@ -1051,7 +1166,7 @@ footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px
   <div class="wrap center">
     <div class="reveal">
       <div class="section-label">💎 Pricing</div>
-      <h2 class="section-title">Simple Plans, No Surprises</h2>
+      <h2 class="section-title">Simple Plans, <span class="grad-text">No Surprises</span></h2>
       <p class="section-sub">Start with a free minute. Upgrade only if you love it.</p>
     </div>
 
@@ -1103,7 +1218,7 @@ footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px
   <div class="wrap">
     <div class="center reveal">
       <div class="section-label">❓ FAQ</div>
-      <h2 class="section-title">Questions, Answered</h2>
+      <h2 class="section-title">Questions, <span class="grad-text">Answered</span></h2>
       <p class="section-sub">The things people ask us most before they start.</p>
     </div>
     <div class="faq reveal">
@@ -1159,7 +1274,7 @@ footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px
     <div class="contact-grid">
       <div class="contact-info reveal">
         <div class="section-label">📬 Get In Touch</div>
-        <h2>We're Here<br>To Help You</h2>
+        <h2>We're Here<br><span class="grad-text">To Help You</span></h2>
         <p>Have a question, feedback, or just want to say hello? Our support team responds within 24 hours.</p>
         <div class="contact-cards">
           <div class="contact-card">
@@ -1271,6 +1386,15 @@ footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px
   </div>
 </footer>
 
+<!-- STICKY SIGN-UP BAR (phones) -->
+<div class="sticky-cta" id="stickyCta">
+  <div>
+    <strong>Your first minute is free</strong>
+    <span>No downloads required</span>
+  </div>
+  <button class="btn-solid" onclick="goRegister()">Get Started →</button>
+</div>
+
 <!-- MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal-box">
@@ -1286,9 +1410,29 @@ footer { background: var(--dark); color: rgba(255, 255, 255, 0.6); padding: 64px
 
 <script>
   /* nav scroll effect */
-  window.addEventListener("scroll", () => {
+  const navLinks = [...document.querySelectorAll(".nav-links a")];
+  const navSections = navLinks.map((link) => document.querySelector(link.getAttribute("href")));
+  const hero = document.getElementById("home");
+  const footer = document.querySelector("footer");
+
+  function onScroll() {
     document.getElementById("navbar").classList.toggle("scrolled", window.scrollY > 30);
-  });
+
+    /* highlight the nav link of the section currently under the navbar */
+    let current = 0;
+    navSections.forEach((section, i) => {
+      if (section && section.getBoundingClientRect().top <= 140) current = i;
+    });
+    navLinks.forEach((link, i) => link.classList.toggle("active", i === current));
+
+    /* sign-up bar: after the hero, and out of the way once the footer is reached */
+    const pastHero = hero.getBoundingClientRect().bottom < 80;
+    const atFooter = footer.getBoundingClientRect().top < window.innerHeight - 40;
+    document.getElementById("stickyCta").classList.toggle("show", pastHero && !atFooter);
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
 
   /* hamburger */
   function toggleMenu() {
